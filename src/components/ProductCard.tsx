@@ -1,0 +1,94 @@
+"use client";
+
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { type Product, formatPrice } from "@/lib/products";
+import { StarRating } from "./ui/StarRating";
+import { PlusIcon } from "./ui/Icons";
+
+type ProductCardProps = {
+  product: Product;
+};
+
+export function ProductCard({ product }: ProductCardProps) {
+  const { name, description, price, rating, swatches, image, glow } = product;
+
+  return (
+    <motion.article
+      whileHover={{ y: -6 }}
+      transition={{ type: "spring", stiffness: 260, damping: 22 }}
+      className="group relative flex flex-col overflow-hidden rounded-xl border border-white/5 bg-gradient-to-b from-[#141414] to-[#0a0a0a] p-5"
+    >
+      {/* Optional maroon glow accent behind the card content. */}
+      {glow === "maroon" && (
+        <div
+          className="pointer-events-none absolute inset-0"
+          aria-hidden
+          style={{
+            background:
+              "radial-gradient(120% 90% at 70% 30%, rgba(120,20,55,0.5) 0%, rgba(10,10,10,0) 60%)",
+          }}
+        />
+      )}
+
+      {/* Add-to-cart */}
+      <button
+        type="button"
+        aria-label={`Add ${name} to cart`}
+        className="absolute right-4 top-4 z-10 text-white/80 transition-colors hover:text-brand"
+      >
+        <PlusIcon className="h-5 w-5" />
+      </button>
+
+      {/* Product image / placeholder */}
+      <div className="relative z-[1] flex aspect-square items-center justify-center">
+        {image ? (
+          <Image
+            src={image}
+            alt={name}
+            width={320}
+            height={320}
+            className="h-full w-full object-contain"
+          />
+        ) : (
+          // Placeholder shown until a real product image is wired in.
+          <div className="flex h-3/4 w-3/4 items-center justify-center rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0)_70%)]">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-white/30">
+              {name}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Details */}
+      <div className="relative z-[1] mt-2">
+        <StarRating value={rating} />
+
+        <div className="mt-3 flex items-start justify-between gap-3">
+          <h3 className="font-serif text-2xl leading-tight text-brand">
+            {name}
+          </h3>
+
+          {/* Colour swatches */}
+          <div className="mt-1 flex shrink-0 items-center gap-1.5">
+            {swatches.map((s) => (
+              <span
+                key={s.label}
+                title={s.label}
+                className="h-3.5 w-3.5 rounded-full ring-1 ring-white/20"
+                style={{ backgroundColor: s.color }}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-2 flex items-end justify-between gap-3">
+          <p className="max-w-[60%] text-xs leading-relaxed text-white/55">
+            {description}
+          </p>
+          <p className="shrink-0 text-sm text-white/90">{formatPrice(price)}</p>
+        </div>
+      </div>
+    </motion.article>
+  );
+}

@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Jost, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Body / UI typeface — geometric humanist sans matching the spaced nav caps.
+const jost = Jost({
+  variable: "--font-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Display typeface — high-contrast serif used for "Bhavya Ramesh", headings, "SHINE ON".
+const cormorant = Cormorant_Garamond({
+  variable: "--font-serif",
+  weight: ["300", "400", "500", "600"],
   subsets: ["latin"],
+  display: "swap",
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -17,18 +22,18 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "BluStream",
-    template: "%s | BluStream",
+    default: "Bhavya Ramesh — Fine Jewellery",
+    template: "%s | Bhavya Ramesh",
   },
   description:
-    "Immersive 3D commerce experiences, powered by Shopify and WebGL.",
+    "Bhavya Ramesh — sculptural fine jewellery, archives and atelier crafts. Shine on.",
   openGraph: {
     type: "website",
-    siteName: "BluStream",
+    siteName: "Bhavya Ramesh",
     url: siteUrl,
-    title: "BluStream",
+    title: "Bhavya Ramesh — Fine Jewellery",
     description:
-      "Immersive 3D commerce experiences, powered by Shopify and WebGL.",
+      "Sculptural fine jewellery, archives and atelier crafts. Shine on.",
   },
   twitter: {
     card: "summary_large_image",
@@ -43,9 +48,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${jost.variable} ${cormorant.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
+        {children}
+      </body>
     </html>
   );
 }

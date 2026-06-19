@@ -1,4 +1,10 @@
 import type { NextConfig } from "next";
+import { fileURLToPath } from "node:url";
+import { dirname } from "node:path";
+
+// This repo nests multiple pnpm lockfiles, so Turbopack's automatic
+// workspace-root detection guesses wrong. Pin it to this project directory.
+const projectRoot = dirname(fileURLToPath(import.meta.url));
 
 /**
  * Security headers applied to every route.
@@ -24,6 +30,10 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+
+  turbopack: {
+    root: projectRoot,
+  },
 
   images: {
     // Shopify product imagery is served from its CDN.
