@@ -4,6 +4,7 @@ import Image from "next/image";
 import { featuredProducts } from "@/lib/products";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { ProductCard } from "./ProductCard";
+import { PlusIcon } from "./ui/Icons";
 
 /**
  * "Built from mythology. Designed for now." — the brand / Why We Exist
@@ -70,18 +71,18 @@ export function BrandStory() {
           >
             {FOUNDER_SLIDES.map((slide, i) => (
               <article key={i} className="flex snap-start gap-6 pb-12">
-                <span aria-hidden className="w-px shrink-0 self-stretch bg-white/30" />
-                <div className="max-w-[380px]">
-                  <div className="relative aspect-[7/5] w-[280px] max-w-full overflow-hidden">
+                <span aria-hidden className="mt-1 h-[88px] w-px shrink-0 bg-white/40" />
+                <div className="w-full max-w-[460px]">
+                  <div className="relative aspect-[12/7] w-full overflow-hidden">
                     <Image
                       src={slide.image}
                       alt="Bhavya Ramesh atelier"
                       fill
-                      sizes="280px"
+                      sizes="460px"
                       className="object-cover grayscale"
                     />
                   </div>
-                  <p className="mt-5 text-[14px] leading-relaxed text-white">
+                  <p className="mt-6 text-[14px] leading-relaxed text-white">
                     {slide.text}
                   </p>
                   <span className="mt-6 block h-px w-full bg-brand/70" />
@@ -97,13 +98,19 @@ export function BrandStory() {
             Featured Products
           </p>
           <div data-reveal className="mt-6 flex gap-6">
-            <span aria-hidden className="w-px shrink-0 self-stretch bg-white/30" />
-            <div className="no-scrollbar h-[520px] flex-1 snap-y snap-mandatory space-y-6 overflow-y-auto">
-              {featuredProducts.map((product) => (
-                <div key={product.id} className="h-[500px] snap-start">
-                  <ProductCard product={product} control="toggle" />
-                </div>
-              ))}
+            <span aria-hidden className="mt-1 h-[88px] w-px shrink-0 bg-white/40" />
+            <div className="flex-1">
+              <div className="no-scrollbar h-[520px] snap-y snap-mandatory space-y-6 overflow-y-auto">
+                {featuredProducts.map((product) => (
+                  <div key={product.id} className="h-[500px] snap-start">
+                    <ProductCard product={product} control="toggle" />
+                  </div>
+                ))}
+              </div>
+              {/* Plus affordance below the slider (Figma). */}
+              <div className="mt-6 flex justify-end pr-4">
+                <PlusIcon className="h-6 w-6 text-white/80" />
+              </div>
             </div>
           </div>
         </div>
