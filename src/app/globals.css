@@ -50,6 +50,15 @@ body {
 .floaty {
   animation: floaty 6s ease-in-out infinite;
 }
+
+/*
+ * Gold-on-hover tint for the two hero pieces that have no separate gold
+ * cut-out in Figma (the hoop figure and the top-right necklace). Tuned to
+ * match the warm tone of the real gold variants used by the other pieces.
+ */
+.group:hover .gold-on-hover {
+  filter: sepia(1) saturate(3.2) hue-rotate(2deg) brightness(1.05);
+}
 @media (prefers-reduced-motion: reduce) {
   .floaty {
     animation: none;

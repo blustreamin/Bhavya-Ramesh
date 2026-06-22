@@ -40,6 +40,12 @@ type Piece = {
   silver: Variant;
   /** Hover (gold) finish — omitted for pieces without a gold variant in Figma. */
   gold?: Variant;
+  /**
+   * For the two pieces that have no separate gold cut-out in Figma (the hoop
+   * figure and the top-right necklace), reproduce the silver→gold hover by
+   * tinting the silver cut-out to a matching gold on hover.
+   */
+  goldFilter?: boolean;
   /** Float animation offset so the pieces don't bob in unison. */
   delay: number;
 };
@@ -91,6 +97,7 @@ const PIECES: Piece[] = [
       src: "57e6f4884472d2402cc592f515f5361bbfdd54fd.png",
       imgClass: "inset-0 size-full object-bottom",
     },
+    goldFilter: true,
     delay: 0.6,
   },
   {
@@ -104,6 +111,7 @@ const PIECES: Piece[] = [
       src: "21a0dd581cc789481ac99ca16744ccf7c1ecb7c4.png",
       imgClass: "h-[126.04%] left-[-34.91%] top-[-14.29%] w-[166.67%]",
     },
+    goldFilter: true,
     delay: 1.6,
   },
   {
@@ -198,8 +206,8 @@ export function Hero() {
           className="absolute left-0 top-[170px] flex h-[267px] w-[1440px] items-center justify-center px-[87px]"
         >
           <h1
-            className="w-[1260px] text-center font-serif leading-none text-white/10"
-            style={{ fontSize: "189px" }}
+            className="w-[1260px] text-center font-serif text-white/10"
+            style={{ fontSize: "189px", lineHeight: "64px" }}
           >
             Bhavya Ramesh
           </h1>
@@ -228,9 +236,9 @@ export function Hero() {
                     alt=""
                     aria-hidden
                     draggable={false}
-                    className={`absolute max-w-none transition-opacity duration-300 ${p.silver.imgClass} ${
+                    className={`absolute max-w-none transition-all duration-300 ${p.silver.imgClass} ${
                       p.gold ? "group-hover:opacity-0" : ""
-                    }`}
+                    } ${p.goldFilter ? "gold-on-hover" : ""}`}
                   />
                   {/* Gold (hover) finish — cross-fades in on hover */}
                   {p.gold && (
