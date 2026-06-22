@@ -62,27 +62,28 @@ export function BrandStory() {
             Built from mythology. Designed for now.
           </h2>
 
-          {/* Vertical slider of founder image + copy slides. */}
+          {/* Vertical slider — founder image on top, copy below, with a left
+              line accent. Scroll to read more / see the next slide. */}
           <div
             data-reveal
-            className="no-scrollbar mt-12 h-[460px] snap-y snap-mandatory overflow-y-auto"
+            className="no-scrollbar mt-12 h-[500px] snap-y snap-mandatory overflow-y-auto"
           >
             {FOUNDER_SLIDES.map((slide, i) => (
-              <article
-                key={i}
-                className="grid snap-start grid-cols-1 gap-6 pb-10 sm:grid-cols-[300px_1fr] sm:items-start"
-              >
-                <div className="relative aspect-[300/300] w-full overflow-hidden">
-                  <Image
-                    src={slide.image}
-                    alt="Bhavya Ramesh atelier"
-                    fill
-                    sizes="300px"
-                    className="object-cover grayscale"
-                  />
-                </div>
-                <div className="text-[14px] leading-relaxed text-white">
-                  <p>{slide.text}</p>
+              <article key={i} className="flex snap-start gap-6 pb-12">
+                <span aria-hidden className="w-px shrink-0 self-stretch bg-white/30" />
+                <div className="max-w-[380px]">
+                  <div className="relative aspect-[7/5] w-[280px] max-w-full overflow-hidden">
+                    <Image
+                      src={slide.image}
+                      alt="Bhavya Ramesh atelier"
+                      fill
+                      sizes="280px"
+                      className="object-cover grayscale"
+                    />
+                  </div>
+                  <p className="mt-5 text-[14px] leading-relaxed text-white">
+                    {slide.text}
+                  </p>
                   <span className="mt-6 block h-px w-full bg-brand/70" />
                 </div>
               </article>
@@ -90,20 +91,20 @@ export function BrandStory() {
           </div>
         </div>
 
-        {/* Right — featured products slider */}
+        {/* Right — featured products slider with a left line accent. */}
         <div className="flex flex-col">
           <p data-reveal className="text-[16px] uppercase tracking-[0.18em] text-white">
             Featured Products
           </p>
-          <div
-            data-reveal
-            className="no-scrollbar mt-6 h-[520px] snap-y snap-mandatory space-y-6 overflow-y-auto"
-          >
-            {featuredProducts.map((product) => (
-              <div key={product.id} className="h-[500px] snap-start">
-                <ProductCard product={product} control="toggle" />
-              </div>
-            ))}
+          <div data-reveal className="mt-6 flex gap-6">
+            <span aria-hidden className="w-px shrink-0 self-stretch bg-white/30" />
+            <div className="no-scrollbar h-[520px] flex-1 snap-y snap-mandatory space-y-6 overflow-y-auto">
+              {featuredProducts.map((product) => (
+                <div key={product.id} className="h-[500px] snap-start">
+                  <ProductCard product={product} control="toggle" />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
