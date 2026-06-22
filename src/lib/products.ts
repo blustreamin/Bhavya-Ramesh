@@ -72,6 +72,27 @@ export const newArrivals: Product[] = [
   },
 ];
 
+/** Featured products shown in the brand-story vertical slider. */
+export const featuredProducts: Product[] = [
+  {
+    id: "imarti-bangle",
+    name: "Imarti Bangle",
+    description:
+      "The Imarti Bangle coils the wrist in sculptural silver — equal parts armour and ornament.",
+    price: 23000,
+    rating: 4,
+    swatches: [
+      { label: "Silver", color: "#d9d9d9" },
+      { label: "Gold", color: "#d8b15a" },
+    ],
+    glow: "none",
+    image: "/figma/95beb547aaa54910ead91e1a68155105422f32ed.png",
+    goldImage: "/figma/caddd41f91522c9bccca2f032c557f1827533177.png",
+  },
+  newArrivals[1], // Agni Nail Ring
+  newArrivals[0], // Chameli Sunglasses
+];
+
 /** Formats a rupee amount as "Rs. 15,420.00". */
 export function formatPrice(amount: number): string {
   return `Rs. ${amount.toLocaleString("en-IN", {
