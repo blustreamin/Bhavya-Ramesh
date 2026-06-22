@@ -48,7 +48,7 @@ export function Newsletter() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="EMAIL"
-              className="h-14 w-full border border-white/25 bg-transparent px-5 text-sm tracking-wide text-white placeholder:text-white/50 focus:border-brand focus:outline-none"
+              className="h-14 w-full rounded-md border border-white/25 bg-transparent px-5 text-sm tracking-wide text-white placeholder:text-white/50 focus:border-brand focus:outline-none"
             />
             <Button type="submit" className="h-14 shrink-0">
               Submit

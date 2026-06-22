@@ -18,14 +18,29 @@ const SERVICES = [
 ];
 
 const SOCIALS = [
-  { label: "Instagram", href: "#", Icon: InstagramIcon },
-  { label: "Facebook", href: "#", Icon: FacebookIcon },
-  { label: "YouTube", href: "#", Icon: YoutubeIcon },
+  {
+    label: "Instagram",
+    href: "#",
+    Icon: InstagramIcon,
+    // Instagram brand gradient.
+    badge: "bg-[radial-gradient(circle_at_30%_107%,#fdf497_0%,#fd5949_45%,#d6249f_60%,#285AEB_90%)]",
+  },
+  { label: "Facebook", href: "#", Icon: FacebookIcon, badge: "bg-[#1877F2]" },
+  { label: "YouTube", href: "#", Icon: YoutubeIcon, badge: "bg-[#FF0000]" },
 ];
 
 export function Footer() {
   return (
     <footer className="relative overflow-hidden bg-black px-5 pb-16 pt-20 sm:px-8">
+      {/* Maroon glow rising on the left, behind the SHINE ON watermark. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 left-0 w-2/3"
+        style={{
+          background:
+            "radial-gradient(60% 70% at 25% 50%, rgba(120,20,55,0.4) 0%, rgba(5,5,5,0) 70%)",
+        }}
+      />
       {/* Oversized "SHINE ON" watermark behind the content. */}
       <span
         aria-hidden
@@ -81,15 +96,15 @@ export function Footer() {
             </a>
           </div>
 
-          <div className="mt-8 flex items-center gap-4">
-            {SOCIALS.map(({ label, href, Icon }) => (
+          <div className="mt-8 flex items-center gap-3">
+            {SOCIALS.map(({ label, href, Icon, badge }) => (
               <a
                 key={label}
                 href={href}
                 aria-label={label}
-                className="text-white/85 transition-colors hover:text-brand"
+                className={`flex h-8 w-8 items-center justify-center rounded-[7px] text-white transition-transform hover:scale-110 ${badge}`}
               >
-                <Icon className="h-6 w-6" />
+                <Icon className="h-5 w-5" />
               </a>
             ))}
           </div>

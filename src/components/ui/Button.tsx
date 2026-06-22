@@ -25,7 +25,7 @@ export function Button({
     <motion.button
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.97 }}
-      className={`inline-flex items-center justify-center px-7 py-3.5 text-sm font-medium uppercase tracking-widest transition-colors ${styles} ${className ?? ""}`}
+      className={`inline-flex items-center justify-center rounded-md px-7 py-3.5 text-sm font-medium uppercase tracking-widest transition-colors ${styles} ${className ?? ""}`}
       {...props}
     >
       {children}
