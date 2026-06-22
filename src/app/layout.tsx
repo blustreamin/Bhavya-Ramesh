@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
-import { Jost, Cormorant_Garamond } from "next/font/google";
+import { Mulish, Italiana } from "next/font/google";
 import "./globals.css";
 
-// Body / UI typeface — geometric humanist sans matching the spaced nav caps.
-const jost = Jost({
+// Body / UI typeface — humanist sans used for nav, labels, product copy and price.
+const mulish = Mulish({
   variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
 });
 
-// Display typeface — high-contrast serif used for "Bhavya Ramesh", headings, "SHINE ON".
-const cormorant = Cormorant_Garamond({
+// Display typeface — high-contrast serif used for "Bhavya Ramesh", section headings
+// ("Built from mythology…", "Subscribe to Newsletter") and the "SHINE ON" watermark.
+const italiana = Italiana({
   variable: "--font-serif",
-  weight: ["300", "400", "500", "600"],
+  weight: "400",
   subsets: ["latin"],
   display: "swap",
 });
@@ -48,7 +49,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${jost.variable} ${cormorant.variable} h-full antialiased`}
+      className={`${mulish.variable} ${italiana.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         {children}

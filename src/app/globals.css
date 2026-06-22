@@ -6,7 +6,7 @@
  * elegant serif display face paired with a clean geometric sans.
  */
 :root {
-  --background: #050505;
+  --background: #000000;
   --foreground: #f5f5f5;
 }
 
@@ -16,9 +16,11 @@
   --color-foreground: var(--foreground);
 
   /* Brand palette */
-  --color-brand: #ec5198; /* primary pink (headings, links) */
-  --color-brand-soft: #e878a8; /* softer pink (buttons, hover) */
+  --color-brand: #e4638c; /* product names / headings pink (Figma #e4638c) */
+  --color-brand-soft: #ec5198; /* CTA / button pink */
+  --color-brand-hover: #e878a8; /* softer pink hover */
   --color-maroon: #2a0f1c; /* deep maroon glow used behind hero/cards */
+  --color-ink: #d0d0d0; /* muted grey body text (Figma #d0d0d0) */
 
   /* Typography */
   --font-sans: var(--font-sans);
@@ -33,6 +35,25 @@ body {
   background: var(--background);
   color: var(--foreground);
   -webkit-font-smoothing: antialiased;
+}
+
+/* Gentle floating motion for the scattered hero jewellery pieces. */
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+.floaty {
+  animation: floaty 6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .floaty {
+    animation: none;
+  }
 }
 
 /* Hide scrollbar chrome on horizontal helper rows while keeping scroll. */
