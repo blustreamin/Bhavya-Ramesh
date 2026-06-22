@@ -21,7 +21,7 @@ export function ProductCard({ product }: ProductCardProps) {
     <motion.article
       whileHover={{ y: -6 }}
       transition={{ type: "spring", stiffness: 260, damping: 22 }}
-      className="group relative flex h-full flex-col overflow-hidden rounded-[10px] bg-black p-5"
+      className="relative flex h-full flex-col overflow-hidden rounded-[10px] bg-black p-5"
     >
       {/* Optional maroon glow accent behind the card content. */}
       {glow === "maroon" && (
@@ -44,8 +44,9 @@ export function ProductCard({ product }: ProductCardProps) {
         <PlusIcon className="h-5 w-5" />
       </button>
 
-      {/* Product image — silver base with a gold finish that cross-fades in. */}
-      <div className="relative z-[1] flex h-[230px] shrink-0 items-center justify-center">
+      {/* Product image — silver base with a gold finish that cross-fades in
+          only while hovering the image itself. */}
+      <div className="group relative z-[1] flex h-[230px] shrink-0 items-center justify-center">
         {image ? (
           <>
             <Image
