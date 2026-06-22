@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { HeroStory } from "@/components/HeroStory";
 import { NewArrivals } from "@/components/NewArrivals";
 import { BrandStory } from "@/components/BrandStory";
+import { AsWorn } from "@/components/AsWorn";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
         <HeroStory />
         <NewArrivals />
         <BrandStory />
+        <AsWorn />
       </main>
       <Footer />
     </>
