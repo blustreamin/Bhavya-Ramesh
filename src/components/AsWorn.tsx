@@ -3,6 +3,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { FacebookIcon, YoutubeIcon, InstagramIcon } from "./ui/Icons";
+
+const SHARE = [
+  { label: "Facebook", Icon: FacebookIcon, badge: "bg-[#1877F2]" },
+  { label: "YouTube", Icon: YoutubeIcon, badge: "bg-[#FF0000]" },
+  {
+    label: "Instagram",
+    Icon: InstagramIcon,
+    badge: "bg-[radial-gradient(circle_at_30%_107%,#fdf497_0%,#fd5949_45%,#d6249f_60%,#285AEB_90%)]",
+  },
+];
 
 /**
  * "Jewellery, lived in and made your own." — the AS WORN editorial section
@@ -56,10 +67,16 @@ export function AsWorn() {
           >
             Jewellery, lived in and made your own.
           </h2>
-          <p data-reveal className="max-w-[320px] text-[14px] leading-relaxed text-white/70">
-            From everyday moments to standout fits—this is how the pieces come
-            alive.
-          </p>
+          <div data-reveal className="max-w-[340px]">
+            <p className="text-[14px] leading-relaxed text-white/70">
+              From everyday moments to standout fits—this is how the pieces come
+              alive.
+            </p>
+            <p className="mt-4 text-[14px] leading-relaxed text-white/90">
+              <span className="font-semibold text-brand">Tag @bhavyaramesh</span>{" "}
+              and show us how you wear it.
+            </p>
+          </div>
         </div>
 
         <div className="mt-12 grid grid-cols-2 gap-5 lg:grid-cols-4">
@@ -85,13 +102,28 @@ export function AsWorn() {
                     "linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.85) 100%)",
                 }}
               />
-              <div className="absolute inset-x-0 bottom-0 p-5">
-                <h3 className="font-sans text-[18px] font-bold text-brand">
-                  {look.name}
-                </h3>
-                <p className="mt-1.5 text-[11px] leading-snug text-white/85">
-                  {look.quote}
-                </p>
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5">
+                <div>
+                  <h3 className="font-sans text-[18px] font-bold text-brand transition-colors duration-300 group-hover:text-white">
+                    {look.name}
+                  </h3>
+                  <p className="mt-1.5 text-[11px] leading-snug text-white/85">
+                    {look.quote}
+                  </p>
+                </div>
+                {/* Share icons reveal on hover */}
+                <div className="flex shrink-0 translate-y-1 flex-col gap-2.5 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                  {SHARE.map(({ label, Icon, badge }) => (
+                    <button
+                      key={label}
+                      type="button"
+                      aria-label={`Share on ${label}`}
+                      className={`flex h-10 w-10 items-center justify-center rounded-[9px] text-white shadow-lg shadow-black/30 transition-transform hover:scale-110 ${badge}`}
+                    >
+                      <Icon className="h-[22px] w-[22px]" />
+                    </button>
+                  ))}
+                </div>
               </div>
             </article>
           ))}
