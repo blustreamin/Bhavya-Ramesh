@@ -16,8 +16,10 @@ export type Product = {
   price: number;
   rating: number; // 0–5
   swatches: Swatch[];
-  /** Optional product image URL. Falls back to a placeholder when omitted. */
+  /** Optional product image URL (silver finish). Falls back to a placeholder when omitted. */
   image?: string;
+  /** Gold-finish product image, shown on hover or when the gold swatch is selected. */
+  goldImage?: string;
   /** Visual accent behind the card. */
   glow?: "none" | "maroon";
 };
@@ -36,6 +38,7 @@ export const newArrivals: Product[] = [
     ],
     glow: "none",
     image: "/figma/2a355c7498cf8b92e7a6ac3c9ece1bd727aa71eb.png",
+    goldImage: "/figma/441b861038e6780b5653c72cc927d58f67794f63.png",
   },
   {
     id: "agni-nail-ring",
@@ -50,6 +53,7 @@ export const newArrivals: Product[] = [
     ],
     glow: "none",
     image: "/figma/1f474d211aff17d1dedca3194dfbb8c53fc87608.png",
+    goldImage: "/figma/2e78e9da92e032cfa2ddab3251a428c5f2779077.png",
   },
   {
     id: "chameli-sunglasses-maroon",
@@ -62,8 +66,9 @@ export const newArrivals: Product[] = [
       { label: "Silver", color: "#d9d9d9" },
       { label: "Gold", color: "#d8b15a" },
     ],
-    glow: "maroon",
+    glow: "none",
     image: "/figma/2a355c7498cf8b92e7a6ac3c9ece1bd727aa71eb.png",
+    goldImage: "/figma/441b861038e6780b5653c72cc927d58f67794f63.png",
   },
 ];
 
