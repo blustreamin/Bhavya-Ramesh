@@ -35,7 +35,7 @@ export const newArrivals: Product[] = [
       { label: "Gold", color: "#d8b15a" },
     ],
     glow: "none",
-    // image: "/products/chameli-sunglasses.png", // TODO: replace with real asset
+    image: "/figma/2a355c7498cf8b92e7a6ac3c9ece1bd727aa71eb.png",
   },
   {
     id: "agni-nail-ring",
@@ -49,7 +49,7 @@ export const newArrivals: Product[] = [
       { label: "Gold", color: "#d8b15a" },
     ],
     glow: "none",
-    // image: "/products/agni-nail-ring.png", // TODO: replace with real asset
+    image: "/figma/1f474d211aff17d1dedca3194dfbb8c53fc87608.png",
   },
   {
     id: "chameli-sunglasses-maroon",
@@ -63,7 +63,7 @@ export const newArrivals: Product[] = [
       { label: "Gold", color: "#d8b15a" },
     ],
     glow: "maroon",
-    // image: "/products/chameli-sunglasses.png", // TODO: replace with real asset
+    image: "/figma/2a355c7498cf8b92e7a6ac3c9ece1bd727aa71eb.png",
   },
 ];
 

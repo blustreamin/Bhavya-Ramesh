@@ -17,7 +17,7 @@ export function ProductCard({ product }: ProductCardProps) {
     <motion.article
       whileHover={{ y: -6 }}
       transition={{ type: "spring", stiffness: 260, damping: 22 }}
-      className="group relative flex flex-col overflow-hidden rounded-xl border border-white/5 bg-gradient-to-b from-[#141414] to-[#0a0a0a] p-5"
+      className="group relative flex h-full flex-col overflow-hidden rounded-[10px] bg-black p-5"
     >
       {/* Optional maroon glow accent behind the card content. */}
       {glow === "maroon" && (
@@ -41,7 +41,7 @@ export function ProductCard({ product }: ProductCardProps) {
       </button>
 
       {/* Product image / placeholder */}
-      <div className="relative z-[1] flex aspect-square items-center justify-center">
+      <div className="relative z-[1] flex h-[230px] flex-1 items-center justify-center">
         {image ? (
           <Image
             src={image}
@@ -61,11 +61,11 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       {/* Details */}
-      <div className="relative z-[1] mt-2">
+      <div className="relative z-[1] mt-6">
         <StarRating value={rating} />
 
         <div className="mt-3 flex items-start justify-between gap-3">
-          <h3 className="font-serif text-2xl leading-tight text-brand">
+          <h3 className="font-sans text-[24px] font-bold leading-tight text-brand">
             {name}
           </h3>
 
@@ -83,10 +83,10 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <div className="mt-2 flex items-end justify-between gap-3">
-          <p className="max-w-[60%] text-xs leading-relaxed text-white/55">
+          <p className="max-w-[62%] text-[12px] leading-relaxed text-ink">
             {description}
           </p>
-          <p className="shrink-0 text-sm text-white/90">{formatPrice(price)}</p>
+          <p className="shrink-0 text-[14px] text-ink">{formatPrice(price)}</p>
         </div>
       </div>
     </motion.article>
