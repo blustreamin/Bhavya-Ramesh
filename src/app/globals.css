@@ -37,6 +37,39 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Animated "shine" wave that sweeps across the footer SHINE ON watermark. */
+.shine-on {
+  /* Moving highlight band over an always-visible dark base, both clipped to
+     the text so the wordmark never disappears — only the shine sweeps. */
+  background-image: linear-gradient(
+      100deg,
+      rgba(120, 105, 115, 0) 38%,
+      rgba(150, 130, 142, 0.95) 50%,
+      rgba(120, 105, 115, 0) 62%
+    ),
+    linear-gradient(#202024, #202024);
+  background-size: 200% 100%, 100% 100%;
+  background-repeat: no-repeat, no-repeat;
+  background-position: 150% 0, 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shineWave 7s linear infinite;
+}
+@keyframes shineWave {
+  from {
+    background-position: 150% 0, 0 0;
+  }
+  to {
+    background-position: -150% 0, 0 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shine-on {
+    animation: none;
+  }
+}
+
 /* Gentle floating motion for the scattered hero jewellery pieces. */
 @keyframes floaty {
   0%,

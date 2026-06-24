@@ -31,25 +31,28 @@ const SOCIALS = [
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-black px-5 pb-16 pt-20 sm:px-8">
-      {/* Maroon glow rising on the left, behind the SHINE ON watermark. */}
+    <footer className="relative overflow-hidden bg-black px-5 pt-20 pb-[5vw] sm:px-8">
+      {/* Maroon glow rising on the left, behind the SHINE ON wordmark. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 left-0 w-2/3"
+        className="pointer-events-none absolute bottom-0 left-0 h-2/3 w-2/3"
         style={{
           background:
-            "radial-gradient(60% 70% at 25% 50%, rgba(120,20,55,0.4) 0%, rgba(5,5,5,0) 70%)",
+            "radial-gradient(60% 70% at 25% 70%, rgba(120,20,55,0.4) 0%, rgba(5,5,5,0) 70%)",
         }}
       />
-      {/* Oversized "SHINE ON" watermark behind the content. */}
+
+      {/* Oversized "SHINE ON" wordmark behind the content, one line, with an
+          animated shine wave (the text itself always stays visible). */}
       <span
         aria-hidden
-        className="pointer-events-none absolute bottom-4 left-1/2 w-full -translate-x-1/2 select-none text-center font-serif font-semibold leading-none text-white/[0.04] text-[26vw] sm:text-[22vw]"
+        className="shine-on pointer-events-none absolute inset-x-0 bottom-[-1.2vw] z-0 select-none whitespace-nowrap text-center font-serif font-semibold leading-none text-[20vw]"
       >
         SHINE ON
       </span>
 
-      <div className="relative mx-auto grid max-w-[1400px] grid-cols-1 gap-14 lg:grid-cols-[1.4fr_1fr_1fr]">
+      {/* Footer content (on top) */}
+      <div className="relative z-10 mx-auto grid max-w-[1400px] grid-cols-1 gap-14 lg:grid-cols-[1.4fr_1fr_1fr]">
         {/* Newsletter */}
         <Newsletter />
 
