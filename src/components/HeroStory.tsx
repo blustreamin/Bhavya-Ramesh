@@ -194,11 +194,17 @@ export function HeroStory() {
             <WearCopy side="left" />
           </motion.div>
 
-          {/* Persistent title */}
+          {/* Persistent title — exact Figma wordmark (transparent PNG). */}
           <motion.div style={{ y: titleY, scale: titleScale }} className="absolute left-0 top-0 flex h-[267px] w-[1440px] items-center justify-center px-[87px]">
-            <h1 className="w-[1260px] text-center font-serif text-white/10" style={{ fontSize: "189px", lineHeight: "64px" }}>
-              Bhavya Ramesh
-            </h1>
+            <h1 className="sr-only">Bhavya Ramesh</h1>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={ASSET("title-bhavya-ramesh.png")}
+              alt=""
+              aria-hidden
+              draggable={false}
+              className="w-[1260px] max-w-none"
+            />
           </motion.div>
         </div>
 
