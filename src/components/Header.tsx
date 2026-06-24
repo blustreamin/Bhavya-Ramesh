@@ -4,28 +4,45 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Logo } from "./ui/Logo";
-import {
-  SearchIcon,
-  BagIcon,
-  UserIcon,
-  ChevronDown,
-} from "./ui/Icons";
+import { SearchIcon, BagIcon, UserIcon, ChevronDown } from "./ui/Icons";
 
-type NavItem = { label: string; href: string; hasDropdown?: boolean };
+type MenuKind = "mega" | "dropdown";
+type NavItem = { label: string; href: string; menu?: MenuKind };
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Jewellery", href: "#jewellery", hasDropdown: true },
-  { label: "The Archive", href: "#archive", hasDropdown: true },
+  { label: "Jewellery", href: "#jewellery", menu: "mega" },
+  { label: "The Archive", href: "#archive", menu: "dropdown" },
   { label: "The BR Community", href: "#community" },
   { label: "Our Atelier", href: "#atelier" },
   { label: "BR Journal", href: "#journal" },
 ];
 
+const JEWELLERY_MEGA: { title: string; items: string[] }[] = [
+  { title: "Everyday Essentials", items: ["Rings", "Earrings", "Chains", "Nose Pins"] },
+  { title: "Statement Jewellery", items: ["Palm Cuffs", "Webbed Fingers", "Nail Rings", "Ear Cuffs"] },
+  { title: "Occasion Wear", items: ["Neckpieces", "Anklets", "Brooches", "Cufflinks"] },
+  { title: "Accessories & Add-ons", items: ["Hair Accessories", "Belts", "Sunglasses", "Waist Wear"] },
+];
+
+const ARCHIVE_DROPDOWN = [
+  "GilGa",
+  "Naraka",
+  "Ancient Aliens",
+  "Jalebi",
+  "Glarekillers",
+  "Darlings",
+  "HARMONY",
+  "POISON",
+  "Bhavya x Rosh - Nail Rings",
+];
+
+const slug = (s: string) => "#" + s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
-  // Add a subtle backdrop once the user scrolls past the hero fold.
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
@@ -33,29 +50,36 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const panelOpen = openMenu === "Jewellery" || openMenu === "The Archive";
+
   return (
     <motion.header
       initial={{ y: -40, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
+      onMouseLeave={() => setOpenMenu(null)}
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled
-          ? "bg-black/70 backdrop-blur-md"
-          : "bg-transparent"
+        scrolled || panelOpen ? "bg-black/90 backdrop-blur-md" : "bg-transparent"
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-4 px-5 sm:h-20 sm:px-8">
         {/* Left: primary navigation (desktop) */}
         <ul className="hidden items-center gap-7 text-[13px] tracking-wide text-white/90 lg:flex">
           {NAV_ITEMS.map((item) => (
-            <li key={item.label}>
+            <li key={item.label} onMouseEnter={() => setOpenMenu(item.menu ? item.label : null)}>
               <Link
                 href={item.href}
-                className="flex items-center gap-1 transition-colors hover:text-brand"
+                className={`flex items-center gap-1 transition-colors hover:text-brand ${
+                  openMenu === item.label ? "text-brand" : ""
+                }`}
               >
                 {item.label}
-                {item.hasDropdown && (
-                  <ChevronDown className="h-3.5 w-3.5 opacity-70" />
+                {item.menu && (
+                  <ChevronDown
+                    className={`h-3.5 w-3.5 opacity-70 transition-transform ${
+                      openMenu === item.label ? "rotate-180" : ""
+                    }`}
+                  />
                 )}
               </Link>
             </li>
@@ -70,23 +94,13 @@ export function Header() {
           onClick={() => setMenuOpen((v) => !v)}
           className="flex flex-col gap-1.5 lg:hidden"
         >
-          <span
-            className={`h-px w-6 bg-white transition-transform ${menuOpen ? "translate-y-[7px] rotate-45" : ""}`}
-          />
-          <span
-            className={`h-px w-6 bg-white transition-opacity ${menuOpen ? "opacity-0" : ""}`}
-          />
-          <span
-            className={`h-px w-6 bg-white transition-transform ${menuOpen ? "-translate-y-[7px] -rotate-45" : ""}`}
-          />
+          <span className={`h-px w-6 bg-white transition-transform ${menuOpen ? "translate-y-[7px] rotate-45" : ""}`} />
+          <span className={`h-px w-6 bg-white transition-opacity ${menuOpen ? "opacity-0" : ""}`} />
+          <span className={`h-px w-6 bg-white transition-transform ${menuOpen ? "-translate-y-[7px] -rotate-45" : ""}`} />
         </button>
 
         {/* Center: logo */}
-        <Link
-          href="/"
-          aria-label="Bhavya Ramesh — home"
-          className="absolute left-1/2 -translate-x-1/2 text-white"
-        >
+        <Link href="/" aria-label="Bhavya Ramesh — home" className="absolute left-1/2 -translate-x-1/2 text-white">
           <Logo className="h-9 w-auto sm:h-11" />
         </Link>
 
@@ -98,15 +112,65 @@ export function Header() {
           <button type="button" aria-label="Cart" className="transition-colors hover:text-brand">
             <BagIcon className="h-5 w-5" />
           </button>
-          <button
-            type="button"
-            aria-label="Account"
-            className="hidden transition-colors hover:text-brand sm:block"
-          >
+          <button type="button" aria-label="Account" className="hidden transition-colors hover:text-brand sm:block">
             <UserIcon className="h-5 w-5" />
           </button>
         </div>
       </nav>
+
+      {/* Desktop flyout panels */}
+      <AnimatePresence>
+        {openMenu === "Jewellery" && (
+          <motion.div
+            key="mega"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="hidden border-t border-white/10 lg:block"
+          >
+            <div className="mx-auto grid max-w-[1400px] grid-cols-4 gap-8 px-8 py-10">
+              {JEWELLERY_MEGA.map((col) => (
+                <div key={col.title}>
+                  <h3 className="text-[15px] font-semibold text-white">{col.title}</h3>
+                  <ul className="mt-5 space-y-3.5 text-[14px] text-white/70">
+                    {col.items.map((it) => (
+                      <li key={it}>
+                        <Link href={slug(it)} className="transition-colors hover:text-brand" onClick={() => setOpenMenu(null)}>
+                          {it}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        {openMenu === "The Archive" && (
+          <motion.div
+            key="archive"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="hidden border-t border-white/10 lg:block"
+          >
+            <div className="mx-auto max-w-[1400px] px-8 py-8">
+              <ul className="flex w-[260px] flex-col items-center gap-4 text-[14px] text-white/85">
+                {ARCHIVE_DROPDOWN.map((it) => (
+                  <li key={it}>
+                    <Link href={slug(it)} className="transition-colors hover:text-brand" onClick={() => setOpenMenu(null)}>
+                      {it}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Mobile menu drawer */}
       <AnimatePresence>
@@ -126,7 +190,7 @@ export function Header() {
                   className="flex items-center justify-between py-4 text-sm text-white/90"
                 >
                   {item.label}
-                  {item.hasDropdown && <ChevronDown className="h-4 w-4 opacity-70" />}
+                  {item.menu && <ChevronDown className="h-4 w-4 opacity-70" />}
                 </Link>
               </li>
             ))}
