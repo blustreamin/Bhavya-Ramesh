@@ -114,7 +114,7 @@ export function ArchiveStory() {
           style={{ opacity: jewelry }}
           className={`absolute inset-0 flex items-center justify-center ${cardsActive ? "pointer-events-none" : ""}`}
         >
-          <div className="relative origin-center" style={{ width: STAGE_W, height: STAGE_H, transform: `scale(${stageScale})` }}>
+          <div className="relative shrink-0 origin-center" style={{ width: STAGE_W, height: STAGE_H, transform: `scale(${stageScale})` }}>
             {PIECES.map((pc, i) => (
               <div key={i} className="absolute" style={{ left: pc.left, top: pc.top, width: pc.width, height: pc.height }}>
                 <div className="floaty h-full w-full" style={{ animationDelay: `${pc.delay}s` }}>

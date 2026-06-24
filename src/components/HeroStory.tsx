@@ -156,7 +156,7 @@ export function HeroStory() {
       <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden bg-black">
         <div ref={stageRef} className="absolute inset-0" aria-hidden />
         {/* Single 1440×664 stage, scaled to the viewport width, centred vertically. */}
-        <div className="relative origin-center" style={{ width: STAGE_W, height: STAGE_H, transform: `scale(${stageScale})` }}>
+        <div className="relative shrink-0 origin-center" style={{ width: STAGE_W, height: STAGE_H, transform: `scale(${stageScale})` }}>
           {/* Glows — soft, minimal */}
           <motion.div style={{ opacity: glowBottom }} className="pointer-events-none absolute inset-0" aria-hidden>
             <div className="absolute inset-0" style={{ background: "radial-gradient(60% 90% at 50% 100%, rgba(120,20,55,0.32) 0%, rgba(5,5,5,0) 72%)" }} />
