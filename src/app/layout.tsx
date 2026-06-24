@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Mulish, Italiana } from "next/font/google";
 import "./globals.css";
+import { SnakeCursor } from "@/components/SnakeCursor";
 
 // Body / UI typeface — humanist sans used for nav, labels, product copy and price.
 const mulish = Mulish({
@@ -53,6 +54,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         {children}
+        <SnakeCursor />
       </body>
     </html>
   );
