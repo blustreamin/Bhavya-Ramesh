@@ -31,13 +31,14 @@ export function NewArrivals() {
       id="new-arrivals"
       className="relative overflow-hidden bg-black px-5 py-20 sm:px-8 sm:py-24"
     >
-      {/* Cool grey gradient backdrop (Figma mask-group background). */}
+      {/* Cool silver gradient backdrop (Figma mask-group): dark at the top,
+          brightening to silver toward the bottom. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(85% 70% at 55% 18%, #34353c 0%, #17181c 52%, #0a0a0c 100%)",
+            "radial-gradient(125% 105% at 50% 122%, #7b7c8e 0%, #55565f 20%, #26262c 44%, #050506 72%)",
         }}
       />
 

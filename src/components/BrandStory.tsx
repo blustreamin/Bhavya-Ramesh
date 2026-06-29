@@ -69,7 +69,7 @@ export function BrandStory() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(90% 80% at 62% 8%, #2e2f35 0%, #141519 55%, #0a0a0c 100%)",
+            "radial-gradient(125% 105% at 50% -22%, #7b7c8e 0%, #55565f 20%, #26262c 44%, #050506 72%)",
         }}
       />
 
