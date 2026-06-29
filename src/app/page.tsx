@@ -17,7 +17,6 @@ export default function Home() {
         <div className="hidden lg:block">
           <HeroStory />
         </div>
-        <div className="h-[100px] lg:hidden" aria-hidden />
         <MobileHero />
         <NewArrivals />
         <BrandStory />

@@ -22,6 +22,12 @@ const STAGE_W = 1440;
 const STAGE_H = 664;
 const ASSET = (h: string) => `/figma/${h}`;
 
+/* Lotus scroll-scrub — 35 frames (open flower → closed bud), drawn to a
+   canvas so the open→closed morph scrubs smoothly with scroll. */
+const LOTUS_FRAMES = 35;
+const LOTUS_SRC = (i: number) => `/lotus/f${String(i).padStart(2, "0")}.webp`;
+const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
+
 /* State 1 — jewellery cut-outs (silver; gold on hover) ------------------- */
 
 type Variant = { src: string; imgClass: string };
@@ -106,6 +112,9 @@ function WearCopy({ side }: { side: "left" | "right" }) {
 export function HeroStory() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const framesRef = useRef<HTMLImageElement[]>([]);
+  const lastFrame = useRef<number>(-1);
   const [stageScale, setStageScale] = useState(1);
   const [hoverable, setHoverable] = useState(true);
 
@@ -119,11 +128,43 @@ export function HeroStory() {
     return () => ro.disconnect();
   }, []);
 
+  // Preload every lotus frame, then paint the first one.
+  useEffect(() => {
+    const imgs: HTMLImageElement[] = [];
+    for (let i = 0; i < LOTUS_FRAMES; i++) {
+      const img = new window.Image();
+      img.src = LOTUS_SRC(i);
+      imgs.push(img);
+    }
+    framesRef.current = imgs;
+    const paintFirst = () => drawLotus(0);
+    if (imgs[0].complete) paintFirst();
+    else imgs[0].onload = paintFirst;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const drawLotus = (frame: number) => {
+    if (frame === lastFrame.current) return;
+    const canvas = canvasRef.current;
+    const img = framesRef.current[frame];
+    if (!canvas || !img || !img.complete || img.naturalWidth === 0) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    lastFrame.current = frame;
+  };
+
   const { scrollYProgress } = useScroll({ target: wrapRef, offset: ["start start", "end end"] });
   // Gentle spring smoothing — slow, effortless, cinematic scrubbing.
   const p = useSpring(scrollYProgress, { stiffness: 110, damping: 30, mass: 0.5 });
 
-  useMotionValueEvent(p, "change", (v) => setHoverable(v < 0.24));
+  useMotionValueEvent(p, "change", (v) => {
+    setHoverable(v < 0.24);
+    // Scrub the lotus open→closed across the second half of the story.
+    const t = clamp01((v - 0.52) / (0.98 - 0.52));
+    drawLotus(Math.round(t * (LOTUS_FRAMES - 1)));
+  });
 
   // Scroll cue fades away as soon as the story begins.
   const cue = useTransform(p, [0, 0.04], [1, 0]);
@@ -138,18 +179,14 @@ export function HeroStory() {
   const glowBottom = useTransform(p, [0, 0.4, 0.48], [1, 1, 0]);
   const glowCenter = useTransform(p, [0.44, 0.52, 1], [0, 1, 1]);
 
-  // Flowers scale in cinematically; copy rises in just after.
-  const lotus = useTransform(p, [0.44, 0.56, 0.68, 0.78], [0, 1, 1, 0]);
-  const lotusY = useTransform(p, [0.44, 0.56], [60, 0]);
-  const lotusScale = useTransform(p, [0.44, 0.62], [0.9, 1]);
-  const wearRight = useTransform(p, [0.5, 0.6, 0.68, 0.76], [0, 1, 1, 0]);
+  // The lotus canvas fades in once, then scrubs open→closed (see drawLotus).
+  const lotusOpacity = useTransform(p, [0.44, 0.54], [0, 1]);
+  const lotusScale = useTransform(p, [0.44, 0.6], [0.92, 1]);
+  // Copy on the right while the flower is open; on the left as it closes.
+  const wearRight = useTransform(p, [0.5, 0.6, 0.7, 0.78], [0, 1, 1, 0]);
   const wearRightY = useTransform(p, [0.5, 0.62], [40, 0]);
-
-  const bud = useTransform(p, [0.74, 0.86, 1], [0, 1, 1]);
-  const budY = useTransform(p, [0.74, 0.86], [60, 0]);
-  const budScale = useTransform(p, [0.74, 0.92], [0.9, 1]);
-  const wearLeft = useTransform(p, [0.8, 0.9, 1], [0, 1, 1]);
-  const wearLeftY = useTransform(p, [0.8, 0.92], [40, 0]);
+  const wearLeft = useTransform(p, [0.82, 0.92, 1], [0, 1, 1]);
+  const wearLeftY = useTransform(p, [0.82, 0.94], [40, 0]);
 
   return (
     <section ref={wrapRef} className="relative bg-black" style={{ height: "400vh" }}>
@@ -170,26 +207,20 @@ export function HeroStory() {
             {PIECES.map((piece, i) => <JewelleryPiece key={i} p={piece} />)}
           </motion.div>
 
-          {/* Scene 3 — lotus flower + copy (right) */}
-          <motion.img
-            src={ASSET("b2903278ed3b7b1a54b709215a764272ea9eba85.png")}
-            alt="Lotus flower"
-            draggable={false}
-            className="pointer-events-none absolute max-w-none object-bottom"
-            style={{ opacity: lotus, y: lotusY, scale: lotusScale, left: 440, top: 133, width: 628, height: 601 }}
+          {/* Scenes 3 & 4 — lotus open→closed, scrubbed frame-by-frame */}
+          <motion.canvas
+            ref={canvasRef}
+            width={STAGE_W}
+            height={STAGE_H}
+            aria-hidden
+            className="pointer-events-none absolute inset-0 h-full w-full"
+            style={{ opacity: lotusOpacity, scale: lotusScale }}
           />
           <motion.div style={{ opacity: wearRight, y: wearRightY }} className="pointer-events-none">
             <WearCopy side="right" />
           </motion.div>
 
-          {/* Scene 4 — lotus bud + copy (left) + CTA */}
-          <motion.img
-            src={ASSET("cf79c20cf3863078904651f2d2c0ef7f1616e4d7.png")}
-            alt="Lotus bud"
-            draggable={false}
-            className="pointer-events-none absolute max-w-none object-cover"
-            style={{ opacity: bud, y: budY, scale: budScale, left: 594, top: 258, width: 278, height: 417 }}
-          />
+          {/* Closing copy + CTA (left) */}
           <motion.div style={{ opacity: wearLeft, y: wearLeftY }}>
             <WearCopy side="left" />
           </motion.div>
