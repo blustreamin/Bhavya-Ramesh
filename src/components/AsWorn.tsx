@@ -47,7 +47,11 @@ const LOOKS: Look[] = [
   },
 ];
 
-function LookCard({ look, withShare }: { look: Look; withShare?: boolean }) {
+/**
+ * `alwaysOn` shows the hovered state permanently (maroon gradient, white
+ * name, visible share icons) — used on mobile/touch where there is no hover.
+ */
+function LookCard({ look, alwaysOn }: { look: Look; alwaysOn?: boolean }) {
   return (
     <article className="group relative aspect-[291/518] overflow-hidden rounded-[6px]">
       <Image
@@ -55,7 +59,7 @@ function LookCard({ look, withShare }: { look: Look; withShare?: boolean }) {
         alt={look.name}
         fill
         sizes="(min-width: 1024px) 320px, 80vw"
-        className="object-cover transition-transform duration-500 group-hover:scale-105"
+        className={`object-cover transition-transform duration-500 ${alwaysOn ? "" : "group-hover:scale-105"}`}
       />
       {/* Legibility gradient (always on) */}
       <div
@@ -63,29 +67,27 @@ function LookCard({ look, withShare }: { look: Look; withShare?: boolean }) {
         className="absolute inset-0"
         style={{ background: "linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 100%)" }}
       />
-      {/* Maroon gradient that rises from the bottom on hover */}
+      {/* Maroon gradient that rises from the bottom on hover (always on for touch) */}
       <div
         aria-hidden
-        className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        className={`absolute inset-0 transition-opacity duration-500 ${alwaysOn ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
         style={{ background: "linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(120,20,55,0.55) 78%, rgba(10,2,6,0.95) 100%)" }}
       />
       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5">
         <div>
-          <h3 className="font-sans text-[18px] font-bold text-brand transition-colors duration-300 group-hover:text-white">
+          <h3 className={`font-sans text-[18px] font-bold transition-colors duration-300 ${alwaysOn ? "text-white" : "text-brand group-hover:text-white"}`}>
             {look.name}
           </h3>
           <p className="mt-1.5 text-[11px] leading-snug text-white/85">{look.quote}</p>
         </div>
-        {withShare && (
-          <div className="flex shrink-0 translate-y-1 flex-col gap-2.5 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-            {SHARE.map(({ label, src }) => (
-              <button key={label} type="button" aria-label={`Share on ${label}`} className="transition-transform hover:scale-110">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={src} alt={label} className="h-9 w-9 object-contain drop-shadow-lg" />
-              </button>
-            ))}
-          </div>
-        )}
+        <div className={`flex shrink-0 flex-col gap-2.5 transition-all duration-300 ${alwaysOn ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100"}`}>
+          {SHARE.map(({ label, src }) => (
+            <button key={label} type="button" aria-label={`Share on ${label}`} className="transition-transform hover:scale-110">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={src} alt={label} className="h-9 w-9 object-contain drop-shadow-lg" />
+            </button>
+          ))}
+        </div>
       </div>
     </article>
   );
@@ -146,7 +148,7 @@ export function AsWorn() {
         <div className="mt-12 hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-4">
           {LOOKS.map((look) => (
             <div data-reveal key={look.name} className="h-full">
-              <LookCard look={look} withShare />
+              <LookCard look={look} />
             </div>
           ))}
         </div>
@@ -160,7 +162,7 @@ export function AsWorn() {
           >
             {LOOKS.map((look) => (
               <div key={look.name} className="w-[80%] shrink-0 snap-start">
-                <LookCard look={look} />
+                <LookCard look={look} alwaysOn />
               </div>
             ))}
           </div>
