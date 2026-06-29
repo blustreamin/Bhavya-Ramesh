@@ -58,7 +58,7 @@ export function Header() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       onMouseLeave={() => setOpenMenu(null)}
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+      className={`fixed inset-x-0 top-9 z-50 transition-colors duration-300 ${
         scrolled || panelOpen ? "bg-black/90 backdrop-blur-md" : "bg-transparent"
       }`}
     >

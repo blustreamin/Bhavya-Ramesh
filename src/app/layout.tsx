@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Mulish, Italiana } from "next/font/google";
+import { Mulish, Italiana, Poppins } from "next/font/google";
 import "./globals.css";
 import { SnakeCursor } from "@/components/SnakeCursor";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
 
 // Body / UI typeface — humanist sans used for nav, labels, product copy and price.
 const mulish = Mulish({
@@ -15,6 +16,14 @@ const mulish = Mulish({
 const italiana = Italiana({
   variable: "--font-serif",
   weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// Hero wordmark typeface.
+const poppins = Poppins({
+  variable: "--font-poppins",
+  weight: ["600", "700"],
   subsets: ["latin"],
   display: "swap",
 });
@@ -50,9 +59,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${mulish.variable} ${italiana.variable} h-full antialiased`}
+      className={`${mulish.variable} ${italiana.variable} ${poppins.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
+        <AnnouncementBar />
         {children}
         <SnakeCursor />
       </body>

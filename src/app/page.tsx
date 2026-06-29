@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { HeroStory } from "@/components/HeroStory";
+import { MobileHero } from "@/components/MobileHero";
 import { NewArrivals } from "@/components/NewArrivals";
 import { BrandStory } from "@/components/BrandStory";
 import { ArchiveStory } from "@/components/ArchiveStory";
@@ -11,7 +12,12 @@ export default function Home() {
     <>
       <Header />
       <main className="flex-1">
-        <HeroStory />
+        {/* Desktop: scroll-driven hero story. Mobile: static stacked hero. */}
+        <div className="hidden lg:block">
+          <HeroStory />
+        </div>
+        <div className="h-[100px] lg:hidden" aria-hidden />
+        <MobileHero />
         <NewArrivals />
         <BrandStory />
         <ArchiveStory />
