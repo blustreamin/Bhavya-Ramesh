@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { newArrivals } from "@/lib/products";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -10,6 +11,20 @@ export function NewArrivals() {
   const containerRef = useScrollReveal<HTMLDivElement>({
     childSelector: "[data-reveal]",
   });
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  const onScroll = () => {
+    const el = trackRef.current;
+    if (!el) return;
+    setActive(Math.round(el.scrollLeft / el.clientWidth));
+  };
+  const goTo = (i: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const idx = Math.max(0, Math.min(newArrivals.length - 1, i));
+    el.scrollTo({ left: idx * el.clientWidth, behavior: "smooth" });
+  };
 
   return (
     <section
@@ -27,12 +42,21 @@ export function NewArrivals() {
       />
 
       <div className="relative mx-auto max-w-[1400px]" ref={containerRef}>
-        <h2 data-reveal className="text-[16px] tracking-[0.2em] text-white/90">
-          NEW ARRIVALS
-        </h2>
+        <div className="flex items-center justify-between">
+          <h2 data-reveal className="text-[16px] tracking-[0.2em] text-white/90">
+            NEW ARRIVALS
+          </h2>
+          {/* View More — top-right on mobile */}
+          <Link
+            href="#new-arrivals"
+            className="text-sm tracking-wide text-white/90 underline underline-offset-4 transition-colors hover:text-brand sm:hidden"
+          >
+            View More
+          </Link>
+        </div>
 
-        <div className="relative mt-8">
-          {/* Carousel arrows (flank the row, as in Figma). */}
+        {/* Tablet / desktop grid */}
+        <div className="relative mt-8 hidden sm:block">
           <button
             type="button"
             aria-label="Previous"
@@ -48,21 +72,65 @@ export function NewArrivals() {
             <ChevronDown className="h-4 w-4 -rotate-90" />
           </button>
 
-          {/* Mobile: horizontal snap slider. sm+: grid. */}
-          <div className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-6 lg:grid-cols-3">
             {newArrivals.map((product) => (
-              <div
-                data-reveal
-                key={product.id}
-                className="min-w-[82%] shrink-0 snap-start sm:min-w-0"
-              >
+              <div data-reveal key={product.id} className="h-full">
                 <ProductCard product={product} />
               </div>
             ))}
           </div>
         </div>
 
-        <div className="mt-8 flex justify-end" data-reveal>
+        {/* Mobile carousel — one card per view + pagination */}
+        <div className="mt-8 sm:hidden" data-reveal>
+          <div
+            ref={trackRef}
+            onScroll={onScroll}
+            className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto"
+          >
+            {newArrivals.map((product) => (
+              <div key={product.id} className="w-full shrink-0 snap-start">
+                <ProductCard product={product} control="toggle" />
+              </div>
+            ))}
+          </div>
+
+          {/* Prev / dots / Next */}
+          <div className="mt-6 flex items-center justify-center gap-4">
+            <button
+              type="button"
+              aria-label="Previous"
+              onClick={() => goTo(active - 1)}
+              className="text-brand transition-opacity hover:opacity-70"
+            >
+              <ChevronDown className="h-5 w-5 rotate-90" />
+            </button>
+            <div className="flex items-center gap-2">
+              {newArrivals.map((p, i) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  aria-label={`Go to slide ${i + 1}`}
+                  onClick={() => goTo(i)}
+                  className={`h-1.5 rounded-full transition-all ${
+                    i === active ? "w-5 bg-brand" : "w-1.5 bg-white/30"
+                  }`}
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              aria-label="Next"
+              onClick={() => goTo(active + 1)}
+              className="text-brand transition-opacity hover:opacity-70"
+            >
+              <ChevronDown className="h-5 w-5 -rotate-90" />
+            </button>
+          </div>
+        </div>
+
+        {/* View More — bottom-right on desktop */}
+        <div className="mt-8 hidden justify-end sm:flex" data-reveal>
           <Link
             href="#new-arrivals"
             className="text-sm tracking-wide text-white/90 underline-offset-4 transition-colors hover:text-brand hover:underline"
