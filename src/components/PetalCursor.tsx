@@ -108,10 +108,10 @@ export function PetalCursor() {
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/figma/841430c5006d3cbfa0c65d75eba5f4ded9c3d78b.png"
+            src="/cursor-lotus.webp"
             alt=""
             draggable={false}
-            className="block w-[44px] max-w-none select-none"
+            className="block w-[40px] max-w-none select-none"
             style={{ filter: "drop-shadow(0 2px 6px rgba(214,67,122,0.35))" }}
           />
         </div>
