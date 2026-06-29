@@ -101,7 +101,7 @@ export function Header() {
 
         {/* Center: logo */}
         <Link href="/" aria-label="Bhavya Ramesh — home" className="absolute left-1/2 -translate-x-1/2 text-white">
-          <Logo className="h-9 w-auto sm:h-11" />
+          <Logo className="h-10 w-auto sm:h-14" />
         </Link>
 
         {/* Right: utility icons */}
