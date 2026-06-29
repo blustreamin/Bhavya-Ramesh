@@ -23,8 +23,18 @@ export function ProductCard({ product, control = "swatches" }: ProductCardProps)
     <motion.article
       whileHover={{ y: -6 }}
       transition={{ type: "spring", stiffness: 260, damping: 22 }}
-      className="relative flex h-full flex-col overflow-hidden rounded-[10px] bg-black p-5"
+      className="group/card relative flex h-full flex-col overflow-hidden rounded-[10px] bg-black p-5"
     >
+      {/* Rose/maroon gradient that drops in on hover. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover/card:opacity-100"
+        style={{
+          background:
+            "radial-gradient(110% 85% at 50% 18%, #b56a82 0%, #7d4257 30%, #3a1825 58%, #120209 82%)",
+        }}
+      />
+
       {/* Optional maroon glow accent behind the card content. */}
       {glow === "maroon" && (
         <div
