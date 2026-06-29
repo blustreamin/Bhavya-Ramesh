@@ -21,15 +21,18 @@ import { PlusIcon, ChevronDown } from "./ui/Icons";
 const FOUNDER_SLIDES = [
   {
     image: "/figma/a84d74e88d85a896816c92501c398023d08a065d.png",
-    text: "Established in 2018, Bhavya Ramesh is dedicated to the artistry of traditional jewelry making. Led by founder Bhavya Ramesh, we prioritize the human touch, supporting local artisans who craft each piece with meticulous attention to detail, ensuring that our jewelry is not only desirable but also meant to be cherished and passed down through generations.",
+    title: "The Beginning",
+    text: "Founded in 2018 by Bhavna Ramesh, the brand reimagines sterling silver through sculptural design, cultural storytelling, and uncompromising craftsmanship. Every piece is created with the belief that jewellery should outlive trends, becoming cherished across generations.",
   },
   {
     image: "/figma/75b4b285ea05ee7517093a2a44d08a3ec095aedf.png",
-    text: "Rooted in the values of Indian culture, we foster a sense of community and craftsmanship while continuously pushing the boundaries of fashion. Bhavya Ramesh is a distinguished Indian retail brand specializing in the design, development, manufacturing, and distribution of jewelry and body accessories.",
+    title: "The Craft",
+    text: "Every piece begins with an idea, brought to life by skilled Indian artisans who shape, refine, and honour every detail. Craftsmanship isn't our process—it's the language every collection speaks.",
   },
   {
     image: "/figma/6738c5a74801a038f077ee91e9bff23876ac38c7.png",
-    text: "Operating from our warehouse in Jaipur, we proudly employ a team of 40 skilled artisans and 10 dedicated workers who contribute to our production processes. Additionally, our business is supported by a proficient team of 30 employees based in Mumbai, focusing on forefront operations.",
+    title: "The Making",
+    text: "From Jaipur's ateliers to our studio, every creation is shaped with intention, precision, and patience. Because extraordinary jewellery isn't rushed—it evolves, one meticulous detail at a time.",
   },
 ];
 
@@ -87,7 +90,8 @@ export function BrandStory() {
                     <div className="relative aspect-[12/7] w-full overflow-hidden">
                       <Image src={slide.image} alt="Bhavya Ramesh atelier" fill sizes="460px" className="object-cover grayscale" />
                     </div>
-                    <p className="mt-6 text-[14px] leading-relaxed text-white">{slide.text}</p>
+                    <p className="mt-6 text-[13px] uppercase tracking-[0.22em] text-brand">{slide.title}</p>
+                    <p className="mt-3 text-[14px] leading-relaxed text-white">{slide.text}</p>
                     <span className="mt-6 block h-px w-full bg-brand/70" />
                   </div>
                 </article>
@@ -145,7 +149,10 @@ export function BrandStory() {
                     >
                       <ArrowUpRight className="h-12 w-12" />
                     </button>
-                    <p className="text-[13px] leading-relaxed text-white">{slide.text}</p>
+                    <div>
+                      <p className="text-[12px] uppercase tracking-[0.22em] text-brand">{slide.title}</p>
+                      <p className="mt-2 text-[13px] leading-relaxed text-white">{slide.text}</p>
+                    </div>
                   </div>
                   <span className="mt-5 block h-px w-full bg-brand/70" />
                 </div>
