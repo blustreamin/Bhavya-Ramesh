@@ -48,9 +48,14 @@ export function NewArrivals() {
             <ChevronDown className="h-4 w-4 -rotate-90" />
           </button>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Mobile: horizontal snap slider. sm+: grid. */}
+          <div className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 lg:grid-cols-3">
             {newArrivals.map((product) => (
-              <div data-reveal key={product.id} className="h-full">
+              <div
+                data-reveal
+                key={product.id}
+                className="min-w-[82%] shrink-0 snap-start sm:min-w-0"
+              >
                 <ProductCard product={product} />
               </div>
             ))}
