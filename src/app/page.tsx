@@ -4,6 +4,7 @@ import { MobileHero } from "@/components/MobileHero";
 import { NewArrivals } from "@/components/NewArrivals";
 import { BrandStory } from "@/components/BrandStory";
 import { ArchiveStory } from "@/components/ArchiveStory";
+import { MobileArchive } from "@/components/MobileArchive";
 import { AsWorn } from "@/components/AsWorn";
 import { Footer } from "@/components/Footer";
 
@@ -20,7 +21,10 @@ export default function Home() {
         <MobileHero />
         <NewArrivals />
         <BrandStory />
-        <ArchiveStory />
+        <div className="hidden lg:block">
+          <ArchiveStory />
+        </div>
+        <MobileArchive />
         <AsWorn />
       </main>
       <Footer />
