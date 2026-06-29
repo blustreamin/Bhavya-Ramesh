@@ -132,7 +132,7 @@ export function MobileArchive() {
 
         {/* Scene 2 — intro copy */}
         <motion.div style={{ opacity: intro, y: introY }} className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-8 text-center">
-          <p className="text-[12px] uppercase tracking-[0.35em] text-white/90">The Archive</p>
+          <p className="text-[12px] uppercase tracking-[0.35em] text-white/90">The Vault</p>
           <p className="mt-5 max-w-[340px] text-[15px] leading-relaxed text-white">
             Four distinct worlds, united by{" "}
             <span className="text-brand">fearless imagination</span>,{" "}
