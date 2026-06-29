@@ -106,21 +106,14 @@ export function PetalCursor() {
           }}
           className="absolute left-0 top-0 opacity-0 will-change-transform"
         >
-          <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
-            <defs>
-              <linearGradient id={`petal-${i}`} x1="8" y1="0" x2="8" y2="24" gradientUnits="userSpaceOnUse">
-                <stop offset="0" stopColor="#f7b6cf" />
-                <stop offset="0.55" stopColor="#ec5e90" />
-                <stop offset="1" stopColor="#d6437a" />
-              </linearGradient>
-            </defs>
-            {/* almond lotus petal */}
-            <path
-              d="M8 0.5C12.5 6 13.5 15 8 23.5C2.5 15 3.5 6 8 0.5Z"
-              fill={`url(#petal-${i})`}
-            />
-            <path d="M8 3.5V20" stroke="#ffffff" strokeOpacity="0.35" strokeWidth="0.8" strokeLinecap="round" />
-          </svg>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/figma/841430c5006d3cbfa0c65d75eba5f4ded9c3d78b.png"
+            alt=""
+            draggable={false}
+            className="block w-[44px] max-w-none select-none"
+            style={{ filter: "drop-shadow(0 2px 6px rgba(214,67,122,0.35))" }}
+          />
         </div>
       ))}
     </div>
