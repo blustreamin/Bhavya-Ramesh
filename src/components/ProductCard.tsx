@@ -58,15 +58,15 @@ export function ProductCard({ product, control = "swatches" }: ProductCardProps)
 
       {/* Product image — silver base with a gold finish that cross-fades in
           only while hovering the image itself. */}
-      <div className="group relative z-[1] flex h-[230px] shrink-0 items-center justify-center">
+      <div className="group relative z-[1] flex h-[300px] shrink-0 items-center justify-center">
         {image ? (
           <>
             <Image
               src={image}
               alt={name}
-              width={320}
-              height={320}
-              className={`max-h-full w-auto object-contain transition-opacity duration-300 ${
+              width={400}
+              height={400}
+              className={`h-full w-full object-contain transition-opacity duration-300 ${
                 finish === "gold" ? "opacity-0" : "opacity-100"
               } ${goldImage ? "group-hover:opacity-0" : ""}`}
             />
@@ -75,9 +75,9 @@ export function ProductCard({ product, control = "swatches" }: ProductCardProps)
                 src={goldImage}
                 alt=""
                 aria-hidden
-                width={320}
-                height={320}
-                className={`absolute inset-0 m-auto max-h-full w-auto object-contain transition-opacity duration-300 group-hover:opacity-100 ${
+                width={400}
+                height={400}
+                className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-300 group-hover:opacity-100 ${
                   finish === "gold" ? "opacity-100" : "opacity-0"
                 }`}
               />
