@@ -3,16 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { FacebookIcon, YoutubeIcon, InstagramIcon } from "./ui/Icons";
 
+// Brand social logos exported from the Figma As Worn card (YouTube Shorts icon).
 const SHARE = [
-  { label: "Facebook", Icon: FacebookIcon, badge: "bg-[#1877F2]" },
-  { label: "YouTube", Icon: YoutubeIcon, badge: "bg-[#FF0000]" },
-  {
-    label: "Instagram",
-    Icon: InstagramIcon,
-    badge: "bg-[radial-gradient(circle_at_30%_107%,#fdf497_0%,#fd5949_45%,#d6249f_60%,#285AEB_90%)]",
-  },
+  { label: "Facebook", src: "/figma/29dd339e761f88e065da7b770f8c81f674f552d0.png" },
+  { label: "YouTube", src: "/figma/656c17645bd86c7700f2dd9929db3d6a4e0ba690.png" },
+  { label: "Instagram", src: "/figma/10806ffd4d8a9a2fa24d855216da029270da4a75.png" },
 ];
 
 /**
@@ -93,13 +89,22 @@ export function AsWorn() {
                 sizes="(min-width: 1024px) 320px, 50vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              {/* Legibility gradient */}
+              {/* Legibility gradient (always on) */}
               <div
                 aria-hidden
                 className="absolute inset-0"
                 style={{
                   background:
-                    "linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.85) 100%)",
+                    "linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 100%)",
+                }}
+              />
+              {/* Maroon gradient that rises from the bottom on hover */}
+              <div
+                aria-hidden
+                className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(120,20,55,0.55) 78%, rgba(10,2,6,0.95) 100%)",
                 }}
               />
               <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5">
@@ -113,14 +118,15 @@ export function AsWorn() {
                 </div>
                 {/* Share icons reveal on hover */}
                 <div className="flex shrink-0 translate-y-1 flex-col gap-2.5 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                  {SHARE.map(({ label, Icon, badge }) => (
+                  {SHARE.map(({ label, src }) => (
                     <button
                       key={label}
                       type="button"
                       aria-label={`Share on ${label}`}
-                      className={`flex h-10 w-10 items-center justify-center rounded-[9px] text-white shadow-lg shadow-black/30 transition-transform hover:scale-110 ${badge}`}
+                      className="transition-transform hover:scale-110"
                     >
-                      <Icon className="h-[22px] w-[22px]" />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={src} alt={label} className="h-9 w-9 object-contain drop-shadow-lg" />
                     </button>
                   ))}
                 </div>

@@ -1,12 +1,6 @@
 import Link from "next/link";
 import { Newsletter } from "./Newsletter";
-import {
-  PhoneIcon,
-  MailIcon,
-  InstagramIcon,
-  FacebookIcon,
-  YoutubeIcon,
-} from "./ui/Icons";
+import { PhoneIcon, MailIcon } from "./ui/Icons";
 
 const SERVICES = [
   { label: "Jewellery", href: "#jewellery" },
@@ -18,15 +12,9 @@ const SERVICES = [
 ];
 
 const SOCIALS = [
-  {
-    label: "Instagram",
-    href: "#",
-    Icon: InstagramIcon,
-    // Instagram brand gradient.
-    badge: "bg-[radial-gradient(circle_at_30%_107%,#fdf497_0%,#fd5949_45%,#d6249f_60%,#285AEB_90%)]",
-  },
-  { label: "Facebook", href: "#", Icon: FacebookIcon, badge: "bg-[#1877F2]" },
-  { label: "YouTube", href: "#", Icon: YoutubeIcon, badge: "bg-[#FF0000]" },
+  { label: "Instagram", href: "#", src: "/figma/4166322238aa08633ecc7c87c960bf0c31b7ec39.png" },
+  { label: "Facebook", href: "#", src: "/figma/bdfeb232fb1e9e29b84c31e0775847b81562184d.png" },
+  { label: "YouTube", href: "#", src: "/figma/ff4a49a47250c804f2340585ffca5ac1ab3eced9.png" },
 ];
 
 export function Footer() {
@@ -100,14 +88,15 @@ export function Footer() {
           </div>
 
           <div className="mt-8 flex items-center gap-3">
-            {SOCIALS.map(({ label, href, Icon, badge }) => (
+            {SOCIALS.map(({ label, href, src }) => (
               <a
                 key={label}
                 href={href}
                 aria-label={label}
-                className={`flex h-8 w-8 items-center justify-center rounded-[7px] text-white transition-transform hover:scale-110 ${badge}`}
+                className="transition-transform hover:scale-110"
               >
-                <Icon className="h-5 w-5" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={src} alt={label} className="h-8 w-8 object-contain" />
               </a>
             ))}
           </div>
