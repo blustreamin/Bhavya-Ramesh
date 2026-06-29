@@ -37,16 +37,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Snake cursor tongue flick. */
-.snake-tongue {
-  transform-origin: left center;
-  animation: tongueFlick 1.4s ease-in-out infinite;
-}
-@keyframes tongueFlick {
-  0%, 60%, 100% { transform: scaleX(0.2); opacity: 0.5; }
-  75% { transform: scaleX(1); opacity: 1; }
-}
-
 /* Animated "shine" wave that sweeps across the footer SHINE ON watermark. */
 .shine-on {
   /* Moving highlight band over an always-visible dark base, both clipped to

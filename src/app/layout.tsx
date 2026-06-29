@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Mulish, Italiana, Poppins } from "next/font/google";
 import "./globals.css";
-import { SnakeCursor } from "@/components/SnakeCursor";
+import { PetalCursor } from "@/components/PetalCursor";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 
 // Body / UI typeface — humanist sans used for nav, labels, product copy and price.
@@ -64,7 +64,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <AnnouncementBar />
         {children}
-        <SnakeCursor />
+        <PetalCursor />
       </body>
     </html>
   );
