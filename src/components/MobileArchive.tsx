@@ -134,13 +134,11 @@ export function MobileArchive() {
         <motion.div style={{ opacity: intro, y: introY }} className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-8 text-center">
           <p className="text-[12px] uppercase tracking-[0.35em] text-white/90">The Archive</p>
           <p className="mt-5 max-w-[340px] text-[15px] leading-relaxed text-white">
-            Not just collections. Different states of{" "}
-            <span className="text-brand">expression</span>. Each drop explores a{" "}
-            <span className="text-brand">new identity</span> shaped by{" "}
-            <span className="text-brand">myth</span>,{" "}
-            <span className="text-brand">movement</span>, and{" "}
-            <span className="text-brand">rebellion</span>. Find the one that feels
-            like you.
+            Four distinct worlds, united by{" "}
+            <span className="text-brand">fearless imagination</span>,{" "}
+            <span className="text-brand">sculptural thinking</span>, and an
+            unwavering disregard for{" "}
+            <span className="text-brand">ordinary</span>.
           </p>
         </motion.div>
 

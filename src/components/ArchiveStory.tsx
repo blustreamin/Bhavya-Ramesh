@@ -52,10 +52,10 @@ const PIECES: Piece[] = [
 ];
 
 const ARCHIVE = [
-  { name: "Jalebi", image: "3a69dfea0f9b65b9f138b000294aa2cbcb11a293.png", desc: "Inspired by iconic curves. Designed to turn indulgence into expression." },
-  { name: "Sunglasses", image: "39f14933293dfcfa8f185a4329ccf903b29121f6.png", desc: "Sharp frames. Sharper presence. See differently. Be seen instantly." },
-  { name: "Ancient Aliens", image: "8429e765d9ec2450d8c6a9e4fefc431db100b199.png", desc: "Otherworldly forms. Earth-bound impact. Made for beings who don't belong." },
-  { name: "Naraka", image: "8f2d288d3b09ffbf69b2e079a79da6da9032b888.png", desc: "A moment of crisis turned into a lifetime. In Yamaloka I now reside, in Naraka I have arrived." },
+  { name: "Jalebi", image: "3a69dfea0f9b65b9f138b000294aa2cbcb11a293.png", desc: "Life told us to stop going in circles. We turned them into something worth collecting." },
+  { name: "Sunglasses", image: "39f14933293dfcfa8f185a4329ccf903b29121f6.png", desc: "For days when your jewellery deserves more attention than the weather ever will." },
+  { name: "Ancient Aliens", image: "8429e765d9ec2450d8c6a9e4fefc431db100b199.png", desc: "Conspiracy theories rarely age well. This one somehow became an entire jewellery collection." },
+  { name: "Naraka", image: "8f2d288d3b09ffbf69b2e079a79da6da9032b888.png", desc: "Turns out even the underworld appreciates good design when it sees extraordinary craftsmanship." },
 ];
 
 export function ArchiveStory() {
@@ -138,15 +138,13 @@ export function ArchiveStory() {
 
         {/* Scene 2 — intro copy */}
         <motion.div style={{ opacity: intro, y: introY }} className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-          <p className="text-[13px] uppercase tracking-[0.35em] text-white/90">The Archive</p>
+          <p className="text-[13px] uppercase tracking-[0.35em] text-white/90">THE VAULT</p>
           <p className="mt-6 max-w-[540px] text-[15px] leading-relaxed text-white">
-            Not just collections. Different states of{" "}
-            <span className="text-brand">expression</span>. Each drop explores a{" "}
-            <span className="text-brand">new identity</span> shaped by{" "}
-            <span className="text-brand">myth</span>,{" "}
-            <span className="text-brand">movement</span>, and{" "}
-            <span className="text-brand">rebellion</span>. Find the one that feels
-            like you.
+            Four distinct worlds, united by{" "}
+            <span className="text-brand">fearless imagination</span>,{" "}
+            <span className="text-brand">sculptural thinking</span>, and an
+            unwavering disregard for{" "}
+            <span className="text-brand">ordinary</span>.
           </p>
         </motion.div>
 
