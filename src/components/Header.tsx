@@ -62,7 +62,7 @@ export function Header() {
         scrolled || panelOpen ? "bg-black/90 backdrop-blur-md" : "bg-transparent"
       }`}
     >
-      <nav className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-4 px-5 sm:h-20 sm:px-8">
+      <nav className="flex h-16 w-full items-center justify-between gap-4 px-6 sm:h-20 sm:px-10">
         {/* Left: primary navigation (desktop) */}
         <ul className="hidden items-center gap-7 text-[13px] tracking-wide text-white/90 lg:flex">
           {NAV_ITEMS.map((item) => (
@@ -129,7 +129,7 @@ export function Header() {
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="hidden border-t border-white/10 lg:block"
           >
-            <div className="mx-auto grid max-w-[1400px] grid-cols-4 gap-8 px-8 py-10">
+            <div className="flex w-full flex-wrap gap-x-16 gap-y-8 px-6 py-10 sm:px-10">
               {JEWELLERY_MEGA.map((col) => (
                 <div key={col.title}>
                   <h3 className="text-[15px] font-semibold text-white">{col.title}</h3>
@@ -157,7 +157,7 @@ export function Header() {
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="hidden border-t border-white/10 lg:block"
           >
-            <div className="mx-auto max-w-[1400px] px-8 py-8">
+            <div className="w-full px-6 py-8 sm:px-10">
               <ul className="flex w-[260px] flex-col items-center gap-4 text-[14px] text-white/85">
                 {ARCHIVE_DROPDOWN.map((it) => (
                   <li key={it}>
