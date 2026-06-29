@@ -22,6 +22,13 @@ const LOTUS_SRC = (i: number) => `/lotus/f${String(i).padStart(2, "0")}.webp`;
 const CROP = { x: 410, y: 80, w: 620, h: 510 };
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
+/* The three story frames revealed as the lotus scrubs open → closed. */
+const FRAMES = [
+  { l1: "Wear your", l2: "Rebellion.", body: "Crafted for people who express themselves before they ever explain themselves." },
+  { l1: "Bloom like", l2: "nobody's watching.", body: "The best transformations happen without applause, permission, or anyone else's expectations attached." },
+  { l1: "Stay", l2: "Unexpected.", body: "Find pieces strange enough to remember and beautiful enough never to forget.", cta: "Start Turning Heads" },
+] as const;
+
 type Piece = {
   left: number; top: number; width: number; height: number; rotate: number;
   cw: number; ch: number; src: string; imgClass: string;
@@ -106,10 +113,15 @@ export function MobileHero() {
   const glow = useTransform(p, [0.26, 0.4, 1], [0, 1, 1]);
   const lotusOpacity = useTransform(p, [0.26, 0.36], [0, 1]);
   const lotusScale = useTransform(p, [0.26, 0.42], [0.92, 1]);
-  const copy = useTransform(p, [0.38, 0.48], [0, 1]);
-  const copyY = useTransform(p, [0.38, 0.48], [24, 0]);
-  const cta = useTransform(p, [0.72, 0.82], [0, 1]);
-  const ctaY = useTransform(p, [0.72, 0.82], [20, 0]);
+  // Three story frames cross-fade as the lotus scrubs open → closed.
+  const mf1 = useTransform(p, [0.34, 0.42, 0.5, 0.56], [0, 1, 1, 0]);
+  const mf2 = useTransform(p, [0.55, 0.62, 0.7, 0.76], [0, 1, 1, 0]);
+  const mf3 = useTransform(p, [0.74, 0.82, 1], [0, 1, 1]);
+  const my1 = useTransform(p, [0.34, 0.42], [20, 0]);
+  const my2 = useTransform(p, [0.55, 0.62], [20, 0]);
+  const my3 = useTransform(p, [0.74, 0.82], [20, 0]);
+  const frameOps = [mf1, mf2, mf3];
+  const frameYs = [my1, my2, my3];
 
   return (
     <section ref={wrapRef} aria-label="Bhavya Ramesh" className="relative bg-black lg:hidden" style={{ height: "360vh" }}>
@@ -158,24 +170,35 @@ export function MobileHero() {
             style={{ opacity: lotusOpacity, scale: lotusScale }}
             className="h-auto w-[80vw] max-w-[360px]"
           />
-          <motion.div style={{ opacity: copy, y: copyY }} className="mt-6 max-w-[320px]">
-            <h2 className="font-serif text-[40px] leading-[1.05] text-brand">Wear your Subversion</h2>
-            <p className="mt-4 text-[13px] leading-relaxed text-white">
-              Sculptural artifacts designed to be lived in. Forget the rules of
-              gender; embrace the weight of identity.
-            </p>
-          </motion.div>
-          <motion.div style={{ opacity: cta, y: ctaY }} className="mt-6">
-            <button
-              type="button"
-              className="flex items-center gap-2 rounded-[10px] border-2 border-white/90 px-4 py-3 font-sans text-[11px] font-bold uppercase tracking-wide text-white transition-colors hover:border-brand hover:text-brand"
-            >
-              Discover Our Jewellery
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </motion.div>
+          <div className="relative mt-6 h-[250px] w-full max-w-[340px]">
+            {FRAMES.map((fr, i) => (
+              <motion.div
+                key={i}
+                style={{ opacity: frameOps[i], y: frameYs[i] }}
+                className="absolute inset-x-0 top-0 flex flex-col items-center"
+              >
+                <h2 className="font-serif text-[34px] leading-[1.05] text-brand">
+                  {fr.l1}
+                  <br />
+                  {fr.l2}
+                </h2>
+                <p className="mt-4 max-w-[320px] text-[13px] leading-relaxed text-white">
+                  {fr.body}
+                </p>
+                {fr.cta && (
+                  <button
+                    type="button"
+                    className="mt-6 flex items-center gap-2 rounded-[10px] border-2 border-white/90 px-4 py-3 font-sans text-[11px] font-bold uppercase tracking-wide text-white transition-colors hover:border-brand hover:text-brand"
+                  >
+                    {fr.cta}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
+                      <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                )}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

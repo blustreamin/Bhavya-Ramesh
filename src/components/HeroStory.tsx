@@ -28,6 +28,13 @@ const LOTUS_FRAMES = 35;
 const LOTUS_SRC = (i: number) => `/lotus/f${String(i).padStart(2, "0")}.webp`;
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
+/* The three story frames revealed as the lotus scrubs open → closed. */
+const FRAMES = [
+  { l1: "Wear your", l2: "Rebellion.", body: "Crafted for people who express themselves before they ever explain themselves." },
+  { l1: "Bloom like", l2: "nobody's watching.", body: "The best transformations happen without applause, permission, or anyone else's expectations attached." },
+  { l1: "Stay", l2: "Unexpected.", body: "Find pieces strange enough to remember and beautiful enough never to forget.", cta: "Start Turning Heads" },
+] as const;
+
 /* State 1 — jewellery cut-outs (silver; gold on hover) ------------------- */
 
 type Variant = { src: string; imgClass: string };
@@ -81,25 +88,26 @@ function JewelleryPiece({ p }: { p: Piece }) {
   );
 }
 
-function WearCopy({ side }: { side: "left" | "right" }) {
-  const left = side === "right" ? 1068 : 95;
-  const top = side === "right" ? 304 : 285;
+type FrameCopy = { l1: string; l2: string; body: string; cta?: string };
+
+function WearCopy({ side, frame }: { side: "left" | "right"; frame: FrameCopy }) {
+  const left = side === "right" ? 1040 : 95;
+  const top = side === "right" ? 290 : 280;
   return (
     <>
       <p className="absolute font-serif text-[#e4638c]"
-        style={{ left, top, width: 299, height: 140, fontSize: "65px", lineHeight: "64px" }}>
-        Wear your Subversion
+        style={{ left, top, width: 330, fontSize: "56px", lineHeight: "56px" }}>
+        {frame.l1}<br />{frame.l2}
       </p>
       <p className="absolute font-sans text-[14px] leading-normal text-white"
-        style={{ left, top: side === "right" ? 456 : 437, width: 299 }}>
-        Sculptural artifacts designed to be lived in. Forget the rules of gender;
-        embrace the weight of identity.
+        style={{ left, top: top + 150, width: 320 }}>
+        {frame.body}
       </p>
-      {side === "left" && (
+      {frame.cta && (
         <button type="button"
-          className="absolute flex items-center justify-between rounded-[10px] border-2 border-white/90 px-4 font-sans text-[11px] font-bold uppercase tracking-wide text-white backdrop-blur-[2px] transition-colors hover:border-brand hover:text-brand"
-          style={{ left: 95, top: 532, width: 219, height: 46 }}>
-          Discover Our Jewellery
+          className="absolute flex items-center justify-between gap-3 rounded-[10px] border-2 border-white/90 px-4 font-sans text-[11px] font-bold uppercase tracking-wide text-white backdrop-blur-[2px] transition-colors hover:border-brand hover:text-brand"
+          style={{ left, top: top + 252, height: 46 }}>
+          {frame.cta}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
             <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
@@ -182,11 +190,13 @@ export function HeroStory() {
   // The lotus canvas fades in once, then scrubs open→closed (see drawLotus).
   const lotusOpacity = useTransform(p, [0.44, 0.54], [0, 1]);
   const lotusScale = useTransform(p, [0.44, 0.6], [0.92, 1]);
-  // Copy on the right while the flower is open; on the left as it closes.
-  const wearRight = useTransform(p, [0.5, 0.6, 0.7, 0.78], [0, 1, 1, 0]);
-  const wearRightY = useTransform(p, [0.5, 0.62], [40, 0]);
-  const wearLeft = useTransform(p, [0.82, 0.92, 1], [0, 1, 1]);
-  const wearLeftY = useTransform(p, [0.82, 0.94], [40, 0]);
+  // Three story frames cross-fade as the lotus scrubs open → closed.
+  const f1 = useTransform(p, [0.5, 0.57, 0.66, 0.72], [0, 1, 1, 0]);
+  const f1Y = useTransform(p, [0.5, 0.57], [40, 0]);
+  const f2 = useTransform(p, [0.71, 0.78, 0.85, 0.9], [0, 1, 1, 0]);
+  const f2Y = useTransform(p, [0.71, 0.78], [40, 0]);
+  const f3 = useTransform(p, [0.88, 0.94, 1], [0, 1, 1]);
+  const f3Y = useTransform(p, [0.88, 0.94], [40, 0]);
 
   return (
     <section ref={wrapRef} className="relative bg-black" style={{ height: "400vh" }}>
@@ -216,13 +226,17 @@ export function HeroStory() {
             className="pointer-events-none absolute inset-0 h-full w-full"
             style={{ opacity: lotusOpacity, scale: lotusScale }}
           />
-          <motion.div style={{ opacity: wearRight, y: wearRightY }} className="pointer-events-none">
-            <WearCopy side="right" />
+          {/* Frame 01 — open lotus (right) */}
+          <motion.div style={{ opacity: f1, y: f1Y }} className="pointer-events-none">
+            <WearCopy side="right" frame={FRAMES[0]} />
           </motion.div>
-
-          {/* Closing copy + CTA (left) */}
-          <motion.div style={{ opacity: wearLeft, y: wearLeftY }}>
-            <WearCopy side="left" />
+          {/* Frame 02 — closing lotus (left) */}
+          <motion.div style={{ opacity: f2, y: f2Y }} className="pointer-events-none">
+            <WearCopy side="left" frame={FRAMES[1]} />
+          </motion.div>
+          {/* Frame 03 — closed bud (left) + CTA */}
+          <motion.div style={{ opacity: f3, y: f3Y }}>
+            <WearCopy side="left" frame={FRAMES[2]} />
           </motion.div>
 
           {/* Persistent title — Poppins wordmark. */}
