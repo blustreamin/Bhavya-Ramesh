@@ -37,37 +37,26 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Animated "shine" wave that sweeps across the footer SHINE ON watermark. */
+/* Footer "SHINE ON" watermark — a static dark wordmark. No animation. A focus
+   "spotlight" follows the cursor and lights up the letters only on hover
+   (position fed in via the --mx/--my custom properties). */
 .shine-on {
-  /* Moving highlight band over an always-visible dark base, both clipped to
-     the text so the wordmark never disappears — only the shine sweeps. */
-  background-image: linear-gradient(
-      100deg,
-      rgba(120, 105, 115, 0) 38%,
-      rgba(150, 130, 142, 0.95) 50%,
-      rgba(120, 105, 115, 0) 62%
-    ),
-    linear-gradient(#202024, #202024);
-  background-size: 200% 100%, 100% 100%;
-  background-repeat: no-repeat, no-repeat;
-  background-position: 150% 0, 0 0;
+  --mx: 50%;
+  --my: 50%;
+  background-image: linear-gradient(#1b181f, #1b181f);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: shineWave 7s linear infinite;
 }
-@keyframes shineWave {
-  from {
-    background-position: 150% 0, 0 0;
-  }
-  to {
-    background-position: -150% 0, 0 0;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .shine-on {
-    animation: none;
-  }
+.shine-on:hover {
+  background-image: radial-gradient(
+      240px 240px at var(--mx) var(--my),
+      rgba(255, 214, 230, 1) 0%,
+      rgba(236, 81, 152, 0.85) 28%,
+      rgba(236, 81, 152, 0) 62%
+    ),
+    linear-gradient(#1b181f, #1b181f);
+  background-repeat: no-repeat, no-repeat;
 }
 
 /* Gentle floating motion for the scattered hero jewellery pieces. */

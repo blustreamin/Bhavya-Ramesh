@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Newsletter } from "./Newsletter";
+import { ShineOn } from "./ShineOn";
 import { PhoneIcon, MailIcon } from "./ui/Icons";
 
 const SERVICES = [
@@ -30,14 +31,9 @@ export function Footer() {
         }}
       />
 
-      {/* Oversized "SHINE ON" wordmark behind the content, one line, with an
-          animated shine wave (the text itself always stays visible). */}
-      <span
-        aria-hidden
-        className="shine-on pointer-events-none absolute inset-x-0 bottom-[-1.2vw] z-0 select-none whitespace-nowrap text-center font-serif font-semibold leading-none text-[20vw]"
-      >
-        SHINE ON
-      </span>
+      {/* Oversized "SHINE ON" wordmark behind the content — dark by default, a
+          focus spotlight follows the cursor on hover. */}
+      <ShineOn />
 
       {/* Footer content (on top) */}
       <div className="relative z-10 mx-auto grid max-w-[1400px] grid-cols-1 gap-14 lg:grid-cols-[1.4fr_1fr_1fr]">
