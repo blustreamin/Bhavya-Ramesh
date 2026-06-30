@@ -19,7 +19,7 @@ const SOCIALS = [
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-black px-5 pt-20 pb-[5vw] sm:px-8">
+    <footer className="relative overflow-hidden bg-black px-5 pt-20 pb-[calc(15vw-70px)] sm:px-8">
       {/* Maroon glow rising on the left, behind the SHINE ON wordmark. */}
       <div
         aria-hidden
