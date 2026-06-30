@@ -123,7 +123,9 @@ export function Header() {
       transition={{ duration: 0.6, ease: "easeOut" }}
       onMouseLeave={() => setOpenMenu(null)}
       className={`fixed inset-x-0 top-9 z-50 transition-colors duration-300 ${
-        scrolled || panelOpen ? "bg-black/90 backdrop-blur-md" : "bg-transparent"
+        scrolled || panelOpen
+          ? "border-b border-white/10 bg-black/40 backdrop-blur-xl backdrop-saturate-150"
+          : "bg-transparent"
       }`}
     >
       <nav className="flex h-16 w-full items-center justify-between gap-4 px-6 sm:h-20 sm:px-16">
