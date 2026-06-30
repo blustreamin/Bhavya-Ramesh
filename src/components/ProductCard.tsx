@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { type Product, formatPrice } from "@/lib/products";
+import { useCartStore } from "@/store/cart";
 import { StarRating } from "./ui/StarRating";
 import { PlusIcon } from "./ui/Icons";
 
@@ -14,10 +15,17 @@ type ProductCardProps = {
 };
 
 export function ProductCard({ product, control = "swatches" }: ProductCardProps) {
-  const { name, description, price, rating, swatches, image, goldImage, glow } = product;
+  const { id, name, description, price, rating, swatches, image, goldImage, glow } = product;
 
   // Selected finish, driven by the colour swatches.
   const [finish, setFinish] = useState<"silver" | "gold">("silver");
+  const addLocal = useCartStore((s) => s.addLocal);
+  const [pop, setPop] = useState(0);
+
+  const handleAdd = () => {
+    addLocal({ id, name, price, image: finish === "gold" ? goldImage ?? image : image }, finish);
+    setPop((n) => n + 1);
+  };
 
   return (
     <motion.article
@@ -48,13 +56,26 @@ export function ProductCard({ product, control = "swatches" }: ProductCardProps)
       )}
 
       {/* Add-to-cart */}
-      <button
+      <motion.button
         type="button"
         aria-label={`Add ${name} to cart`}
-        className="absolute right-4 top-4 z-10 text-white/80 transition-colors hover:text-brand"
+        onClick={handleAdd}
+        whileTap={{ scale: 0.8 }}
+        className="absolute right-3 top-3 z-20 flex h-9 w-9 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/10 hover:text-brand"
       >
         <PlusIcon className="h-5 w-5" />
-      </button>
+        {pop > 0 && (
+          <motion.span
+            key={pop}
+            initial={{ opacity: 1, y: 0, scale: 0.6 }}
+            animate={{ opacity: 0, y: -30, scale: 1.1 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="pointer-events-none absolute text-[13px] font-bold text-brand"
+          >
+            +1
+          </motion.span>
+        )}
+      </motion.button>
 
       {/* Product image — silver base with a gold finish that cross-fades in
           only while hovering the image itself. */}

@@ -3,6 +3,7 @@ import { Mulish, Italiana, Poppins } from "next/font/google";
 import "./globals.css";
 import { PetalCursor } from "@/components/PetalCursor";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
+import { CartDrawer } from "@/components/CartDrawer";
 
 // Body / UI typeface — humanist sans used for nav, labels, product copy and price.
 const mulish = Mulish({
@@ -64,6 +65,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <AnnouncementBar />
         {children}
+        <CartDrawer />
         <PetalCursor />
       </body>
     </html>

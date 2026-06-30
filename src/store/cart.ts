@@ -22,6 +22,11 @@ interface CartState {
   toggle: () => void;
 
   addLine: (product: Product, variant: ProductVariant, quantity?: number) => void;
+  /** Add a homepage placeholder product (from `@/lib/products`) to the cart. */
+  addLocal: (
+    p: { id: string; name: string; price: number; image?: string },
+    finish?: "silver" | "gold"
+  ) => void;
   removeLine: (lineId: string) => void;
   updateQuantity: (lineId: string, quantity: number) => void;
   clear: () => void;
@@ -68,6 +73,32 @@ export const useCartStore = create<CartState>()(
             image: product.featuredImage,
           };
 
+          return { lines: [...state.lines, line] };
+        }),
+
+      addLocal: (p, finish) =>
+        set((state) => {
+          const id = finish ? `${p.id}-${finish}` : p.id;
+          const existing = state.lines.find((l) => l.id === id);
+          if (existing) {
+            return {
+              lines: state.lines.map((l) =>
+                l.id === id ? { ...l, quantity: l.quantity + 1 } : l
+              ),
+            };
+          }
+          const line: CartLine = {
+            id,
+            merchandiseId: id,
+            quantity: 1,
+            title: finish
+              ? `${p.name} — ${finish[0].toUpperCase()}${finish.slice(1)}`
+              : p.name,
+            price: { amount: String(p.price), currencyCode: "INR" },
+            image: p.image
+              ? { url: p.image, altText: p.name, width: null, height: null }
+              : null,
+          };
           return { lines: [...state.lines, line] };
         }),
 
