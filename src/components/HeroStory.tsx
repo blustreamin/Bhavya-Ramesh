@@ -216,6 +216,17 @@ export function HeroStory() {
             {PIECES.map((piece, i) => <JewelleryPiece key={i} p={piece} />)}
           </motion.div>
 
+          {/* Persistent title — Poppins wordmark. Sits BEHIND the lotus (drawn
+              after it) and at 50% opacity so it reads as a soft backdrop. */}
+          <motion.div style={{ y: titleY, scale: titleScale }} className="pointer-events-none absolute left-0 top-0 flex h-[267px] w-[1440px] items-center justify-center px-[87px]">
+            <h1
+              className="whitespace-nowrap text-center font-bold leading-none text-white/50"
+              style={{ fontFamily: "var(--font-poppins)", fontSize: "150px" }}
+            >
+              Bhavya Ramesh
+            </h1>
+          </motion.div>
+
           {/* Scenes 3 & 4 — lotus open→closed, scrubbed frame-by-frame */}
           <motion.canvas
             ref={canvasRef}
@@ -238,15 +249,6 @@ export function HeroStory() {
             <WearCopy side="left" frame={FRAMES[2]} />
           </motion.div>
 
-          {/* Persistent title — Poppins wordmark. */}
-          <motion.div style={{ y: titleY, scale: titleScale }} className="absolute left-0 top-0 flex h-[267px] w-[1440px] items-center justify-center px-[87px]">
-            <h1
-              className="whitespace-nowrap text-center font-bold leading-none text-white"
-              style={{ fontFamily: "var(--font-poppins)", fontSize: "150px" }}
-            >
-              Bhavya Ramesh
-            </h1>
-          </motion.div>
         </div>
 
         {/* Minimal scroll cue */}
