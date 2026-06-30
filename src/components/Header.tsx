@@ -38,10 +38,62 @@ const ARCHIVE_DROPDOWN = [
 
 const slug = (s: string) => "#" + s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
+/* ---- Mobile drawer data (Figma mobile menu) ---- */
+const SHOP_COLS: string[][] = [
+  ["Shop All", "Sunglasses", "Nail Rings", "Ear Rings", "Rings", "Wrist Wear", "Neck Pieces", "Palm Cuffs"],
+  ["Ear Clips", "Chains", "Hair Accessories", "Webbed Fingers", "Anklets", "Nose Pins"],
+];
+const COLLECTIONS_M = ["Gilga", "Naraka", "Ancient Aliens", "Jalebi", "Glarekillers", "Darlings", "HARMONY", "POISON", "Bhavya x Rosh - Nail Rings"];
+const MOBILE_LINKS = [
+  { label: "About", href: "#about" },
+  { label: "Terms & Conditions", href: "#terms" },
+  { label: "Privacy Policy", href: "#privacy" },
+  { label: "Retail Store", href: "#retail" },
+  { label: "Wishlist", href: "#wishlist" },
+];
+const MOBILE_SECONDARY = [
+  { label: "Jewellery Care And Material", href: "#care" },
+  { label: "Shipping Policy", href: "#shipping" },
+  { label: "Returns & Exchange Policy", href: "#returns" },
+  { label: "Contact Us", href: "#contact" },
+  { label: "Stocklist", href: "#stocklist" },
+  { label: "Blogs", href: "#blogs" },
+];
+
+function ArrowUpRight({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <path d="M7 17 17 7M8 7h9v9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+function ArrowDownRight({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <path d="M7 7 17 17M17 8v9H8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+function ArrowLeft({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+function CloseIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [view, setView] = useState<"main" | "shop" | "collections">("main");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -49,6 +101,18 @@ export function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Lock body scroll + reset to the top view whenever the drawer opens.
+  useEffect(() => {
+    if (!menuOpen) return;
+    setView("main");
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  const closeMenu = () => setMenuOpen(false);
 
   const panelOpen = openMenu === "Jewellery" || openMenu === "The Archive";
 
@@ -172,29 +236,170 @@ export function Header() {
         )}
       </AnimatePresence>
 
-      {/* Mobile menu drawer */}
+      {/* Mobile full-screen nav drawer */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.ul
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden border-t border-white/10 bg-black/90 px-5 backdrop-blur-md lg:hidden"
+          <motion.div
+            key="mobile-drawer"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="fixed inset-x-0 bottom-0 top-9 z-[60] flex flex-col bg-[#0c0b0d]/95 backdrop-blur-2xl lg:hidden"
           >
-            {NAV_ITEMS.map((item) => (
-              <li key={item.label} className="border-b border-white/5 last:border-0">
-                <Link
-                  href={item.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="flex items-center justify-between py-4 text-sm text-white/90"
-                >
-                  {item.label}
-                  {item.menu && <ChevronDown className="h-4 w-4 opacity-70" />}
-                </Link>
-              </li>
-            ))}
-          </motion.ul>
+            {/* Soft jewellery glow texture behind the menu */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(55% 35% at 72% 16%, rgba(255,255,255,0.06) 0%, transparent 60%), radial-gradient(45% 28% at 18% 55%, rgba(255,255,255,0.05) 0%, transparent 60%), radial-gradient(40% 30% at 80% 78%, rgba(255,255,255,0.04) 0%, transparent 60%)",
+              }}
+            />
+
+            {/* Top bar */}
+            <div className="relative flex h-16 shrink-0 items-center justify-between px-6">
+              <Link href="/" onClick={closeMenu} aria-label="Bhavya Ramesh — home" className="text-white">
+                <Logo className="h-10 w-auto" />
+              </Link>
+              <div className="flex items-center gap-5 text-white">
+                <button type="button" aria-label="Account" className="transition-colors hover:text-brand">
+                  <UserIcon className="h-5 w-5" />
+                </button>
+                <button type="button" aria-label="Search" className="transition-colors hover:text-brand">
+                  <SearchIcon className="h-5 w-5" />
+                </button>
+                <button type="button" aria-label="Cart" className="transition-colors hover:text-brand">
+                  <BagIcon className="h-5 w-5" />
+                </button>
+              </div>
+              <button type="button" aria-label="Close menu" onClick={closeMenu} className="text-white transition-colors hover:text-brand">
+                <CloseIcon className="h-6 w-6" />
+              </button>
+            </div>
+
+            {/* Views */}
+            <div className="relative flex-1 overflow-y-auto">
+              <AnimatePresence mode="wait">
+                {view === "main" && (
+                  <motion.div
+                    key="v-main"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex min-h-full flex-col px-6 pb-10 pt-6"
+                  >
+                    <ul className="space-y-7">
+                      <li>
+                        <button type="button" onClick={() => setView("shop")} className="flex items-center gap-2.5 text-[26px] tracking-wide text-white">
+                          SHOP <ArrowUpRight className="h-6 w-6 text-brand" />
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" onClick={() => setView("collections")} className="flex items-center gap-2.5 text-[26px] tracking-wide text-white">
+                          ALL COLLECTIONS <ArrowUpRight className="h-6 w-6 text-brand" />
+                        </button>
+                      </li>
+                      {MOBILE_LINKS.map((l) => (
+                        <li key={l.label}>
+                          <Link href={l.href} onClick={closeMenu} className="flex items-center gap-2.5 text-[26px] uppercase tracking-wide text-white transition-colors hover:text-brand">
+                            {l.label} <ArrowUpRight className="h-6 w-6 text-brand" />
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <ul className="mt-12 space-y-4 text-[15px] text-white/80">
+                      {MOBILE_SECONDARY.map((l) => (
+                        <li key={l.label}>
+                          <Link href={l.href} onClick={closeMenu} className="transition-colors hover:text-brand">
+                            {l.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <p className="mt-auto pt-10 text-right text-[13px] text-white/70">
+                      Copyright © 2026,{" "}
+                      <Link href="/" onClick={closeMenu} className="underline underline-offset-2">
+                        Bhavya Ramesh
+                      </Link>
+                      .
+                    </p>
+                  </motion.div>
+                )}
+
+                {view === "shop" && (
+                  <motion.div
+                    key="v-shop"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex min-h-full flex-col px-6 pb-10 pt-6"
+                  >
+                    <button type="button" onClick={() => setView("main")} className="flex items-center gap-2.5 text-[26px] tracking-wide text-white">
+                      SHOP <ArrowDownRight className="h-6 w-6 text-brand" />
+                    </button>
+                    <div className="mt-8 grid grid-cols-2 gap-x-8">
+                      {SHOP_COLS.map((col, ci) => (
+                        <ul key={ci}>
+                          {col.map((it) => (
+                            <li key={it} className="border-b border-white/15">
+                              <Link href={slug(it)} onClick={closeMenu} className="block py-3 text-[18px] text-white transition-colors hover:text-brand">
+                                {it}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      ))}
+                    </div>
+                    <div className="mt-auto flex items-end justify-between pt-10">
+                      <p className="text-[13px] text-white/70">
+                        Copyright © 2026, <span className="underline underline-offset-2">Bhavya Ramesh</span>.
+                      </p>
+                      <button type="button" aria-label="Back" onClick={() => setView("main")} className="text-white/70 transition-colors hover:text-white">
+                        <ArrowLeft className="h-6 w-6" />
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {view === "collections" && (
+                  <motion.div
+                    key="v-collections"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex min-h-full flex-col px-6 pb-10 pt-6"
+                  >
+                    <button type="button" onClick={() => setView("main")} className="flex items-center gap-2.5 text-[26px] tracking-wide text-white">
+                      ALL COLLECTIONS <ArrowDownRight className="h-6 w-6 text-brand" />
+                    </button>
+                    <ul className="mt-8 w-[78%]">
+                      {COLLECTIONS_M.map((it) => (
+                        <li key={it} className="border-b border-white/15">
+                          <Link href={slug(it)} onClick={closeMenu} className="block py-3 text-[18px] text-white transition-colors hover:text-brand">
+                            {it}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-auto flex items-end justify-between pt-10">
+                      <p className="text-[13px] text-white/70">
+                        Copyright © 2026, <span className="underline underline-offset-2">Bhavya Ramesh</span>.
+                      </p>
+                      <button type="button" aria-label="Back" onClick={() => setView("main")} className="text-white/70 transition-colors hover:text-white">
+                        <ArrowLeft className="h-6 w-6" />
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </motion.header>
