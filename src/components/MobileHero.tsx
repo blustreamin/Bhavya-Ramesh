@@ -110,6 +110,9 @@ export function MobileHero() {
   });
 
   const hero = useTransform(p, [0, 0.18, 0.27], [1, 1, 0]);
+  // The wordmark drifts upward and fades as the story takes over (like desktop).
+  const titleY = useTransform(p, [0, 0.27], [0, -90]);
+  const titleOpacity = useTransform(p, [0, 0.15, 0.27], [1, 1, 0]);
   const glow = useTransform(p, [0.26, 0.4, 1], [0, 1, 1]);
   const lotusOpacity = useTransform(p, [0.26, 0.36], [0, 1]);
   const lotusScale = useTransform(p, [0.26, 0.42], [0.92, 1]);
@@ -137,8 +140,8 @@ export function MobileHero() {
           <div className="absolute inset-0" style={{ background: "radial-gradient(60% 50% at 50% 48%, rgba(150,28,72,0.4) 0%, rgba(5,5,5,0) 70%)" }} />
         </motion.div>
 
-        {/* Scene 1 — jewellery scatter + wordmark */}
-        <motion.div style={{ opacity: hero }} className="absolute inset-0 flex items-center justify-center">
+        {/* Wordmark — drifts up and fades on scroll */}
+        <motion.div style={{ opacity: titleOpacity, y: titleY }} className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <div className="relative origin-center" style={{ width: STAGE_W, height: STAGE_H, transform: `scale(${scale})` }}>
             <div className="absolute left-0 top-[276px] flex h-[267px] w-[387px] items-center justify-center px-[20px]">
               <h1 className="text-center font-bold leading-none text-white" style={{ fontFamily: "var(--font-poppins)", fontSize: "66px", lineHeight: "74px" }}>
@@ -147,6 +150,12 @@ export function MobileHero() {
                 Ramesh
               </h1>
             </div>
+          </div>
+        </motion.div>
+
+        {/* Scene 1 — jewellery scatter */}
+        <motion.div style={{ opacity: hero }} className="absolute inset-0 flex items-center justify-center">
+          <div className="relative origin-center" style={{ width: STAGE_W, height: STAGE_H, transform: `scale(${scale})` }}>
             {PIECES.map((pc, i) => (
               <div key={i} className="absolute flex items-center justify-center" style={{ left: pc.left, top: pc.top, width: pc.width, height: pc.height }}>
                 <div style={{ transform: `rotate(${pc.rotate}deg)` }}>
