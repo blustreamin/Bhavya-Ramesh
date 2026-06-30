@@ -117,6 +117,7 @@ export function Header() {
   const panelOpen = openMenu === "Jewellery" || openMenu === "The Archive";
 
   return (
+    <>
     <motion.header
       initial={{ y: -40, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -238,7 +239,12 @@ export function Header() {
         )}
       </AnimatePresence>
 
-      {/* Mobile full-screen nav drawer */}
+    </motion.header>
+
+      {/* Mobile full-screen nav drawer — rendered OUTSIDE the header so its
+          `fixed` positioning stays relative to the viewport. (The scrolled
+          header has `backdrop-filter`, which would otherwise become the
+          containing block for fixed children and collapse the drawer.) */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -404,6 +410,6 @@ export function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </>
   );
 }
