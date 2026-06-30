@@ -160,6 +160,19 @@ export function BrandStory() {
             ))}
           </div>
 
+          {/* Founder pagination dots */}
+          <div className="mt-6 flex items-center justify-center gap-2">
+            {FOUNDER_SLIDES.map((slide, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Go to slide ${i + 1}`}
+                onClick={() => scrollTo(founderRef.current, i, FOUNDER_SLIDES.length)}
+                className={`h-1.5 rounded-full transition-all ${i === founderIdx ? "w-5 bg-brand" : "w-1.5 bg-white/30"}`}
+              />
+            ))}
+          </div>
+
           {/* Featured products */}
           <div className="mt-12 flex items-center justify-between">
             <p data-reveal className="text-[16px] uppercase tracking-[0.18em] text-white">Featured Products</p>
