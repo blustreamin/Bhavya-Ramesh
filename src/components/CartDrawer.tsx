@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCartStore } from "@/store/cart";
 import { formatPrice } from "@/lib/products";
@@ -118,12 +119,20 @@ export function CartDrawer() {
                     <span className="font-semibold">{formatPrice(subtotal)}</span>
                   </div>
                   <p className="mt-1 text-[11px] text-white/45">Taxes &amp; shipping calculated at checkout.</p>
-                  <button
-                    type="button"
-                    className="mt-4 w-full rounded-md bg-brand-soft py-3.5 text-[12px] font-bold uppercase tracking-widest text-white transition-colors hover:bg-brand"
+                  <Link
+                    href="/checkout"
+                    onClick={close}
+                    className="mt-4 block w-full rounded-md bg-brand-soft py-3.5 text-center text-[12px] font-bold uppercase tracking-widest text-white transition-colors hover:bg-brand"
                   >
                     Checkout
-                  </button>
+                  </Link>
+                  <Link
+                    href="/cart"
+                    onClick={close}
+                    className="mt-3 block text-center text-[12px] uppercase tracking-widest text-white/50 transition-colors hover:text-brand"
+                  >
+                    View Cart
+                  </Link>
                 </div>
               </>
             )}
