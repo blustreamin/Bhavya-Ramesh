@@ -27,7 +27,7 @@ export default async function ProductPage({
             className="pointer-events-none absolute inset-0"
             style={{
               background:
-                "radial-gradient(80% 55% at 50% 32%, #3a3b43 0%, #212227 42%, #121317 70%, #0a0a0c 100%)",
+                "radial-gradient(95% 42% at 50% 24%, #787989 0%, #585966 30%, #26272d 58%, #0c0c0e 84%)",
             }}
           />
           <div className="relative">
