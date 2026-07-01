@@ -1,4 +1,8 @@
+"use client";
+
+import { useRef, useState } from "react";
 import Image from "next/image";
+import { ChevronDown } from "../ui/Icons";
 
 const REVIEWS = [
   {
@@ -43,34 +47,84 @@ function Stars() {
   );
 }
 
+function ReviewCard({ r }: { r: (typeof REVIEWS)[number] }) {
+  return (
+    <figure className="overflow-hidden rounded-2xl bg-[#161616] shadow-lg">
+      <div className="flex items-center gap-3.5 bg-[#f3f1ec] p-4">
+        <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-neutral-200">
+          <Image src={r.avatar} alt={r.name} fill sizes="56px" className="object-cover object-[center_22%]" />
+        </div>
+        <figcaption className="min-w-0">
+          <p className="truncate text-[16px] font-bold text-[#1a1a1a]">{r.name}</p>
+          <p className="text-[13px] leading-tight text-neutral-500">{r.title}</p>
+          <p className="text-[13px] leading-tight text-neutral-500">{r.company}</p>
+        </figcaption>
+      </div>
+      <div className="px-5 py-6 text-center">
+        <Stars />
+        <blockquote className="mt-4 text-[13px] leading-relaxed text-white/75">{r.quote}</blockquote>
+      </div>
+    </figure>
+  );
+}
+
 export function Testimonials() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  const goTo = (n: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const idx = Math.max(0, Math.min(REVIEWS.length - 1, n));
+    const c = el.children[idx] as HTMLElement;
+    el.scrollTo({ left: el.scrollLeft + (c.getBoundingClientRect().left - el.getBoundingClientRect().left), behavior: "smooth" });
+  };
+  const onScroll = () => {
+    const el = trackRef.current;
+    if (!el) return;
+    const base = el.getBoundingClientRect().left;
+    let best = 0, bd = Infinity;
+    Array.from(el.children).forEach((c, i) => {
+      const d = Math.abs((c as HTMLElement).getBoundingClientRect().left - base);
+      if (d < bd) { bd = d; best = i; }
+    });
+    setActive(best);
+  };
+
   return (
     <section className="px-5 py-16 sm:px-12">
       <div className="mx-auto max-w-[1360px]">
         <h2 className="text-[15px] uppercase tracking-[0.2em] text-white/90">What People Say</h2>
 
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Tablet / desktop grid */}
+        <div className="mt-8 hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-4">
           {REVIEWS.map((r) => (
-            <figure key={r.name} className="overflow-hidden rounded-2xl bg-[#161616] shadow-lg">
-              {/* White header — avatar + name + role */}
-              <div className="flex items-center gap-3.5 bg-[#f3f1ec] p-4">
-                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-neutral-200">
-                  <Image src={r.avatar} alt={r.name} fill sizes="56px" className="object-cover object-[center_22%]" />
-                </div>
-                <figcaption className="min-w-0">
-                  <p className="truncate text-[16px] font-bold text-[#1a1a1a]">{r.name}</p>
-                  <p className="text-[13px] leading-tight text-neutral-500">{r.title}</p>
-                  <p className="text-[13px] leading-tight text-neutral-500">{r.company}</p>
-                </figcaption>
-              </div>
-
-              {/* Dark body — stars + quote */}
-              <div className="px-5 py-6 text-center">
-                <Stars />
-                <blockquote className="mt-4 text-[13px] leading-relaxed text-white/75">{r.quote}</blockquote>
-              </div>
-            </figure>
+            <ReviewCard key={r.name} r={r} />
           ))}
+        </div>
+
+        {/* Mobile carousel */}
+        <div className="mt-8 sm:hidden">
+          <div ref={trackRef} onScroll={onScroll} className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto">
+            {REVIEWS.map((r) => (
+              <div key={r.name} className="w-[85%] shrink-0 snap-start">
+                <ReviewCard r={r} />
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 flex items-center justify-center gap-4">
+            <button type="button" aria-label="Previous" onClick={() => goTo(active - 1)} className="text-brand transition-opacity hover:opacity-70">
+              <ChevronDown className="h-5 w-5 rotate-90" />
+            </button>
+            <div className="flex items-center gap-1.5">
+              {REVIEWS.map((r, i) => (
+                <button key={r.name} type="button" aria-label={`Go to ${i + 1}`} onClick={() => goTo(i)} className={`h-1.5 rounded-full transition-all ${i === active ? "w-4 bg-brand" : "w-1.5 bg-white/30"}`} />
+              ))}
+            </div>
+            <button type="button" aria-label="Next" onClick={() => goTo(active + 1)} className="text-brand transition-opacity hover:opacity-70">
+              <ChevronDown className="h-5 w-5 -rotate-90" />
+            </button>
+          </div>
         </div>
       </div>
     </section>

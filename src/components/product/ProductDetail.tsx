@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -47,6 +47,27 @@ export function ProductDetail({ product }: { product: Product }) {
   const [qty, setQty] = useState(1);
   const [wished, setWished] = useState(false);
   const [openIdx, setOpenIdx] = useState<number | null>(2);
+  const galleryRef = useRef<HTMLDivElement>(null);
+  const [galleryIdx, setGalleryIdx] = useState(0);
+
+  const galleryGoTo = (n: number) => {
+    const el = galleryRef.current;
+    if (!el) return;
+    const idx = Math.max(0, Math.min(gallery.length - 1, n));
+    const c = el.children[idx] as HTMLElement;
+    el.scrollTo({ left: el.scrollLeft + (c.getBoundingClientRect().left - el.getBoundingClientRect().left), behavior: "smooth" });
+  };
+  const onGalleryScroll = () => {
+    const el = galleryRef.current;
+    if (!el) return;
+    const base = el.getBoundingClientRect().left;
+    let best = 0, bd = Infinity;
+    Array.from(el.children).forEach((c, i) => {
+      const d = Math.abs((c as HTMLElement).getBoundingClientRect().left - base);
+      if (d < bd) { bd = d; best = i; }
+    });
+    setGalleryIdx(best);
+  };
 
   const gallery: Tile[] = [
     { src: MODELS[0], kind: "photo" },
@@ -63,29 +84,53 @@ export function ProductDetail({ product }: { product: Product }) {
   };
 
   return (
-    <section className="bg-black pt-[140px] pb-24 lg:pb-28">
+    <section className="bg-black pt-[104px] pb-14 lg:pt-[140px] lg:pb-28">
       <div className="grid lg:grid-cols-2">
-        {/* Gallery — full-bleed on the left, tiles touching (no gap) */}
-        <div className="relative grid grid-cols-2 gap-0">
-          {gallery.map((t, i) => (
-            <div key={i} className={`relative aspect-[4/5] overflow-hidden ${t.kind === "product" ? "bg-white" : "bg-white/[0.04]"}`}>
-              {t.src && (
-                <Image
-                  src={t.src}
-                  alt={name}
-                  fill
-                  sizes="(min-width:1024px) 340px, 50vw"
-                  className={t.kind === "product" ? "object-contain p-6" : "object-cover"}
-                />
-              )}
+        {/* Gallery */}
+        <div>
+          {/* Desktop — full-bleed 2-col grid, tiles touching */}
+          <div className="relative hidden grid-cols-2 gap-0 lg:grid">
+            {gallery.map((t, i) => (
+              <div key={i} className={`relative aspect-[4/5] overflow-hidden ${t.kind === "product" ? "bg-white" : "bg-white/[0.04]"}`}>
+                {t.src && (
+                  <Image src={t.src} alt={name} fill sizes="340px" className={t.kind === "product" ? "object-contain p-6" : "object-cover"} />
+                )}
+              </div>
+            ))}
+            {[33, 66].map((y) => (
+              <svg key={y} viewBox="0 0 24 24" className="pointer-events-none absolute left-1/2 z-10 h-4 w-4 -translate-x-1/2 -translate-y-1/2 text-black/70" style={{ top: `${y}%` }} aria-hidden>
+                <path d="M12 2c.4 5 4.6 9.6 10 10-5.4.4-9.6 5-10 10-.4-5-4.6-9.6-10-10 5.4-.4 9.6-5 10-10Z" fill="currentColor" />
+              </svg>
+            ))}
+          </div>
+
+          {/* Mobile — one-image carousel with dot/arrow pagination */}
+          <div className="lg:hidden">
+            <div ref={galleryRef} onScroll={onGalleryScroll} className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto px-4">
+              {gallery.map((t, i) => (
+                <div key={i} className="w-[86%] shrink-0 snap-start">
+                  <div className={`relative aspect-[4/5] overflow-hidden rounded-2xl ${t.kind === "product" ? "bg-white" : "bg-white/[0.04]"}`}>
+                    {t.src && (
+                      <Image src={t.src} alt={name} fill sizes="86vw" className={t.kind === "product" ? "object-contain p-6" : "object-cover"} />
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-          {/* decorative sparkles at the gap intersections */}
-          {[33, 66].map((y) => (
-            <svg key={y} viewBox="0 0 24 24" className="pointer-events-none absolute left-1/2 z-10 h-4 w-4 -translate-x-1/2 -translate-y-1/2 text-black/70" style={{ top: `${y}%` }} aria-hidden>
-              <path d="M12 2c.4 5 4.6 9.6 10 10-5.4.4-9.6 5-10 10-.4-5-4.6-9.6-10-10 5.4-.4 9.6-5 10-10Z" fill="currentColor" />
-            </svg>
-          ))}
+            <div className="mt-4 flex items-center justify-center gap-4">
+              <button type="button" aria-label="Previous" onClick={() => galleryGoTo(galleryIdx - 1)} className="text-brand transition-opacity hover:opacity-70">
+                <Icon path={ICONS.chev} className="h-5 w-5 rotate-90" />
+              </button>
+              <div className="flex items-center gap-1.5">
+                {gallery.map((_, i) => (
+                  <button key={i} type="button" aria-label={`Go to image ${i + 1}`} onClick={() => galleryGoTo(i)} className={`h-1.5 rounded-full transition-all ${i === galleryIdx ? "w-4 bg-brand" : "w-1.5 bg-white/30"}`} />
+                ))}
+              </div>
+              <button type="button" aria-label="Next" onClick={() => galleryGoTo(galleryIdx + 1)} className="text-brand transition-opacity hover:opacity-70">
+                <Icon path={ICONS.chev} className="h-5 w-5 -rotate-90" />
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Info panel */}
