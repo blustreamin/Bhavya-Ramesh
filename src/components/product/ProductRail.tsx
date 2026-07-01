@@ -55,7 +55,7 @@ export function ProductRail({ title, products }: { title: string; products: Prod
 
           <div ref={trackRef} onScroll={onScroll} className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto">
             {products.map((p, i) => (
-              <div key={`${p.id}-${i}`} className="w-[85%] shrink-0 snap-start sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]">
+              <div key={`${p.id}-${i}`} className="w-full shrink-0 snap-start sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]">
                 <ProductCard product={p} control="toggle" />
               </div>
             ))}
