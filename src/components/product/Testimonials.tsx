@@ -38,8 +38,8 @@ export function Testimonials() {
           {REVIEWS.map((r) => (
             <figure key={r.name} className="flex flex-col rounded-xl border border-white/10 bg-white/[0.03] p-6">
               <div className="flex items-center gap-3">
-                <div className="relative h-11 w-11 overflow-hidden rounded-full bg-white/10">
-                  <Image src={r.avatar} alt={r.name} fill sizes="44px" className="object-cover" />
+                <div className="relative h-12 w-12 overflow-hidden rounded-full bg-white/10 ring-1 ring-white/15">
+                  <Image src={r.avatar} alt={r.name} fill sizes="48px" className="object-cover object-[center_22%] grayscale-[0.15]" />
                 </div>
                 <figcaption>
                   <p className="text-[14px] font-semibold text-white">{r.name}</p>

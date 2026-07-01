@@ -65,10 +65,10 @@ export function ProductDetail({ product }: { product: Product }) {
   return (
     <section className="bg-black pt-[140px] pb-24 lg:pb-28">
       <div className="grid lg:grid-cols-2">
-        {/* Gallery — full-bleed on the left */}
-        <div className="relative grid grid-cols-2 gap-2 sm:gap-3">
+        {/* Gallery — full-bleed on the left, tiles touching (no gap) */}
+        <div className="relative grid grid-cols-2 gap-0">
           {gallery.map((t, i) => (
-            <div key={i} className={`relative aspect-[4/5] overflow-hidden rounded-xl ${t.kind === "product" ? "bg-white" : "bg-white/[0.04]"}`}>
+            <div key={i} className={`relative aspect-[4/5] overflow-hidden ${t.kind === "product" ? "bg-white" : "bg-white/[0.04]"}`}>
               {t.src && (
                 <Image
                   src={t.src}

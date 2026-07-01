@@ -93,7 +93,11 @@ function LookCard({ look, alwaysOn }: { look: Look; alwaysOn?: boolean }) {
   );
 }
 
-export function AsWorn() {
+export function AsWorn({
+  eyebrow = "As Worn",
+  intro = true,
+  id = "as-worn",
+}: { eyebrow?: string; intro?: boolean; id?: string } = {}) {
   const ref = useScrollReveal<HTMLDivElement>({ childSelector: "[data-reveal]" });
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -119,30 +123,40 @@ export function AsWorn() {
   };
 
   return (
-    <section id="as-worn" className="relative bg-black px-5 py-20 sm:px-8 sm:py-24">
-      <div ref={ref} className="mx-auto max-w-[1400px]">
-        <p data-reveal className="text-[16px] uppercase tracking-[0.18em] text-white/90">
-          As Worn
-        </p>
-
-        <div className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <h2
-            data-reveal
-            className="max-w-[700px] font-serif text-[40px] leading-[1.05] text-white sm:text-[56px] lg:text-[65px]"
-          >
-            Jewellery, lived in and made your own.
-          </h2>
-          <div data-reveal className="lg:max-w-[340px]">
-            <p className="text-[14px] leading-relaxed text-white/70">
-              From everyday moments to standout fits—this is how the pieces come
-              alive.
+    <section id={id} className={intro ? "relative bg-black px-5 py-20 sm:px-8 sm:py-24" : "relative px-5 py-16 sm:px-12"}>
+      <div ref={ref} className={`mx-auto ${intro ? "max-w-[1400px]" : "max-w-[1360px]"}`}>
+        {intro ? (
+          <>
+            <p data-reveal className="text-[16px] uppercase tracking-[0.18em] text-white/90">
+              {eyebrow}
             </p>
-            <p className="mt-4 text-right text-[14px] leading-relaxed text-white/90 lg:text-left">
-              <span className="font-semibold text-brand">Tag @bhavyaramesh</span>{" "}
-              and show us how you wear it.
-            </p>
+            <div className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+              <h2
+                data-reveal
+                className="max-w-[700px] font-serif text-[40px] leading-[1.05] text-white sm:text-[56px] lg:text-[65px]"
+              >
+                Jewellery, lived in and made your own.
+              </h2>
+              <div data-reveal className="lg:max-w-[340px]">
+                <p className="text-[14px] leading-relaxed text-white/70">
+                  From everyday moments to standout fits—this is how the pieces come
+                  alive.
+                </p>
+                <p className="mt-4 text-right text-[14px] leading-relaxed text-white/90 lg:text-left">
+                  <span className="font-semibold text-brand">Tag @bhavyaramesh</span>{" "}
+                  and show us how you wear it.
+                </p>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="flex items-center justify-between">
+            <h2 data-reveal className="text-[15px] uppercase tracking-[0.2em] text-white/90">{eyebrow}</h2>
+            <Link href="#as-worn" className="text-sm tracking-wide text-white/80 underline-offset-4 transition-colors hover:text-brand hover:underline">
+              View More
+            </Link>
           </div>
-        </div>
+        )}
 
         {/* Tablet / desktop grid */}
         <div className="mt-12 hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-4">
@@ -180,14 +194,16 @@ export function AsWorn() {
           </div>
         </div>
 
-        <div className="mt-8 flex justify-center sm:justify-end" data-reveal>
-          <Link
-            href="#as-worn"
-            className="text-sm tracking-wide text-white/90 underline underline-offset-4 transition-colors hover:text-brand sm:no-underline sm:hover:underline"
-          >
-            View More
-          </Link>
-        </div>
+        {intro && (
+          <div className="mt-8 flex justify-center sm:justify-end" data-reveal>
+            <Link
+              href="#as-worn"
+              className="text-sm tracking-wide text-white/90 underline underline-offset-4 transition-colors hover:text-brand sm:no-underline sm:hover:underline"
+            >
+              View More
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -27,16 +27,16 @@ export function ProductRail({ title, products }: { title: string; products: Prod
         </div>
 
         <div className="relative mt-8">
-          <button type="button" aria-label="Previous" onClick={() => scrollBy(-1)} className="absolute -left-3 top-1/2 z-10 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 text-white/80 transition-colors hover:border-brand hover:text-brand lg:flex">
+          <button type="button" aria-label="Previous" onClick={() => scrollBy(-1)} className="absolute left-3 top-1/2 z-10 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white/80 backdrop-blur-sm transition-colors hover:border-brand hover:text-brand lg:flex">
             <ChevronDown className="h-4 w-4 rotate-90" />
           </button>
-          <button type="button" aria-label="Next" onClick={() => scrollBy(1)} className="absolute -right-3 top-1/2 z-10 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 text-white/80 transition-colors hover:border-brand hover:text-brand lg:flex">
+          <button type="button" aria-label="Next" onClick={() => scrollBy(1)} className="absolute right-3 top-1/2 z-10 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white/80 backdrop-blur-sm transition-colors hover:border-brand hover:text-brand lg:flex">
             <ChevronDown className="h-4 w-4 -rotate-90" />
           </button>
 
           <div ref={trackRef} className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto">
             {products.map((p, i) => (
-              <div key={`${p.id}-${i}`} className="w-[78%] shrink-0 snap-start sm:w-[46%] lg:w-[31%]">
+              <div key={`${p.id}-${i}`} className="w-[85%] shrink-0 snap-start sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]">
                 <ProductCard product={p} />
               </div>
             ))}
