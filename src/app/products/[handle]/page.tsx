@@ -20,15 +20,15 @@ export default async function ProductPage({
       <main className="flex-1 bg-black">
         <ProductDetail product={product} />
 
-        {/* Lower sections: a cool silver glow over pure black so the top blends
-            seamlessly with the black hero above (Figma). */}
+        {/* Lower sections: pure-black top (blends seamlessly with the black
+            hero) with a soft silver glow rising from behind the cards. */}
         <div className="relative overflow-hidden bg-black">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0"
             style={{
               background:
-                "radial-gradient(80% 42% at 50% 26%, rgba(154,156,176,0.72) 0%, rgba(128,130,150,0.28) 44%, rgba(0,0,0,0) 68%)",
+                "radial-gradient(120% 50% at 50% 36%, rgba(150,152,172,0.5) 0%, rgba(120,122,145,0.16) 44%, rgba(0,0,0,0) 72%)",
             }}
           />
           <div className="relative">

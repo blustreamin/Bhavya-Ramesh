@@ -63,7 +63,7 @@ export function ProductDetail({ product }: { product: Product }) {
   };
 
   return (
-    <section className="bg-black pt-[140px]">
+    <section className="bg-black pt-[140px] pb-24 lg:pb-28">
       <div className="grid lg:grid-cols-2">
         {/* Gallery — full-bleed on the left */}
         <div className="relative grid grid-cols-2 gap-2 sm:gap-3">
