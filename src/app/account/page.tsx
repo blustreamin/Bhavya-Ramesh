@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import { useAccountStore, type Address, type Order } from "@/store/account";
 import { useCartStore } from "@/store/cart";
 import { newArrivals, formatPrice, type Product } from "@/lib/products";
+import { Tilt } from "@/components/ui/Tilt";
 
 const TABS = ["overview", "orders", "addresses", "wishlist", "profile"] as const;
 type Tab = (typeof TABS)[number];
@@ -44,7 +45,6 @@ const STATUS: Record<Order["status"], string> = {
 
 export default function AccountPage() {
   const user = useAccountStore((s) => s.user);
-  const openDrawer = useAccountStore((s) => s.open);
   const logout = useAccountStore((s) => s.logout);
   const [mounted, setMounted] = useState(false);
   const [tab, setTab] = useState<Tab>("overview");
@@ -65,14 +65,7 @@ export default function AccountPage() {
 
         <div className="relative mx-auto max-w-[1200px]">
           {!user ? (
-            <div className="mx-auto flex max-w-md flex-col items-center py-24 text-center">
-              <p className="text-[12px] uppercase tracking-[0.4em] text-brand">Account</p>
-              <h1 className="mt-4 font-serif text-[46px] leading-tight text-white sm:text-[58px]">Welcome to the House.</h1>
-              <p className="mt-4 text-sm text-white/55">Sign in to track orders, save addresses and curate your wishlist.</p>
-              <button type="button" onClick={openDrawer} className="group mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand to-brand-soft px-8 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:shadow-[0_0_30px_-6px_rgba(228,99,140,0.6)]">
-                Sign In / Create Account <Icon d={P.arrow} className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </button>
-            </div>
+            <AuthForm />
           ) : (
             <>
               {/* Hero banner */}
@@ -135,12 +128,14 @@ function Overview({ onGo }: { onGo: (t: Tab) => void }) {
     <div className="space-y-8">
       <div className="grid grid-cols-3 gap-4">
         {stats.map((s) => (
-          <button key={s.label} type="button" onClick={() => onGo(s.tab)} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-left transition-all hover:border-brand/40">
-            <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/60 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-            <Icon d={s.icon} className="h-5 w-5 text-brand" />
-            <p className="mt-3 font-serif text-[36px] leading-none text-white">{s.value}</p>
-            <p className="mt-1 text-[12px] uppercase tracking-widest text-white/45">{s.label}</p>
-          </button>
+          <Tilt key={s.label} max={12} className="rounded-2xl">
+            <button type="button" onClick={() => onGo(s.tab)} className="group relative block w-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-left transition-all hover:border-brand/40">
+              <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/60 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+              <Icon d={s.icon} className="h-5 w-5 text-brand" />
+              <p className="mt-3 font-serif text-[36px] leading-none text-white">{s.value}</p>
+              <p className="mt-1 text-[12px] uppercase tracking-widest text-white/45">{s.label}</p>
+            </button>
+          </Tilt>
         ))}
       </div>
       <div>
@@ -253,6 +248,42 @@ function Wishlist() {
           </div>
         </Card>
       ))}
+    </div>
+  );
+}
+
+function AuthForm() {
+  const login = useAccountStore((s) => s.login);
+  const register = useAccountStore((s) => s.register);
+  const [mode, setMode] = useState<"signin" | "register">("signin");
+  const [f, setF] = useState({ name: "", email: "", password: "" });
+  const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement>) => setF((x) => ({ ...x, [k]: e.target.value }));
+  const submit = (e: FormEvent) => { e.preventDefault(); if (mode === "signin") login(f.email, f.password); else register(f.name, f.email, f.password); };
+  const cls = "h-12 w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 text-sm text-white placeholder:text-white/40 focus:border-brand focus:outline-none";
+  return (
+    <div className="mx-auto max-w-md py-14 text-center">
+      <p className="text-[12px] uppercase tracking-[0.4em] text-brand">Account</p>
+      <h1 className="mt-4 font-serif text-[44px] leading-tight text-white sm:text-[54px]">{mode === "signin" ? "Welcome back." : "Join the House."}</h1>
+      <p className="mt-3 text-sm text-white/55">Sign in to track orders, save addresses and curate your wishlist.</p>
+      <form onSubmit={submit} className="relative mt-8 overflow-hidden rounded-3xl border border-white/12 bg-white/[0.03] p-7 text-left backdrop-blur-sm">
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/70 to-transparent" />
+        <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(70% 40% at 80% 0%, rgba(228,99,140,0.1), transparent 60%)" }} />
+        <div className="relative space-y-3">
+          {mode === "register" && <input required value={f.name} onChange={set("name")} placeholder="Full name" className={cls} />}
+          <input required type="email" value={f.email} onChange={set("email")} placeholder="Email" className={cls} />
+          <input required type="password" value={f.password} onChange={set("password")} placeholder="Password" className={cls} />
+        </div>
+        <button type="submit" className="relative mt-5 w-full rounded-full bg-gradient-to-r from-brand to-brand-soft py-3.5 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-shadow hover:shadow-[0_0_30px_-6px_rgba(228,99,140,0.6)]">
+          {mode === "signin" ? "Sign In" : "Create Account"}
+        </button>
+        <p className="relative mt-5 text-center text-[13px] text-white/55">
+          {mode === "signin" ? (
+            <>New here?{" "}<button type="button" onClick={() => setMode("register")} className="text-brand underline underline-offset-2">Create an account</button></>
+          ) : (
+            <>Have an account?{" "}<button type="button" onClick={() => setMode("signin")} className="text-brand underline underline-offset-2">Sign in</button></>
+          )}
+        </p>
+      </form>
     </div>
   );
 }

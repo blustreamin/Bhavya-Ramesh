@@ -7,6 +7,7 @@ import { Header } from "@/components/Header";
 import { useCartStore } from "@/store/cart";
 import { useAccountStore } from "@/store/account";
 import { formatPrice } from "@/lib/products";
+import { Tilt } from "@/components/ui/Tilt";
 
 const SHIPPING = {
   standard: { label: "Standard", detail: "3–5 business days", cost: 0 },
@@ -200,6 +201,7 @@ export default function CheckoutPage() {
 
                   {/* Summary */}
                   <aside className="h-fit lg:sticky lg:top-[118px]">
+                    <Tilt max={5} className="rounded-3xl">
                     <div className="relative overflow-hidden rounded-3xl border border-white/12 bg-white/[0.03] p-7 backdrop-blur-sm">
                       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/70 to-transparent" />
                       <h2 className="font-serif text-[24px] text-white">Order Summary</h2>
@@ -231,6 +233,7 @@ export default function CheckoutPage() {
                       </button>
                       <Link href="/cart" className="mt-4 block text-center text-[12px] uppercase tracking-widest text-white/45 transition-colors hover:text-brand">Back to Cart</Link>
                     </div>
+                    </Tilt>
                   </aside>
                 </div>
               </motion.form>

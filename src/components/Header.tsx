@@ -6,8 +6,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Logo } from "./ui/Logo";
 import { SearchIcon, BagIcon, UserIcon, ChevronDown } from "./ui/Icons";
 import { useCartStore } from "@/store/cart";
-import { useAccountStore } from "@/store/account";
 import { useSearchStore } from "@/store/search";
+import { AccountMenu } from "./AccountMenu";
 
 type MenuKind = "mega" | "dropdown";
 type NavItem = { label: string; href: string; menu?: MenuKind };
@@ -133,7 +133,6 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [view, setView] = useState<"main" | "shop" | "collections">("main");
-  const openAccount = useAccountStore((s) => s.open);
   const openSearch = useSearchStore((s) => s.open);
 
   useEffect(() => {
@@ -218,9 +217,7 @@ export function Header() {
             <SearchIcon className="h-5 w-5" />
           </button>
           <CartButton />
-          <button type="button" aria-label="Account" onClick={openAccount} className="hidden transition-colors hover:text-brand sm:block">
-            <UserIcon className="h-5 w-5" />
-          </button>
+          <AccountMenu />
         </div>
       </nav>
 
@@ -310,9 +307,9 @@ export function Header() {
                 <Logo className="h-10 w-auto" />
               </Link>
               <div className="flex items-center gap-5 text-white">
-                <button type="button" aria-label="Account" onClick={() => { closeMenu(); openAccount(); }} className="transition-colors hover:text-brand">
+                <Link href="/account" aria-label="Account" onClick={closeMenu} className="transition-colors hover:text-brand">
                   <UserIcon className="h-5 w-5" />
-                </button>
+                </Link>
                 <button type="button" aria-label="Search" onClick={() => { closeMenu(); openSearch(); }} className="transition-colors hover:text-brand">
                   <SearchIcon className="h-5 w-5" />
                 </button>

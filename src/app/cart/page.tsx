@@ -7,6 +7,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useCartStore } from "@/store/cart";
 import { formatPrice } from "@/lib/products";
+import { Tilt } from "@/components/ui/Tilt";
 
 function Icon({ d, className = "h-5 w-5" }: { d: string; className?: string }) {
   return (
@@ -122,6 +123,7 @@ export default function CartPage() {
 
               {/* Summary */}
               <motion.aside initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="h-fit lg:sticky lg:top-[118px]">
+                <Tilt max={6} className="rounded-3xl">
                 <div className="relative overflow-hidden rounded-3xl border border-white/12 bg-white/[0.03] p-7 backdrop-blur-sm">
                   <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/70 to-transparent" />
                   <h2 className="font-serif text-[26px] text-white">Order Summary</h2>
@@ -164,6 +166,7 @@ export default function CartPage() {
                     ))}
                   </div>
                 </div>
+                </Tilt>
               </motion.aside>
             </div>
           )}
