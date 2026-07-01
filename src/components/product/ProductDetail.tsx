@@ -63,7 +63,7 @@ export function ProductDetail({ product }: { product: Product }) {
   };
 
   return (
-    <section className="bg-black pt-[96px]">
+    <section className="bg-black pt-[140px]">
       <div className="grid lg:grid-cols-2">
         {/* Gallery — full-bleed on the left */}
         <div className="relative grid grid-cols-2 gap-2 sm:gap-3">
@@ -89,7 +89,7 @@ export function ProductDetail({ product }: { product: Product }) {
         </div>
 
         {/* Info panel */}
-        <div className="px-5 pt-9 sm:px-8 lg:sticky lg:top-[96px] lg:h-fit lg:pl-12 lg:pr-14 lg:pt-4">
+        <div className="px-5 pt-9 sm:px-8 lg:sticky lg:top-[128px] lg:h-fit lg:pl-12 lg:pr-14 lg:pt-2">
           <Link href="/#new-arrivals" className="inline-flex items-center gap-1.5 text-[13px] text-white/70 transition-colors hover:text-brand">
             <span aria-hidden>↖</span> Back
           </Link>
