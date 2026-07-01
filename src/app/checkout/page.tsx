@@ -138,7 +138,7 @@ export default function CheckoutPage() {
                 <h1 className="mt-3 font-serif text-[48px] leading-[0.95] text-white sm:text-[60px]">Checkout</h1>
                 <div className="mt-6 h-px w-full bg-gradient-to-r from-brand/60 via-white/15 to-transparent" />
 
-                <div className="mt-10 grid gap-12 lg:grid-cols-[1fr_400px]">
+                <div className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_400px]">
                   <div className="space-y-12">
                     {/* Express */}
                     <div>

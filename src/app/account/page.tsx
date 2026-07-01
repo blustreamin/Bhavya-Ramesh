@@ -75,9 +75,9 @@ export default function AccountPage() {
                 <p className="mt-3 text-[13px] text-white/55">{user.email} · Member of the House</p>
               </motion.div>
 
-              <div className="mt-8 grid gap-8 lg:grid-cols-[248px_1fr]">
+              <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[248px_1fr]">
                 {/* Sidebar */}
-                <aside>
+                <aside className="min-w-0">
                   <nav className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 lg:mx-0 lg:flex-col lg:gap-1.5 lg:px-0">
                     {TABS.map((t) => (
                       <button key={t} type="button" onClick={() => setTab(t)} className={`flex shrink-0 items-center gap-3 rounded-xl px-4 py-3 text-left text-[14px] transition-all ${tab === t ? "bg-gradient-to-r from-brand/20 to-transparent text-white ring-1 ring-brand/30" : "text-white/55 hover:bg-white/[0.04] hover:text-white"}`}>
@@ -129,11 +129,11 @@ function Overview({ onGo }: { onGo: (t: Tab) => void }) {
       <div className="grid grid-cols-3 gap-4">
         {stats.map((s) => (
           <Tilt key={s.label} max={12} className="rounded-2xl">
-            <button type="button" onClick={() => onGo(s.tab)} className="group relative block w-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-left transition-all hover:border-brand/40">
+            <button type="button" onClick={() => onGo(s.tab)} className="group relative block w-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-left transition-all hover:border-brand/40 sm:p-5">
               <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/60 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
               <Icon d={s.icon} className="h-5 w-5 text-brand" />
-              <p className="mt-3 font-serif text-[36px] leading-none text-white">{s.value}</p>
-              <p className="mt-1 text-[12px] uppercase tracking-widest text-white/45">{s.label}</p>
+              <p className="mt-3 font-serif text-[28px] leading-none text-white sm:text-[36px]">{s.value}</p>
+              <p className="mt-1 text-[10px] uppercase tracking-widest text-white/45 sm:text-[12px]">{s.label}</p>
             </button>
           </Tilt>
         ))}

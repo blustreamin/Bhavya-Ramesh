@@ -76,7 +76,7 @@ export default function CartPage() {
               </Link>
             </motion.div>
           ) : (
-            <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_400px]">
+            <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_400px]">
               {/* Items */}
               <div className="space-y-4">
                 <AnimatePresence initial={false}>
@@ -88,9 +88,9 @@ export default function CartPage() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, x: -40, height: 0, marginBottom: 0 }}
                       transition={{ duration: 0.4, delay: idx * 0.04 }}
-                      className="group relative flex gap-5 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition-colors hover:border-white/20 sm:p-5"
+                      className="group relative flex gap-4 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition-colors hover:border-white/20 sm:gap-5 sm:p-5"
                     >
-                      <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-white/[0.08] to-transparent">
+                      <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-white/[0.08] to-transparent sm:h-32 sm:w-32">
                         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={{ background: "radial-gradient(70% 70% at 50% 30%, rgba(228,99,140,0.25) 0%, transparent 70%)" }} />
                         {l.image?.url && (
                           // eslint-disable-next-line @next/next/no-img-element
@@ -99,9 +99,9 @@ export default function CartPage() {
                       </div>
                       <div className="flex flex-1 flex-col">
                         <div className="flex items-start justify-between gap-3">
-                          <div>
-                            <h3 className="font-serif text-[20px] leading-tight text-white">{l.title}</h3>
-                            <p className="mt-1 text-[12px] uppercase tracking-widest text-white/40">In stock</p>
+                          <div className="min-w-0">
+                            <h3 className="font-serif text-[17px] leading-tight text-white sm:text-[20px]">{l.title}</h3>
+                            <p className="mt-1 text-[11px] uppercase tracking-widest text-white/40">In stock</p>
                           </div>
                           <button type="button" aria-label="Remove" onClick={() => removeLine(l.id)} className="text-white/30 transition-colors hover:text-brand">
                             <Icon d="M6 6l12 12M18 6 6 18" className="h-5 w-5" />
@@ -113,7 +113,7 @@ export default function CartPage() {
                             <span className="min-w-[24px] text-center text-[14px] text-white">{l.quantity}</span>
                             <button type="button" aria-label="Increase" onClick={() => updateQuantity(l.id, l.quantity + 1)} className="px-3.5 py-2 text-white/70 transition-colors hover:text-brand">+</button>
                           </div>
-                          <p className="font-serif text-[22px] text-white">{formatPrice(Number(l.price.amount) * l.quantity)}</p>
+                          <p className="shrink-0 font-serif text-[18px] text-white sm:text-[22px]">{formatPrice(Number(l.price.amount) * l.quantity)}</p>
                         </div>
                       </div>
                     </motion.div>
