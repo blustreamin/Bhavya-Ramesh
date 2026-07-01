@@ -144,7 +144,7 @@ export function MobileHero() {
         <motion.div style={{ opacity: titleOpacity, y: titleY }} className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <div className="relative origin-center" style={{ width: STAGE_W, height: STAGE_H, transform: `scale(${scale})` }}>
             <div className="absolute left-0 top-[276px] flex h-[267px] w-[387px] items-center justify-center px-[20px]">
-              <h1 className="text-center font-bold leading-none text-white" style={{ fontFamily: "var(--font-poppins)", fontSize: "66px", lineHeight: "74px" }}>
+              <h1 className="text-center font-bold leading-none text-white/50" style={{ fontFamily: "var(--font-poppins)", fontSize: "66px", lineHeight: "74px" }}>
                 Bhavya
                 <br />
                 Ramesh
@@ -177,9 +177,9 @@ export function MobileHero() {
             height={CROP.h}
             aria-hidden
             style={{ opacity: lotusOpacity, scale: lotusScale }}
-            className="h-auto w-[80vw] max-w-[360px]"
+            className="h-auto w-[94vw] max-w-[440px]"
           />
-          <div className="relative mt-6 h-[250px] w-full max-w-[340px]">
+          <div className="relative mt-3 h-[210px] w-full max-w-[340px]">
             {FRAMES.map((fr, i) => (
               <motion.div
                 key={i}
