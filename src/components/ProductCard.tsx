@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { type Product, formatPrice } from "@/lib/products";
 import { useCartStore } from "@/store/cart";
@@ -78,8 +79,8 @@ export function ProductCard({ product, control = "swatches" }: ProductCardProps)
       </motion.button>
 
       {/* Product image — silver base with a gold finish that cross-fades in
-          only while hovering the image itself. */}
-      <div className="group relative z-[1] flex h-[300px] shrink-0 items-center justify-center">
+          only while hovering the image itself. Links to the product page. */}
+      <Link href={`/products/${id}`} className="group relative z-[1] flex h-[300px] shrink-0 items-center justify-center">
         {image ? (
           <>
             <Image
@@ -111,7 +112,7 @@ export function ProductCard({ product, control = "swatches" }: ProductCardProps)
             </span>
           </div>
         )}
-      </div>
+      </Link>
 
       {/* Details */}
       <div className="relative z-[1] mt-auto pt-6">
@@ -119,7 +120,7 @@ export function ProductCard({ product, control = "swatches" }: ProductCardProps)
 
         <div className="mt-3 flex items-start justify-between gap-3">
           <h3 className="font-sans text-[24px] font-bold leading-tight text-brand">
-            {name}
+            <Link href={`/products/${id}`} className="transition-opacity hover:opacity-80">{name}</Link>
           </h3>
 
           {/* Finish control — toggle (featured) or colour swatches. */}

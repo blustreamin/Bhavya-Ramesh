@@ -117,7 +117,7 @@ export function SearchOverlay() {
                       <ul className="mt-4 divide-y divide-white/10">
                         {results.products.map((p) => (
                           <li key={p.id}>
-                            <Link href={slug(p.name)} onClick={close} className="group flex items-center gap-4 py-4">
+                            <Link href={`/products/${p.id}`} onClick={close} className="group flex items-center gap-4 py-4">
                               <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-md bg-white/[0.04]">
                                 {p.image && (
                                   // eslint-disable-next-line @next/next/no-img-element

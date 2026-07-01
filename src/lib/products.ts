@@ -93,6 +93,16 @@ export const featuredProducts: Product[] = [
   newArrivals[0], // Chameli Sunglasses
 ];
 
+/** Every unique product, keyed by handle (= id) for the product detail route. */
+export const allProducts: Product[] = Array.from(
+  new Map([...newArrivals, ...featuredProducts].map((p) => [p.id, p])).values()
+);
+
+/** Look up a product by its handle (used by /products/[handle]). */
+export function getProductByHandle(handle: string): Product | undefined {
+  return allProducts.find((p) => p.id === handle);
+}
+
 /** Formats a rupee amount as "Rs. 15,420.00". */
 export function formatPrice(amount: number): string {
   return `Rs. ${amount.toLocaleString("en-IN", {
