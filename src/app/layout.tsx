@@ -5,6 +5,7 @@ import { PetalCursor } from "@/components/PetalCursor";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { CartDrawer } from "@/components/CartDrawer";
 import { AccountDrawer } from "@/components/AccountDrawer";
+import { SearchOverlay } from "@/components/SearchOverlay";
 
 // Body / UI typeface — humanist sans used for nav, labels, product copy and price.
 const mulish = Mulish({
@@ -68,6 +69,7 @@ export default function RootLayout({
         {children}
         <CartDrawer />
         <AccountDrawer />
+        <SearchOverlay />
         <PetalCursor />
       </body>
     </html>

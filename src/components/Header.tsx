@@ -7,6 +7,7 @@ import { Logo } from "./ui/Logo";
 import { SearchIcon, BagIcon, UserIcon, ChevronDown } from "./ui/Icons";
 import { useCartStore } from "@/store/cart";
 import { useAccountStore } from "@/store/account";
+import { useSearchStore } from "@/store/search";
 
 type MenuKind = "mega" | "dropdown";
 type NavItem = { label: string; href: string; menu?: MenuKind };
@@ -133,6 +134,7 @@ export function Header() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [view, setView] = useState<"main" | "shop" | "collections">("main");
   const openAccount = useAccountStore((s) => s.open);
+  const openSearch = useSearchStore((s) => s.open);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -212,7 +214,7 @@ export function Header() {
 
         {/* Right: utility icons */}
         <div className="flex items-center gap-5 text-white sm:gap-6">
-          <button type="button" aria-label="Search" className="transition-colors hover:text-brand">
+          <button type="button" aria-label="Search" onClick={openSearch} className="transition-colors hover:text-brand">
             <SearchIcon className="h-5 w-5" />
           </button>
           <CartButton />
@@ -311,7 +313,7 @@ export function Header() {
                 <button type="button" aria-label="Account" onClick={() => { closeMenu(); openAccount(); }} className="transition-colors hover:text-brand">
                   <UserIcon className="h-5 w-5" />
                 </button>
-                <button type="button" aria-label="Search" className="transition-colors hover:text-brand">
+                <button type="button" aria-label="Search" onClick={() => { closeMenu(); openSearch(); }} className="transition-colors hover:text-brand">
                   <SearchIcon className="h-5 w-5" />
                 </button>
                 <CartButton onOpen={closeMenu} />
