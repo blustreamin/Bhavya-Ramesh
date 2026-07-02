@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import { useCartStore } from "@/store/cart";
 import { formatPrice } from "@/lib/products";
 import { Tilt } from "@/components/ui/Tilt";
+import { SnakeBackground } from "@/components/SnakeBackground";
 
 function Icon({ d, className = "h-5 w-5" }: { d: string; className?: string }) {
   return (
@@ -52,6 +53,8 @@ export default function CartPage() {
       <main className="relative min-h-screen overflow-hidden bg-black px-5 pb-28 pt-[130px] sm:px-8">
         {/* Ambient glows */}
         <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(60% 40% at 85% 10%, rgba(120,122,145,0.14) 0%, transparent 60%), radial-gradient(50% 45% at 5% 90%, rgba(228,99,140,0.12) 0%, transparent 62%)" }} />
+        {/* Slithering serpent field */}
+        <SnakeBackground className="pointer-events-none absolute inset-0" />
 
         <div className="relative mx-auto max-w-[1280px]">
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
