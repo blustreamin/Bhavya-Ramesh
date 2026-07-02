@@ -13,7 +13,7 @@ type MenuKind = "mega" | "dropdown";
 type NavItem = { label: string; href: string; menu?: MenuKind };
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Jewellery", href: "#jewellery", menu: "mega" },
+  { label: "Jewellery", href: "/shop", menu: "mega" },
   { label: "The Archive", href: "#archive", menu: "dropdown" },
   { label: "The BR Community", href: "#community" },
   { label: "Our Atelier", href: "#atelier" },
@@ -239,7 +239,7 @@ export function Header() {
                   <ul className="mt-5 space-y-3.5 text-[14px] text-white/70">
                     {col.items.map((it) => (
                       <li key={it}>
-                        <Link href={slug(it)} className="transition-colors hover:text-brand" onClick={() => setOpenMenu(null)}>
+                        <Link href="/shop" className="transition-colors hover:text-brand" onClick={() => setOpenMenu(null)}>
                           {it}
                         </Link>
                       </li>
@@ -389,7 +389,7 @@ export function Header() {
                         <ul key={ci}>
                           {col.map((it) => (
                             <li key={it} className="border-b border-white/15">
-                              <Link href={slug(it)} onClick={closeMenu} className="block py-3 text-[18px] text-white transition-colors hover:text-brand">
+                              <Link href="/shop" onClick={closeMenu} className="block py-3 text-[18px] text-white transition-colors hover:text-brand">
                                 {it}
                               </Link>
                             </li>
