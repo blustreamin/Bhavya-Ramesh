@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
 import { Logo } from "./ui/Logo";
 import { SearchIcon, BagIcon, UserIcon, ChevronDown } from "./ui/Icons";
 import { useCartStore } from "@/store/cart";
@@ -93,15 +93,25 @@ function CloseIcon({ className }: { className?: string }) {
 }
 
 /** Cart icon + live count badge; opens the cart drawer. */
-function CartButton({ className = "", onOpen }: { className?: string; onOpen?: () => void }) {
+function CartButton({ id, className = "", onOpen }: { id?: string; className?: string; onOpen?: () => void }) {
   const count = useCartStore((s) => s.lines.reduce((n, l) => n + l.quantity, 0));
   const openCart = useCartStore((s) => s.open);
   const [mounted, setMounted] = useState(false);
+  const controls = useAnimationControls();
   useEffect(() => setMounted(true), []);
+
+  // Bump the bag when a flying product lands in the cart.
+  useEffect(() => {
+    const bump = () =>
+      controls.start({ scale: [1, 1.35, 0.92, 1], transition: { duration: 0.45, ease: "easeOut" } });
+    window.addEventListener("cart-bump", bump);
+    return () => window.removeEventListener("cart-bump", bump);
+  }, [controls]);
 
   return (
     <button
       type="button"
+      id={id}
       aria-label={`Cart${mounted && count ? `, ${count} item${count > 1 ? "s" : ""}` : ""}`}
       onClick={() => {
         onOpen?.();
@@ -109,7 +119,9 @@ function CartButton({ className = "", onOpen }: { className?: string; onOpen?: (
       }}
       className={`relative transition-colors hover:text-brand ${className}`}
     >
-      <BagIcon className="h-5 w-5" />
+      <motion.span animate={controls} className="block">
+        <BagIcon className="h-5 w-5" />
+      </motion.span>
       <AnimatePresence>
         {mounted && count > 0 && (
           <motion.span
@@ -216,7 +228,7 @@ export function Header() {
           <button type="button" aria-label="Search" onClick={openSearch} className="transition-colors hover:text-brand">
             <SearchIcon className="h-5 w-5" />
           </button>
-          <CartButton />
+          <CartButton id="cart-fly-target" />
           <AccountMenu />
         </div>
       </nav>

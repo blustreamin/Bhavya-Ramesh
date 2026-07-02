@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -21,11 +21,19 @@ export function ProductCard({ product, control = "swatches" }: ProductCardProps)
   // Selected finish, driven by the colour swatches.
   const [finish, setFinish] = useState<"silver" | "gold">("silver");
   const addLocal = useCartStore((s) => s.addLocal);
-  const [pop, setPop] = useState(0);
+  const imageRef = useRef<HTMLAnchorElement>(null);
 
   const handleAdd = () => {
-    addLocal({ id, name, price, image: finish === "gold" ? goldImage ?? image : image }, finish);
-    setPop((n) => n + 1);
+    const flyImage = finish === "gold" ? goldImage ?? image : image;
+    addLocal({ id, name, price, image: flyImage }, finish);
+
+    // Launch a flying clone of the product image into the header cart icon.
+    if (flyImage && imageRef.current) {
+      const rect = imageRef.current.getBoundingClientRect();
+      window.dispatchEvent(
+        new CustomEvent("fly-to-cart", { detail: { image: flyImage, rect } }),
+      );
+    }
   };
 
   return (
@@ -65,22 +73,11 @@ export function ProductCard({ product, control = "swatches" }: ProductCardProps)
         className="absolute right-3 top-3 z-20 flex h-9 w-9 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/10 hover:text-brand"
       >
         <PlusIcon className="h-5 w-5" />
-        {pop > 0 && (
-          <motion.span
-            key={pop}
-            initial={{ opacity: 1, y: 0, scale: 0.6 }}
-            animate={{ opacity: 0, y: -30, scale: 1.1 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            className="pointer-events-none absolute text-[13px] font-bold text-brand"
-          >
-            +1
-          </motion.span>
-        )}
       </motion.button>
 
       {/* Product image — silver base with a gold finish that cross-fades in
           only while hovering the image itself. Links to the product page. */}
-      <Link href={`/products/${id}`} className="group relative z-[1] flex aspect-[5/4] shrink-0 items-center justify-center sm:aspect-auto sm:h-[300px]">
+      <Link ref={imageRef} href={`/products/${id}`} className="group relative z-[1] flex aspect-[5/4] shrink-0 items-center justify-center sm:aspect-auto sm:h-[300px]">
         {image ? (
           <>
             <Image
