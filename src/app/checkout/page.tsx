@@ -8,7 +8,7 @@ import { useCartStore } from "@/store/cart";
 import { useAccountStore } from "@/store/account";
 import { formatPrice } from "@/lib/products";
 import { Tilt } from "@/components/ui/Tilt";
-import { SnakeBackground } from "@/components/SnakeBackground";
+import { LuxeBackground } from "@/components/LuxeBackground";
 
 const SHIPPING = {
   standard: { label: "Standard", detail: "3–5 business days", cost: 0 },
@@ -102,8 +102,8 @@ export default function CheckoutPage() {
       <Header />
       <main className="relative min-h-screen overflow-hidden bg-black px-5 pb-28 pt-[130px] sm:px-8">
         <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(55% 40% at 90% 8%, rgba(120,122,145,0.14) 0%, transparent 60%), radial-gradient(50% 45% at 8% 95%, rgba(228,99,140,0.12) 0%, transparent 62%)" }} />
-        {/* Slithering serpent field */}
-        <SnakeBackground className="pointer-events-none absolute inset-0" />
+        {/* Floating faceted-gem field */}
+        <LuxeBackground className="pointer-events-none absolute inset-0" />
 
         <div className="relative mx-auto max-w-[1200px]">
           <AnimatePresence mode="wait">
