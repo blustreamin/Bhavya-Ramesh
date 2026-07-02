@@ -32,7 +32,7 @@ export function ProductCard({ product, control = "swatches" }: ProductCardProps)
     <motion.article
       whileHover={{ y: -6 }}
       transition={{ type: "spring", stiffness: 260, damping: 22 }}
-      className="group/card relative flex h-full flex-col overflow-hidden rounded-[10px] bg-black p-5"
+      className="group/card relative flex h-full flex-col overflow-hidden rounded-[10px] bg-gradient-to-b from-[#2a2a30] to-[#1b1b1f] p-4 sm:p-5"
     >
       {/* Rose/maroon gradient that drops in on hover. */}
       <div
@@ -80,7 +80,7 @@ export function ProductCard({ product, control = "swatches" }: ProductCardProps)
 
       {/* Product image — silver base with a gold finish that cross-fades in
           only while hovering the image itself. Links to the product page. */}
-      <Link href={`/products/${id}`} className="group relative z-[1] flex h-[300px] shrink-0 items-center justify-center">
+      <Link href={`/products/${id}`} className="group relative z-[1] flex aspect-[5/4] shrink-0 items-center justify-center sm:aspect-auto sm:h-[300px]">
         {image ? (
           <>
             <Image
@@ -115,11 +115,11 @@ export function ProductCard({ product, control = "swatches" }: ProductCardProps)
       </Link>
 
       {/* Details */}
-      <div className="relative z-[1] mt-auto pt-6">
+      <div className="relative z-[1] mt-auto pt-4 sm:pt-6">
         <StarRating value={rating} />
 
         <div className="mt-3 flex items-start justify-between gap-3">
-          <h3 className="font-sans text-[24px] font-bold leading-tight text-brand">
+          <h3 className="font-sans text-[17px] font-bold leading-tight text-brand sm:text-[24px]">
             <Link href={`/products/${id}`} className="transition-opacity hover:opacity-80">{name}</Link>
           </h3>
 
@@ -166,10 +166,10 @@ export function ProductCard({ product, control = "swatches" }: ProductCardProps)
         </div>
 
         <div className="mt-2 flex items-end justify-between gap-3">
-          <p className="max-w-[62%] text-[12px] leading-relaxed text-ink">
+          <p className="line-clamp-2 max-w-[60%] text-[11px] leading-relaxed text-ink sm:text-[12px]">
             {description}
           </p>
-          <p className="shrink-0 text-[14px] text-ink">{formatPrice(price)}</p>
+          <p className="shrink-0 text-[13px] text-ink sm:text-[14px]">{formatPrice(price)}</p>
         </div>
       </div>
     </motion.article>

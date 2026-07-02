@@ -63,7 +63,7 @@ export default function ShopPage() {
           </div>
 
           {/* Product grid */}
-          <motion.div key={`${category}-${page}`} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <motion.div key={`${category}-${page}`} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="mt-10 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3">
             {items.map((p, i) => (
               <ProductCard key={`${p.id}-${i}`} product={p} />
             ))}
