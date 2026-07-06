@@ -91,7 +91,7 @@ export function NewArrivals() {
           >
             {newArrivals.map((product) => (
               <div key={product.id} className="w-full shrink-0 snap-start">
-                <ProductCard product={product} control="toggle" />
+                <ProductCard product={product} />
               </div>
             ))}
           </div>

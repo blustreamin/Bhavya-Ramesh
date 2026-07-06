@@ -108,7 +108,7 @@ export function BrandStory() {
                 <div className="no-scrollbar h-[520px] snap-y snap-mandatory space-y-6 overflow-y-auto">
                   {featuredProducts.map((product) => (
                     <div key={product.id} className="h-[500px] snap-start">
-                      <ProductCard product={product} control="toggle" />
+                      <ProductCard product={product} />
                     </div>
                   ))}
                 </div>
@@ -187,7 +187,7 @@ export function BrandStory() {
           >
             {featuredProducts.map((product) => (
               <div key={product.id} className="w-full shrink-0 snap-start">
-                <ProductCard product={product} control="toggle" />
+                <ProductCard product={product} />
               </div>
             ))}
           </div>

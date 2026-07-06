@@ -11,11 +11,9 @@ import { PlusIcon } from "./ui/Icons";
 
 type ProductCardProps = {
   product: Product;
-  /** Finish control style: colour swatches (default) or a silver/gold toggle. */
-  control?: "swatches" | "toggle";
 };
 
-export function ProductCard({ product, control = "swatches" }: ProductCardProps) {
+export function ProductCard({ product }: ProductCardProps) {
   const { id, name, description, price, rating, swatches, image, goldImage, glow } = product;
 
   // Selected finish, driven by the colour swatches.
@@ -120,25 +118,7 @@ export function ProductCard({ product, control = "swatches" }: ProductCardProps)
             <Link href={`/products/${id}`} className="transition-opacity hover:opacity-80">{name}</Link>
           </h3>
 
-          {/* Finish control — toggle (featured) or colour swatches. */}
-          {control === "toggle" ? (
-            <button
-              type="button"
-              role="switch"
-              aria-checked={finish === "gold"}
-              aria-label="Toggle gold finish"
-              onClick={() => setFinish(finish === "gold" ? "silver" : "gold")}
-              className={`mt-1 flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 transition-colors ${
-                finish === "gold" ? "bg-brand" : "bg-white/25"
-              }`}
-            >
-              <span
-                className={`h-4 w-4 rounded-full bg-white transition-transform ${
-                  finish === "gold" ? "translate-x-4" : "translate-x-0"
-                }`}
-              />
-            </button>
-          ) : (
+          {/* Finish control — colour swatches. */}
           <div className="mt-1 flex shrink-0 items-center gap-1.5">
             {swatches.map((s) => {
               const value = s.label.toLowerCase() === "gold" ? "gold" : "silver";
@@ -159,7 +139,6 @@ export function ProductCard({ product, control = "swatches" }: ProductCardProps)
               );
             })}
           </div>
-          )}
         </div>
 
         <div className="mt-2 flex items-end justify-between gap-3">
