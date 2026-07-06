@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Header } from "@/components/Header";
@@ -15,6 +15,14 @@ function PlayCircle({ className = "h-6 w-6" }: { className?: string }) {
     </svg>
   );
 }
+function ArrowRight({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 /* ---------- scroll-reveal ---------- */
 function Reveal({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
   return (
@@ -27,6 +35,73 @@ function Reveal({ children, className = "", delay = 0 }: { children: ReactNode; 
     >
       {children}
     </motion.div>
+  );
+}
+
+/* ---------- focus carousel ---------- */
+const GALLERY = ["g1", "g2", "g3", "g4", "g5", "g6", "g7"].map((n) => `/campaign/${n}.png`);
+
+function ArrowBtn({ dir, onClick, disabled }: { dir: "prev" | "next"; onClick: () => void; disabled: boolean }) {
+  return (
+    <button
+      type="button"
+      aria-label={dir === "prev" ? "Previous" : "Next"}
+      onClick={onClick}
+      disabled={disabled}
+      className={`absolute top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/40 text-white backdrop-blur-sm transition-all duration-300 hover:border-brand hover:text-brand disabled:pointer-events-none disabled:opacity-0 ${
+        dir === "prev" ? "left-4 sm:left-8" : "right-4 sm:right-8"
+      }`}
+    >
+      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
+        <path d={dir === "prev" ? "M15 6l-6 6 6 6" : "M9 6l6 6-6 6"} stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </button>
+  );
+}
+
+/** Horizontal image strip scrolled by the navigation arrows. All sharp. */
+function FocusCarousel() {
+  const scroller = useRef<HTMLDivElement>(null);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+
+  const update = () => {
+    const el = scroller.current;
+    if (!el) return;
+    setAtStart(el.scrollLeft <= 2);
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2);
+  };
+  useEffect(() => {
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const by = (dir: number) => {
+    const el = scroller.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * Math.min(640, el.clientWidth * 0.8), behavior: "smooth" });
+  };
+
+  return (
+    <div className="relative">
+      <div ref={scroller} onScroll={update} className="no-scrollbar flex gap-3 overflow-x-auto sm:gap-4">
+        {GALLERY.map((src) => (
+          <div key={src} className="relative shrink-0 overflow-hidden rounded-[3px]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={src}
+              alt="Bhavya Ramesh campaign"
+              draggable={false}
+              className="h-[200px] w-auto max-w-none object-cover sm:h-[270px] lg:h-[300px]"
+            />
+          </div>
+        ))}
+      </div>
+
+      <ArrowBtn dir="prev" onClick={() => by(-1)} disabled={atStart} />
+      <ArrowBtn dir="next" onClick={() => by(1)} disabled={atEnd} />
+    </div>
   );
 }
 
@@ -56,8 +131,9 @@ const STATEMENTS = [
   { number: "04", title: "An ornament for the in-between." },
 ];
 
-function FilmSlider() {
+function FilmSlider({ video, autoPlay = false, poster }: { video: string; autoPlay?: boolean; poster?: string }) {
   const ref = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const count = STATEMENTS.length;
   const [active, setActive] = useState(0);
@@ -65,6 +141,30 @@ function FilmSlider() {
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     setActive(Math.min(count - 1, Math.max(0, Math.floor(v * count))));
   });
+
+  // Autoplay with sound: try unmuted first; if the browser blocks it, fall
+  // back to a muted autoplay and unmute on the visitor's first interaction.
+  useEffect(() => {
+    if (!autoPlay) return;
+    const v = videoRef.current;
+    if (!v) return;
+    v.volume = 1;
+    v.muted = false;
+    v.play().catch(() => {
+      v.muted = true;
+      v.play().catch(() => {});
+    });
+
+    const unmute = () => {
+      v.muted = false;
+      v.play().catch(() => {});
+      remove();
+    };
+    const events = ["pointerdown", "keydown", "touchstart", "wheel"];
+    const remove = () => events.forEach((e) => window.removeEventListener(e, unmute));
+    events.forEach((e) => window.addEventListener(e, unmute, { passive: true }));
+    return remove;
+  }, [autoPlay]);
 
   // Jump to a statement when its dot is clicked.
   const goTo = (i: number) => {
@@ -127,7 +227,7 @@ function FilmSlider() {
                   transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                   className="absolute inset-0 flex flex-col justify-center"
                 >
-                  <h2 className="max-w-[480px] font-serif text-[32px] leading-[1.06] text-white sm:text-[52px]">
+                  <h2 className="max-w-[520px] font-serif text-[30px] uppercase leading-[1.08] text-white sm:text-[48px]">
                     {current.title}
                   </h2>
                 </motion.div>
@@ -135,26 +235,29 @@ function FilmSlider() {
             </div>
           </div>
 
-          {/* right — autoplay campaign video with controls */}
+          {/* right — CAMPAIGN FILM label, autoplay video (with sound), WATCH FULL FILM */}
           <div className="order-1 lg:order-2">
+            <p className="mb-4 text-[11px] uppercase tracking-[0.35em] text-brand">Campaign Film</p>
             <div className="relative overflow-hidden rounded-[4px]">
               <video
-                src="/campaign/grills.mp4"
-                autoPlay
-                muted
-                loop
+                ref={videoRef}
+                src={video}
+                poster={poster}
+                autoPlay={autoPlay}
+                loop={autoPlay}
                 playsInline
                 controls
-                preload="auto"
+                preload={autoPlay ? "auto" : "metadata"}
                 className="aspect-video w-full bg-black object-cover"
               />
             </div>
-            <div className="mt-5 flex items-center justify-between">
-              <span className="text-[11px] uppercase tracking-[0.35em] text-white/45">Campaign Film</span>
-              <span className="text-[11px] uppercase tracking-[0.35em] text-brand">
-                {STATEMENTS[active].number} <span className="text-white/30">/ {String(count).padStart(2, "0")}</span>
-              </span>
-            </div>
+            <Link
+              href="#"
+              className="group/cta mt-5 inline-flex items-center gap-3 text-[12px] uppercase tracking-[0.3em] text-white/85 transition-colors hover:text-brand"
+            >
+              Watch full film
+              <ArrowRight className="h-4 w-4 transition-transform group-hover/cta:translate-x-1" />
+            </Link>
           </div>
         </div>
       </div>
@@ -232,14 +335,19 @@ export default function CampaignPage() {
         <div className="h-px w-full bg-white/10" />
 
         {/* ============ FILM — scroll slider + autoplay video ============ */}
-        <FilmSlider />
+        <FilmSlider video="/campaign/grills.mp4" autoPlay />
 
         <div className="h-px w-full bg-white/10" />
 
-        {/* ================= GALLERY MARQUEE ================= */}
-        <section className="py-3">
-          <Marquee src="/campaign/gallery-row.png" imgClass="h-[190px] sm:h-[280px] lg:h-[320px]" duration={48} />
+        {/* ================= GALLERY FOCUS CAROUSEL ================= */}
+        <section className="py-8 sm:py-12">
+          <FocusCarousel />
         </section>
+
+        <div className="h-px w-full bg-white/10" />
+
+        {/* ============ FILM — scroll slider + click-to-play video ============ */}
+        <FilmSlider video="/campaign/bodyremembers.mp4" poster="/campaign/film02.png" />
 
         <div className="h-px w-full bg-white/10" />
 
