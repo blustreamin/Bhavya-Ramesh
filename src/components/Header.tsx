@@ -15,7 +15,7 @@ type NavItem = { label: string; href: string; menu?: MenuKind };
 const NAV_ITEMS: NavItem[] = [
   { label: "Jewellery", href: "/shop", menu: "mega" },
   { label: "The Archive", href: "#archive", menu: "dropdown" },
-  { label: "The BR Community", href: "#community" },
+  { label: "The BR Community", href: "/campaign" },
   { label: "Our Atelier", href: "#atelier" },
   { label: "BR Journal", href: "#journal" },
 ];
