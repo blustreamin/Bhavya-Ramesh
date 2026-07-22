@@ -673,87 +673,119 @@ function Collection() {
  * Bestsellers — editorial grid
  * ------------------------------------------------------------------ */
 
-function Caption({ index, title }: { index: string; title: string }) {
+/** Bestseller tile — photo with the index + name overlaid at the bottom. */
+function BestTile({
+  src,
+  index,
+  title,
+  className = "",
+}: {
+  src: string;
+  index: string;
+  title: string;
+  className?: string;
+}) {
   return (
-    <div className="mt-5">
-      <p className="font-ui text-[10px] uppercase tracking-[0.28em] text-gold">{index}</p>
-      <h3 className="mt-2 font-display text-[26px] font-medium uppercase leading-[1.1] tracking-[0.02em] text-white lg:text-[32px]">
-        {title}
-      </h3>
+    <div
+      className={`group relative overflow-hidden rounded-[3px] border border-[#2a2a29] bg-[#0a0a0a] ${className}`}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt={title} className="h-full w-full object-cover" />
+
+      {/* wash so the caption stays readable */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+
+      <div className="absolute inset-x-0 bottom-0 z-20 p-4 lg:p-[22px]">
+        <p className="font-ui text-[12px] leading-none text-gold lg:text-[14px]">{index}</p>
+        <h3 className="mt-2.5 font-display text-[20px] font-medium uppercase leading-[1.15] text-white lg:text-[24px]">
+          {title}
+        </h3>
+      </div>
+
+      {/* gold line traces the border on hover */}
+      <svg
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-30 h-full w-full overflow-visible"
+        fill="none"
+        preserveAspectRatio="none"
+      >
+        <rect
+          x="0"
+          y="0"
+          width="100%"
+          height="100%"
+          rx="3"
+          pathLength={1}
+          stroke="#c0ab79"
+          strokeWidth="1.5"
+          className="[stroke-dasharray:1] [stroke-dashoffset:1] transition-[stroke-dashoffset] duration-[900ms] ease-out group-hover:[stroke-dashoffset:0]"
+        />
+      </svg>
+
+      {/* curtain uncovers the piece on scroll — no movement */}
+      <motion.div
+        aria-hidden
+        initial={{ scaleY: 1 }}
+        whileInView={{ scaleY: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 1, ease: EASE }}
+        className="absolute inset-0 z-40 origin-top bg-night"
+      />
     </div>
   );
 }
 
 function Bestsellers() {
-  const frame =
-    "group relative overflow-hidden bg-[#0a0a0a]";
-  const img =
-    "h-full w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.05]";
-
   return (
-    <section className={`${SHELL} py-20 lg:py-28`}>
-      <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+    <section className={`${SHELL} py-16 lg:py-20`}>
+      <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-start">
         <Reveal>
-          <Eyebrow>Bestsellers</Eyebrow>
-          <h2 className="mt-5 max-w-[420px] font-display text-[40px] font-medium leading-[1.08] text-white sm:text-[52px] lg:text-[58px]">
+          <p className="font-ui text-[16px] text-white">Bestsellers</p>
+          <h2 className="mt-4 font-display text-[40px] font-medium leading-[1.17] text-gold sm:text-[52px] lg:text-[64px]">
             Ten worlds,
             <br />
             One vault.
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
-          <div className="flex max-w-[360px] items-start gap-5">
-            <span className="mt-1 h-14 w-px bg-white/20" />
-            <p className="font-ui text-[13px] leading-[1.8] text-white/55">
+          <div className="flex max-w-[325px] items-start gap-5 lg:mt-2">
+            <span className="h-16 w-px shrink-0 bg-white/25" />
+            <p className="font-ui text-[14px] leading-[1.5] text-white">
               Every piece cast, cut and polished by hand.
             </p>
           </div>
         </Reveal>
       </div>
 
-      <div className="mt-14 grid gap-6 lg:grid-cols-2 lg:gap-8">
-        {/* left — tall feature */}
-        <Reveal>
-          <div className="flex h-full flex-col">
-            <div className={`${frame} h-[420px] lg:h-[576px]`}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/v2/best1.png" alt="Dinero Sun Glass" className={img} />
-            </div>
-            <Caption index="01 — Featured" title="Dinero Sun Glass" />
-          </div>
-        </Reveal>
+      {/* Figma grid: 601 / 627 columns, right column split 339 + 339 and the
+          lower row split 409 / 206. Height tracks the viewport so the whole
+          section reads on one screen. */}
+      <div className="mt-12 grid gap-3 lg:aspect-[1240/691] lg:grid-cols-[601fr_627fr] lg:grid-rows-[minmax(0,1fr)]">
+        <BestTile
+          src="/v2/best1.png"
+          index="01 - FEATURED"
+          title="Dinero Sun Glass"
+          className="h-[340px] lg:h-full lg:min-h-0"
+        />
 
-        {/* right — stacked */}
-        <div className="flex flex-col gap-6 lg:gap-8">
-          <Reveal delay={0.08}>
-            <div className={`${frame} h-[240px] lg:h-[328px]`}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/v2/best2.png" alt="Agni Nail Ring" className={img} />
-            </div>
-            <Caption index="02" title="Agni Nail Ring" />
-          </Reveal>
+        <div className="grid gap-3 lg:min-h-0 lg:grid-rows-[minmax(0,1fr)_minmax(0,1fr)]">
+          <BestTile src="/v2/best2.png" index="02" title="Agni Nail Ring" className="h-[200px] lg:h-full lg:min-h-0" />
 
-          <div className="grid gap-6 sm:grid-cols-[1.6fr_1fr] lg:gap-8">
-            <Reveal delay={0.14}>
-              <div className={`${frame} h-[240px] lg:h-[300px]`}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/v2/best3.png" alt="Chameli Earrings" className={img} />
-              </div>
-              <Caption index="03" title="Chameli Earrings" />
-            </Reveal>
-            <Reveal delay={0.2}>
-              <div className={`${frame} h-[240px] lg:h-[300px]`}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/v2/best4.png" alt="GilGa Ring" className={img} />
-              </div>
-              <Caption index="04" title="GilGa Ring" />
-            </Reveal>
+          <div className="grid grid-cols-[409fr_206fr] gap-3 lg:min-h-0">
+            <BestTile src="/v2/best3.png" index="03" title="Chameli Earrings" className="h-[200px] lg:h-full lg:min-h-0" />
+            <BestTile src="/v2/best4.png" index="04" title="GilGa Ring" className="h-[200px] lg:h-full lg:min-h-0" />
           </div>
         </div>
       </div>
 
-      <Reveal className="mt-16 flex justify-center">
-        <TextLink href="/shop">View All Collection</TextLink>
+      <Reveal className="mt-12 flex justify-center">
+        <Link
+          href="/shop"
+          className="group inline-flex items-center gap-3 font-ui text-[16px] text-gold underline underline-offset-4 transition-opacity hover:opacity-80"
+        >
+          VIEW ALL COLLECTION
+          <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1.5" />
+        </Link>
       </Reveal>
     </section>
   );
