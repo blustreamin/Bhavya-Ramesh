@@ -253,44 +253,133 @@ function Featured() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const imageY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
   const copyY = useTransform(scrollYProgress, [0, 1], ["34px", "-34px"]);
+  const glow = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
 
   return (
     <section ref={ref} className={`${SHELL} py-24 lg:py-36`}>
       {/* 53 / 32 columns with a 15% gutter — the Figma proportions */}
       <div className="grid items-center gap-14 lg:grid-cols-[53fr_32fr] lg:gap-[15%]">
-        {/* artwork — keeps the design's aspect ratio so it never stretches */}
-        <Reveal>
-          <div className="aspect-[661/419] w-full overflow-hidden">
-            <motion.img
-              src="/v2/gilga.png"
-              alt="GilGa collection"
-              style={{ y: imageY, scale: 1.1 }}
-              className="h-full w-full object-cover"
+        {/* artwork — curtain reveal, parallax drift, slow zoom on hover */}
+        <div className="group relative">
+          {/* gold bloom that breathes as the section passes */}
+          <motion.div
+            aria-hidden
+            style={{ opacity: glow }}
+            className="pointer-events-none absolute -inset-16 -z-10 blur-3xl"
+          >
+            <div
+              className="h-full w-full"
+              style={{ background: "radial-gradient(50% 50% at 42% 50%, rgba(192,171,121,0.30), transparent 70%)" }}
+            />
+          </motion.div>
+
+          <div className="relative aspect-[661/419] w-full overflow-hidden">
+            <div className="h-full w-full transition-transform duration-[1.6s] ease-out group-hover:scale-[1.05]">
+              <motion.img
+                src="/v2/gilga.png"
+                alt="GilGa collection"
+                style={{ y: imageY, scale: 1.1 }}
+                className="h-full w-full object-cover"
+              />
+            </div>
+            {/* curtain wipes upward to uncover the artwork */}
+            <motion.div
+              aria-hidden
+              initial={{ scaleY: 1 }}
+              whileInView={{ scaleY: 0 }}
+              viewport={{ once: true, margin: "-120px" }}
+              transition={{ duration: 1.15, ease: EASE }}
+              className="absolute inset-0 origin-top bg-night"
             />
           </div>
-        </Reveal>
+        </div>
 
         {/* copy — drifts the opposite way */}
         <motion.div style={{ y: copyY }}>
-          <Reveal delay={0.1}>
-            <p className="font-ui text-[16px] uppercase tracking-[0.05em] text-white">Featured Collection</p>
+          {/* eyebrow: rule draws out, then the label fades in */}
+          <div className="flex items-center gap-4">
+            <motion.span
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.9, ease: EASE }}
+              className="h-px w-12 origin-left bg-gold"
+            />
+            <motion.p
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
+              className="font-ui text-[16px] uppercase tracking-[0.05em] text-white"
+            >
+              Featured Collection
+            </motion.p>
+          </div>
 
-            <h2 className="mt-6 font-display text-[64px] font-medium uppercase leading-[0.97] tracking-[0.01em] text-gold sm:text-[80px] lg:text-[96px]">
-              GilGa
-            </h2>
+          {/* GILGA — letters rise in, then a sheen sweeps across */}
+          <motion.h2
+            aria-label="GilGa"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{ show: { transition: { staggerChildren: 0.075, delayChildren: 0.25 } } }}
+            className="relative mt-6 overflow-hidden font-display text-[64px] font-medium uppercase leading-[0.97] tracking-[0.01em] text-gold sm:text-[80px] lg:text-[96px]"
+          >
+            {"GILGA".split("").map((ch, idx) => (
+              <motion.span
+                key={idx}
+                className="inline-block"
+                variants={{
+                  hidden: { opacity: 0, y: "60%" },
+                  show: { opacity: 1, y: 0, transition: { duration: 0.85, ease: EASE } },
+                }}
+              >
+                {ch}
+              </motion.span>
+            ))}
+            <motion.span
+              aria-hidden
+              initial={{ x: "-130%" }}
+              whileInView={{ x: "150%" }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.4, delay: 1.05, ease: "easeInOut" }}
+              className="pointer-events-none absolute inset-y-0 w-1/3 -skew-x-12"
+              style={{
+                background: "linear-gradient(90deg, transparent, rgba(255,246,224,0.55), transparent)",
+                mixBlendMode: "plus-lighter",
+              }}
+            />
+          </motion.h2>
 
-            <p className="mt-7 max-w-[300px] font-ui text-[14px] leading-[1.4] text-white">
-              Named for the oldest story ever carved. GilGa reimagines ancient myth as wearable silver — half relic,
-              half rebellion. Serpents, thrones, and eyes that don&apos;t blink.
-            </p>
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.85, delay: 0.45, ease: EASE }}
+            className="mt-7 max-w-[300px] font-ui text-[14px] leading-[1.4] text-white"
+          >
+            Named for the oldest story ever carved. GilGa reimagines ancient myth as wearable silver — half relic, half
+            rebellion. Serpents, thrones, and eyes that don&apos;t blink.
+          </motion.p>
 
+          {/* button fills with gold on hover */}
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, delay: 0.6, ease: EASE }}
+          >
             <Link
               href="/shop"
-              className="mt-9 inline-flex h-[30px] w-[122px] items-center justify-center rounded-full border border-[#f3f4f6] font-ui text-[12px] text-white transition-colors duration-300 hover:border-gold hover:text-gold"
+              className="group/btn relative mt-9 inline-flex h-[30px] w-[122px] items-center justify-center overflow-hidden rounded-full border border-[#f3f4f6] font-ui text-[12px] text-white transition-colors duration-300 hover:border-gold"
             >
-              SHOP GILGA
+              <span
+                aria-hidden
+                className="absolute inset-0 origin-left scale-x-0 bg-gold transition-transform duration-500 ease-out group-hover/btn:scale-x-100"
+              />
+              <span className="relative transition-colors duration-300 group-hover/btn:text-black">SHOP GILGA</span>
             </Link>
-          </Reveal>
+          </motion.div>
         </motion.div>
       </div>
     </section>
