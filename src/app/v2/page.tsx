@@ -806,56 +806,57 @@ const STATS = [
 
 function Studio() {
   return (
-    <section className={`${SHELL} py-20 lg:py-28`}>
-      <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+    <section className={`${SHELL} py-16 lg:py-24`}>
+      <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-start">
         <Reveal>
-          <h2 className="font-display text-[46px] font-medium leading-[1.05] text-white sm:text-[60px] lg:text-[68px]">
+          <h2 className="font-display text-[44px] font-medium leading-[1.17] text-gold sm:text-[56px] lg:text-[64px]">
             The Studio
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="max-w-[330px] font-ui text-[13px] leading-[1.8] text-white/55">
+          <p className="max-w-[329px] font-ui text-[16px] leading-[1.4] text-smoke lg:mt-5">
             Founded 2018 — design out of Mumbai, made by hand in Jaipur.
           </p>
         </Reveal>
       </div>
 
-      <div className="mt-10 h-px w-full bg-white/12" />
+      <div className="mt-8 h-px w-full bg-white/15" />
 
-      <div className="mt-12 grid gap-12 lg:grid-cols-[0.44fr_1fr] lg:gap-20">
+      {/* Figma: 509 image / 652 copy with an 83px gutter */}
+      <div className="mt-14 grid gap-12 lg:grid-cols-[509fr_652fr] lg:gap-[6.7%]">
         <Reveal>
-          <div className="group overflow-hidden">
+          <div className="aspect-[509/764] w-full overflow-hidden">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/v2/studio.png"
-              alt="Bhavya Ramesh studio"
-              className="h-[440px] w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.04] lg:h-[640px]"
-            />
+            <img src="/v2/studio.png" alt="Bhavya Ramesh studio" className="h-full w-full object-cover" />
           </div>
         </Reveal>
 
         <div className="flex flex-col">
           <Reveal delay={0.1}>
-            <p className="font-ui text-[13px] leading-[2] text-white/60">
-              Bhavya Ramesh trained as an engineer, not a designer — and it shows in the work. Structure, form, and
-              function came first; the silver came after, chosen because it was honest, valuable, and built to outlast
-              trends. What began as a one-person label sketching pieces on the road, inspired by the ornament traditions
-              of Rajasthan and northern Karnataka, has grown into a full studio without losing that original instinct:
-              nothing mediocre leaves the workshop. The brand is built around self-expression and a fluid,
-              gender-unifying community — jewelry as identity rather than decoration. Every collection is still
-              hand-finished, still rooted in the artisan traditions the label started with, and still made to be worn
-              until it earns its own patina.
+            <p className="font-ui text-[18px] font-extralight leading-[1.45] text-white/65 lg:text-[24px]">
+              Bhavya Ramesh trained as an engineer, not a designer — and it shows in the work.{" "}
+              <span className="font-medium text-white">Structure, form, and function</span> came first; the silver came
+              after, chosen because it was honest, valuable, and built to outlast trends. What began as a one-person
+              label sketching pieces on the road, inspired by the ornament traditions of Rajasthan and northern
+              Karnataka, has grown into a full studio without losing that original instinct: nothing mediocre leaves the
+              workshop.
+            </p>
+            <p className="mt-8 font-ui text-[18px] font-extralight leading-[1.45] text-white/65 lg:text-[24px]">
+              The brand is built around{" "}
+              <span className="font-medium text-white">self-expression and a fluid, gender-unifying community</span> —
+              jewelry as identity rather than decoration. Every collection is still hand-finished, still rooted in the
+              artisan traditions the label started with, and still made to be worn until it earns its own patina.
             </p>
           </Reveal>
 
           <Reveal delay={0.16} className="mt-auto">
-            <dl className="mt-14 grid grid-cols-2 gap-y-10 sm:grid-cols-4">
+            <dl className="mt-16 grid grid-cols-2 gap-y-10 sm:grid-cols-4">
               {STATS.map((s, i) => (
-                <div key={s.label} className={i > 0 ? "sm:border-l sm:border-white/15 sm:pl-6" : ""}>
-                  <dt className="font-display text-[40px] font-medium leading-none text-white lg:text-[46px]">
+                <div key={s.label} className={i > 0 ? "sm:border-l sm:border-white/15 sm:pl-7" : ""}>
+                  <dt className="font-display text-[36px] font-medium leading-none text-gold lg:text-[40px]">
                     {s.value}
                   </dt>
-                  <dd className="mt-3 max-w-[130px] font-ui text-[11px] leading-[1.6] text-white/45">{s.label}</dd>
+                  <dd className="mt-4 max-w-[145px] font-ui text-[14px] leading-[1.4] text-smoke">{s.label}</dd>
                 </div>
               ))}
             </dl>
