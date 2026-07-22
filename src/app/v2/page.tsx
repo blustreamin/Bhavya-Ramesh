@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
@@ -239,37 +239,50 @@ function Ticker() {
  * ------------------------------------------------------------------ */
 
 function Featured() {
+  const ref = useRef<HTMLElement>(null);
+  // Section-scoped scroll drives the parallax: the artwork drifts against the
+  // copy as the section travels through the viewport.
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const imageY = useTransform(scrollYProgress, [0, 1], ["-9%", "9%"]);
+  const copyY = useTransform(scrollYProgress, [0, 1], ["34px", "-34px"]);
+
   return (
-    <section className={`${SHELL} py-20 lg:py-28`}>
-      <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.62fr] lg:gap-20">
+    <section ref={ref} className={`${SHELL} py-24 lg:py-36`}>
+      <div className="grid items-center gap-14 lg:grid-cols-[1fr_0.58fr] lg:gap-24">
+        {/* artwork — parallax inside a fixed frame */}
         <Reveal>
-          <div className="group overflow-hidden">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+          <div className="overflow-hidden">
+            <motion.img
               src="/v2/gilga.png"
               alt="GilGa collection"
-              className="h-[300px] w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.04] sm:h-[420px]"
+              style={{ y: imageY, scale: 1.14 }}
+              className="h-[320px] w-full object-cover sm:h-[400px] lg:h-[419px]"
             />
           </div>
         </Reveal>
 
-        <Reveal delay={0.12}>
-          <Eyebrow>Featured Collection</Eyebrow>
-          <h2 className="mt-5 font-display text-[54px] font-medium uppercase leading-[1] tracking-[0.02em] text-gold lg:text-[64px]">
-            GilGa
-          </h2>
-          <p className="mt-6 max-w-[300px] font-ui text-[13px] leading-[1.85] text-white/60">
-            Named for the oldest story ever carved. GilGa reimagines ancient myth as wearable silver — half relic, half
-            rebellion. Serpents, thrones, and eyes that don&apos;t blink.
-          </p>
-          <Link
-            href="/shop"
-            className="group mt-9 inline-flex items-center gap-2.5 border border-white/40 px-5 py-2.5 font-ui text-[11px] uppercase tracking-[0.18em] text-white transition-colors duration-300 hover:border-gold hover:text-gold"
-          >
-            Shop GilGa
-            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
-        </Reveal>
+        {/* copy — drifts the opposite way */}
+        <motion.div style={{ y: copyY }}>
+          <Reveal delay={0.1}>
+            <p className="font-ui text-[16px] uppercase tracking-[0.05em] text-white">Featured Collection</p>
+
+            <h2 className="mt-6 font-display text-[64px] font-medium uppercase leading-[0.97] tracking-[0.01em] text-gold sm:text-[80px] lg:text-[96px]">
+              GilGa
+            </h2>
+
+            <p className="mt-7 max-w-[300px] font-ui text-[14px] leading-[1.4] text-white">
+              Named for the oldest story ever carved. GilGa reimagines ancient myth as wearable silver — half relic,
+              half rebellion. Serpents, thrones, and eyes that don&apos;t blink.
+            </p>
+
+            <Link
+              href="/shop"
+              className="mt-9 inline-flex h-[30px] w-[122px] items-center justify-center rounded-full border border-[#f3f4f6] font-ui text-[12px] text-white transition-colors duration-300 hover:border-gold hover:text-gold"
+            >
+              SHOP GILGA
+            </Link>
+          </Reveal>
+        </motion.div>
       </div>
     </section>
   );
