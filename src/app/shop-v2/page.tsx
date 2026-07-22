@@ -457,15 +457,21 @@ function Reviews() {
         <SectionHead title="What People Say" />
       </Reveal>
 
-      <div className="mt-10 grid gap-px overflow-hidden rounded-[3px] bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+      {/* adjacent bordered cards; name + role anchored to the bottom */}
+      <div className="mt-12 grid gap-px sm:grid-cols-2 lg:grid-cols-4">
         {REVIEWS.map((r, i) => (
-          <div key={r.name} className="bg-[#0a0a0a] p-8">
-            <p className="font-ui text-[10px] tracking-[0.06em] text-[#666]">
+          <div
+            key={r.name}
+            className="flex min-h-[236px] flex-col border border-white/12 p-7 lg:p-8"
+          >
+            <p className="font-ui text-[10px] tracking-[0.08em] text-[#7a7a7a]">
               {String(i + 1).padStart(2, "0")} / {String(REVIEWS.length).padStart(2, "0")}
             </p>
-            <p className="mt-6 font-ui text-[14px] leading-[1.6] text-[#b8b8b8]">{r.quote}</p>
-            <p className="mt-8 font-ui text-[16px] font-medium text-white">{r.name}</p>
-            <p className="mt-1 font-ui text-[10px] capitalize text-[#666]">{r.role}</p>
+            <p className="mt-5 font-ui text-[14px] leading-[1.65] text-white/90">{r.quote}</p>
+            <div className="mt-auto pt-10">
+              <p className="font-ui text-[13px] font-bold uppercase tracking-[0.09em] text-white">{r.name}</p>
+              <p className="mt-2 font-ui text-[11px] text-[#7a7a7a]">{r.role}</p>
+            </div>
           </div>
         ))}
       </div>
