@@ -11,7 +11,9 @@ import { useCartStore } from "@/store/cart";
  * Primitives
  * ------------------------------------------------------------------ */
 
-const SHELL = "mx-auto w-full max-w-[1440px] px-6 lg:px-[100px]";
+/* Full-bleed shell: sections span the viewport with the Figma side margin
+   (100px @1440) — never capped, so nothing reads as a centered box. */
+const SHELL = "w-full px-6 md:px-12 lg:px-[100px]";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 function ArrowUpRight({ className = "h-4 w-4" }: { className?: string }) {
@@ -249,20 +251,21 @@ function Featured() {
   // Section-scoped scroll drives the parallax: the artwork drifts against the
   // copy as the section travels through the viewport.
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const imageY = useTransform(scrollYProgress, [0, 1], ["-9%", "9%"]);
+  const imageY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
   const copyY = useTransform(scrollYProgress, [0, 1], ["34px", "-34px"]);
 
   return (
     <section ref={ref} className={`${SHELL} py-24 lg:py-36`}>
-      <div className="grid items-center gap-14 lg:grid-cols-[1fr_0.58fr] lg:gap-24">
-        {/* artwork — parallax inside a fixed frame */}
+      {/* 53 / 32 columns with a 15% gutter — the Figma proportions */}
+      <div className="grid items-center gap-14 lg:grid-cols-[53fr_32fr] lg:gap-[15%]">
+        {/* artwork — keeps the design's aspect ratio so it never stretches */}
         <Reveal>
-          <div className="overflow-hidden">
+          <div className="aspect-[661/419] w-full overflow-hidden">
             <motion.img
               src="/v2/gilga.png"
               alt="GilGa collection"
-              style={{ y: imageY, scale: 1.14 }}
-              className="h-[320px] w-full object-cover sm:h-[400px] lg:h-[419px]"
+              style={{ y: imageY, scale: 1.1 }}
+              className="h-full w-full object-cover"
             />
           </div>
         </Reveal>
