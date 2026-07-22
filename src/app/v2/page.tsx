@@ -391,7 +391,7 @@ function Featured() {
  * ------------------------------------------------------------------ */
 
 /* Each finish swatch maps to its own photograph. */
-const SIGNATURE = [
+const SIGNATURE_BASE = [
   {
     id: "dinero-sunglass",
     name: "DINERO SUNGLASS",
@@ -419,6 +419,12 @@ const SIGNATURE = [
       { label: "Gold", color: "#c0ab79", image: "/v2/col3b.png" },
     ],
   },
+];
+
+/* Six slides for the carousel — the catalogue repeats until Shopify feeds it. */
+const SIGNATURE = [
+  ...SIGNATURE_BASE,
+  ...SIGNATURE_BASE.map((p) => ({ ...p, id: `${p.id}-ii` })),
 ];
 
 const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
@@ -507,7 +513,57 @@ function SignatureCard({ product }: { product: (typeof SIGNATURE)[number] }) {
   );
 }
 
+/** Circular slider control. */
+function SlideBtn({ dir, onClick, disabled }: { dir: "prev" | "next"; onClick: () => void; disabled: boolean }) {
+  return (
+    <button
+      type="button"
+      aria-label={dir === "prev" ? "Previous products" : "Next products"}
+      onClick={onClick}
+      disabled={disabled}
+      className={`absolute top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/45 bg-black/50 text-white backdrop-blur-sm transition-all duration-300 hover:border-gold hover:text-gold disabled:pointer-events-none disabled:opacity-0 ${
+        dir === "prev" ? "-left-3 lg:-left-6" : "-right-3 lg:-right-6"
+      }`}
+    >
+      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
+        <path
+          d={dir === "prev" ? "M15 6l-6 6 6 6" : "M9 6l6 6-6 6"}
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </button>
+  );
+}
+
 function Collection() {
+  const scroller = useRef<HTMLDivElement>(null);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+
+  const update = () => {
+    const el = scroller.current;
+    if (!el) return;
+    setAtStart(el.scrollLeft <= 2);
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2);
+  };
+  useEffect(() => {
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  // Advance by exactly one card so the slider always lands on a card edge.
+  const by = (dir: number) => {
+    const el = scroller.current;
+    if (!el) return;
+    const card = el.firstElementChild as HTMLElement | null;
+    const step = card ? card.getBoundingClientRect().width + 16 : el.clientWidth * 0.8;
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
+
   return (
     <section className={`${SHELL} py-20 lg:py-28`}>
       <Reveal>
@@ -517,12 +573,26 @@ function Collection() {
         </h2>
       </Reveal>
 
-      <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {SIGNATURE.map((p, i) => (
-          <Reveal key={p.id} delay={i * 0.08}>
-            <SignatureCard product={p} />
-          </Reveal>
-        ))}
+      <div className="relative mt-14">
+        <div
+          ref={scroller}
+          onScroll={update}
+          className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth"
+        >
+          {SIGNATURE.map((p, i) => (
+            <div
+              key={p.id}
+              className="w-[78%] shrink-0 snap-start sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]"
+            >
+              <Reveal delay={Math.min(i, 2) * 0.08}>
+                <SignatureCard product={p} />
+              </Reveal>
+            </div>
+          ))}
+        </div>
+
+        <SlideBtn dir="prev" onClick={() => by(-1)} disabled={atStart} />
+        <SlideBtn dir="next" onClick={() => by(1)} disabled={atEnd} />
       </div>
 
       <Reveal className="mt-14 flex justify-center">
