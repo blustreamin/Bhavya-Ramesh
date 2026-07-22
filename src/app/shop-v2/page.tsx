@@ -566,18 +566,41 @@ function Rail({ title }: { title: string }) {
  * ------------------------------------------------------------------ */
 
 function Reviews() {
+  const scroller = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  /** Only used below sm, where the grid becomes a snap slider. */
+  const update = () => {
+    const el = scroller.current;
+    const card = el?.firstElementChild as HTMLElement | undefined;
+    if (!el || !card) return;
+    const step = card.getBoundingClientRect().width + 1; // card + 1px gap
+    if (step > 0) setActive(Math.round(el.scrollLeft / step));
+  };
+  const goToSlide = (i: number) => {
+    const el = scroller.current;
+    const card = el?.firstElementChild as HTMLElement | undefined;
+    if (!el || !card) return;
+    el.scrollTo({ left: i * (card.getBoundingClientRect().width + 1), behavior: "smooth" });
+  };
+
   return (
     <section className={`${SHELL} py-16 lg:py-20`}>
       <Reveal>
         <SectionHead title="What People Say" />
       </Reveal>
 
-      {/* adjacent bordered cards; name + role anchored to the bottom */}
-      <div className="mt-12 grid gap-px sm:grid-cols-2 lg:grid-cols-4">
+      {/* adjacent bordered cards; a snap slider on phones, the grid from sm up */}
+      <div
+        ref={scroller}
+        onScroll={update}
+        className="no-scrollbar mt-12 flex snap-x snap-mandatory gap-px overflow-x-auto scroll-smooth sm:grid sm:grid-cols-2 sm:overflow-visible lg:grid-cols-4"
+      >
         {REVIEWS.map((r, i) => (
           <div
             key={r.name}
-            className="flex min-h-[236px] flex-col border border-white/12 p-7 lg:p-8"
+            className="flex w-[86%] shrink-0 snap-start flex-col border border-white/12 p-7 sm:w-auto sm:shrink lg:p-8"
+            style={{ minHeight: 236 }}
           >
             <p className="font-ui text-[10px] tracking-[0.08em] text-[#7a7a7a]">
               {String(i + 1).padStart(2, "0")} / {String(REVIEWS.length).padStart(2, "0")}
@@ -588,6 +611,22 @@ function Reviews() {
               <p className="mt-2 font-ui text-[11px] text-[#7a7a7a]">{r.role}</p>
             </div>
           </div>
+        ))}
+      </div>
+
+      {/* dots — phones only */}
+      <div className="mt-7 flex justify-center gap-2 sm:hidden">
+        {REVIEWS.map((r, i) => (
+          <button
+            key={`dot-${r.name}`}
+            type="button"
+            aria-label={`Go to review ${i + 1}`}
+            aria-current={active === i}
+            onClick={() => goToSlide(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              active === i ? "w-6 bg-gold" : "w-1.5 bg-white/30"
+            }`}
+          />
         ))}
       </div>
     </section>
