@@ -257,7 +257,7 @@ function Featured() {
   const glow = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
 
   return (
-    <section ref={ref} className={`${SHELL} py-24 lg:py-36`}>
+    <section ref={ref} className={`${SHELL} overflow-hidden py-24 lg:py-36`}>
       {/* 53 / 32 columns with a 15% gutter — the Figma proportions */}
       <div className="grid items-center gap-14 lg:grid-cols-[53fr_32fr] lg:gap-[15%]">
         {/* artwork — curtain reveal, parallax drift, slow zoom on hover */}
@@ -476,7 +476,17 @@ function SignatureCard({ product }: { product: (typeof SIGNATURE)[number] }) {
   };
 
   return (
-    <article className="group relative overflow-hidden rounded-[3px] border border-[#2a2a29] bg-[#080707]">
+    <motion.article
+      whileHover={{ y: -8 }}
+      transition={{ type: "spring", stiffness: 240, damping: 24 }}
+      className="group relative overflow-hidden rounded-[3px] border border-[#2a2a29] bg-[#080707] transition-colors duration-500 hover:border-gold/45"
+    >
+      {/* gold hairline sweeps across the top edge on hover */}
+      <span
+        aria-hidden
+        className="absolute inset-x-0 top-0 z-20 h-px origin-left scale-x-0 bg-gradient-to-r from-transparent via-gold to-transparent transition-transform duration-700 ease-out group-hover:scale-x-100"
+      />
+
       {/* portrait frame matched to the photography so it fills edge to edge */}
       <div ref={frameRef} className="relative aspect-[3/4] w-full overflow-hidden">
         <AnimatePresence mode="wait">
@@ -488,25 +498,38 @@ function SignatureCard({ product }: { product: (typeof SIGNATURE)[number] }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-[1.06]"
           />
         </AnimatePresence>
-        {/* legibility wash for the overlaid copy */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/5 to-black/20" />
+        {/* legibility wash — deepens on hover so the copy stays crisp */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/5 to-black/20 transition-opacity duration-500 group-hover:opacity-90" />
+
+        {/* curtain wipes up to uncover the piece as the card scrolls in */}
+        <motion.div
+          aria-hidden
+          initial={{ scaleY: 1 }}
+          whileInView={{ scaleY: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.95, ease: EASE }}
+          className="absolute inset-0 z-10 origin-top bg-night"
+        />
       </div>
 
-      {/* add to cart */}
-      <button
+      {/* add to cart — spins a quarter turn on hover */}
+      <motion.button
         type="button"
         aria-label={`Add ${product.name} to cart`}
         onClick={handleAdd}
-        className="absolute right-4 top-1 font-ui text-[32px] font-light leading-none text-gold transition-transform duration-300 hover:scale-110"
+        whileHover={{ rotate: 90, scale: 1.15 }}
+        whileTap={{ scale: 0.85 }}
+        transition={{ type: "spring", stiffness: 300, damping: 18 }}
+        className="absolute right-4 top-1 z-20 font-ui text-[32px] font-light leading-none text-gold"
       >
         +
-      </button>
+      </motion.button>
 
-      {/* overlaid details */}
-      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-[18px]">
+      {/* overlaid details — lift slightly on hover */}
+      <div className="absolute inset-x-0 bottom-0 z-20 flex items-end justify-between gap-4 p-[18px] transition-transform duration-500 ease-out group-hover:-translate-y-1">
         <div>
           <h3 className="font-ui text-[16px] font-bold leading-[1.4] text-white">{product.name}</h3>
           <p className="mt-0.5 font-ui text-[14px] leading-[1.4] text-white">{inr(product.price)}</p>
@@ -536,7 +559,7 @@ function SignatureCard({ product }: { product: (typeof SIGNATURE)[number] }) {
           ))}
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }
 
