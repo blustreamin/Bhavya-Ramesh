@@ -48,7 +48,7 @@ export function PetalCursor() {
       p.rot = Math.random() * 360;
       p.vrot = (Math.random() - 0.5) * 7;
       p.life = 1;
-      p.size = 0.6 + Math.random() * 0.7;
+      p.size = 0.5 + Math.random() * 0.5; // small + minimal: ~12–24px rendered
     };
 
     const onMove = (e: MouseEvent) => {
@@ -111,8 +111,8 @@ export function PetalCursor() {
             src="/cursor-lotus.webp"
             alt=""
             draggable={false}
-            className="block w-[40px] max-w-none select-none"
-            style={{ filter: "drop-shadow(0 2px 6px rgba(214,67,122,0.35))" }}
+            className="block w-[24px] max-w-none select-none"
+            style={{ filter: "drop-shadow(0 1px 3px rgba(214,67,122,0.25))" }}
           />
         </div>
       ))}
