@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { useCartStore } from "@/store/cart";
 
 /* ------------------------------------------------------------------ *
  * Primitives
@@ -297,65 +298,148 @@ function Featured() {
  * The Collection — signature product cards
  * ------------------------------------------------------------------ */
 
+/* Each finish swatch maps to its own photograph. */
 const SIGNATURE = [
-  { name: "Dinero Sunglass", price: "₹25,000", image: "/v2/col1.png" },
-  { name: "Chameli Earrings", price: "₹25,000", image: "/v2/col2.png" },
-  { name: "Noir Grillz", price: "₹25,000", image: "/v2/col3.png" },
+  {
+    id: "dinero-sunglass",
+    name: "DINERO SUNGLASS",
+    price: 25000,
+    finishes: [
+      { label: "Silver", color: "#d9d9d9", image: "/v2/col1.png" },
+      { label: "Gold", color: "#c0ab79", image: "/v2/best1.png" },
+    ],
+  },
+  {
+    id: "chameli-earrings",
+    name: "CHAMELI EARRINGS",
+    price: 25000,
+    finishes: [
+      { label: "Silver", color: "#d9d9d9", image: "/v2/col2.png" },
+      { label: "Gold", color: "#c0ab79", image: "/v2/best3.png" },
+    ],
+  },
+  {
+    id: "noir-grillz",
+    name: "NOIR GRILLZ",
+    price: 25000,
+    finishes: [
+      { label: "Silver", color: "#d9d9d9", image: "/v2/col3.png" },
+      { label: "Gold", color: "#c0ab79", image: "/v2/col3b.png" },
+    ],
+  },
 ];
+
+const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
+
+function SignatureCard({ product }: { product: (typeof SIGNATURE)[number] }) {
+  const [finish, setFinish] = useState(0);
+  const addLocal = useCartStore((s) => s.addLocal);
+  const frameRef = useRef<HTMLDivElement>(null);
+  const active = product.finishes[finish];
+
+  const handleAdd = () => {
+    addLocal(
+      { id: `${product.id}-${active.label.toLowerCase()}`, name: product.name, price: product.price, image: active.image },
+      active.label.toLowerCase() === "gold" ? "gold" : "silver",
+    );
+    // Reuse the shared fly-to-cart layer from the root layout.
+    if (frameRef.current) {
+      window.dispatchEvent(
+        new CustomEvent("fly-to-cart", {
+          detail: { image: active.image, rect: frameRef.current.getBoundingClientRect() },
+        }),
+      );
+    }
+  };
+
+  return (
+    <article className="group relative overflow-hidden rounded-[3px] border border-[#2a2a29] bg-[#080707]">
+      <div ref={frameRef} className="relative h-[381px] w-full overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={active.image}
+            src={active.image}
+            alt={`${product.name} — ${active.label}`}
+            initial={{ opacity: 0, scale: 1.04 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: EASE }}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </AnimatePresence>
+        {/* legibility wash for the overlaid copy */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/5 to-black/20" />
+      </div>
+
+      {/* add to cart */}
+      <button
+        type="button"
+        aria-label={`Add ${product.name} to cart`}
+        onClick={handleAdd}
+        className="absolute right-4 top-1 font-ui text-[32px] font-light leading-none text-gold transition-transform duration-300 hover:scale-110"
+      >
+        +
+      </button>
+
+      {/* overlaid details */}
+      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-[18px]">
+        <div>
+          <h3 className="font-ui text-[16px] font-bold leading-[1.4] text-white">{product.name}</h3>
+          <p className="mt-0.5 font-ui text-[14px] leading-[1.4] text-white">{inr(product.price)}</p>
+          <button
+            type="button"
+            className="mt-2 font-ui text-[12px] font-bold uppercase text-gold underline underline-offset-2 transition-opacity hover:opacity-75"
+          >
+            Add to Wishlist
+          </button>
+        </div>
+
+        <div className="flex shrink-0 items-center gap-2 pb-1">
+          {product.finishes.map((f, i) => (
+            <button
+              key={f.label}
+              type="button"
+              aria-label={`${f.label} finish`}
+              aria-pressed={finish === i}
+              onClick={() => setFinish(i)}
+              className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                finish === i ? "ring-2 ring-white ring-offset-1 ring-offset-black" : "opacity-70 hover:opacity-100"
+              }`}
+              style={{ backgroundColor: f.color }}
+            />
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+}
 
 function Collection() {
   return (
     <section className={`${SHELL} py-20 lg:py-28`}>
       <Reveal>
-        <Eyebrow>The Collection</Eyebrow>
-        <h2 className="mt-5 max-w-[1100px] font-display text-[40px] font-medium leading-[1.1] text-white sm:text-[54px] lg:text-[62px]">
+        <p className="font-ui text-[16px] uppercase tracking-[0.03em] text-white">The Collection</p>
+        <h2 className="mt-5 max-w-[1146px] font-display text-[32px] font-medium leading-[1.25] text-gold sm:text-[40px]">
           Signature pieces, crafted to be timeless
         </h2>
       </Reveal>
 
-      <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-7">
+      <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {SIGNATURE.map((p, i) => (
-          <Reveal key={p.name} delay={i * 0.08}>
-            <article className="group">
-              <div className="relative overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={p.image}
-                  alt={p.name}
-                  className="h-[300px] w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.05] sm:h-[340px]"
-                />
-                <button
-                  type="button"
-                  aria-label={`Add ${p.name}`}
-                  className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center text-[22px] font-light leading-none text-white/80 transition-colors hover:text-gold"
-                >
-                  +
-                </button>
-              </div>
-
-              <div className="mt-5 flex items-start justify-between gap-4">
-                <div>
-                  <h3 className="font-ui text-[12px] uppercase tracking-[0.16em] text-white">{p.name}</h3>
-                  <p className="mt-1.5 font-ui text-[12px] tracking-[0.06em] text-white/55">{p.price}</p>
-                  <button
-                    type="button"
-                    className="mt-4 font-ui text-[10px] uppercase tracking-[0.24em] text-white/45 underline-offset-4 transition-colors hover:text-gold hover:underline"
-                  >
-                    Add to Wishlist
-                  </button>
-                </div>
-                <div className="mt-1 flex shrink-0 items-center gap-1.5">
-                  <span className="h-3 w-3 rounded-full bg-[#d9d9d9]" />
-                  <span className="h-3 w-3 rounded-full bg-[#c0ab79]" />
-                </div>
-              </div>
-            </article>
+          <Reveal key={p.id} delay={i * 0.08}>
+            <SignatureCard product={p} />
           </Reveal>
         ))}
       </div>
 
       <Reveal className="mt-14 flex justify-center">
-        <TextLink href="/shop">View All Collection</TextLink>
+        <Link
+          href="/shop"
+          className="group inline-flex items-center gap-3 font-ui text-[16px] text-gold underline underline-offset-4 transition-opacity hover:opacity-80"
+        >
+          VIEW ALL COLLECTION
+          <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1.5" />
+        </Link>
       </Reveal>
     </section>
   );
