@@ -12,9 +12,12 @@ import { useWishlistStore } from "@/store/wishlist";
  * Primitives
  * ------------------------------------------------------------------ */
 
-/* Full-bleed shell: sections span the viewport with the Figma side margin
-   (100px @1440) — never capped, so nothing reads as a centered box. */
-const SHELL = "w-full px-6 md:px-12 lg:px-[100px]";
+/* Content sections sit in a 1440 box (1240 of content at the Figma margin) so
+   they don't stretch on large displays. */
+const SHELL = "mx-auto w-full max-w-[1440px] px-6 md:px-12 lg:px-[100px]";
+
+/* The hero runs edge to edge, so its copy tracks the nav instead. */
+const SHELL_WIDE = "w-full px-6 md:px-12 lg:px-[100px]";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 function ArrowUpRight({ className = "h-4 w-4" }: { className?: string }) {
@@ -141,7 +144,7 @@ function Hero() {
       <div className="absolute inset-0" style={{ background: "linear-gradient(0deg, rgba(1,1,0,0.9) 0%, rgba(0,0,0,0) 32%)" }} />
 
       {/* copy */}
-      <div className={`relative flex h-full flex-col justify-center ${SHELL}`}>
+      <div className={`relative flex h-full flex-col justify-center ${SHELL_WIDE}`}>
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
