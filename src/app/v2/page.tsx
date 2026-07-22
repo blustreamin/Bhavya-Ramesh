@@ -446,7 +446,8 @@ function SignatureCard({ product }: { product: (typeof SIGNATURE)[number] }) {
 
   return (
     <article className="group relative overflow-hidden rounded-[3px] border border-[#2a2a29] bg-[#080707]">
-      <div ref={frameRef} className="relative h-[381px] w-full overflow-hidden">
+      {/* keeps the Figma card ratio so the photo scales instead of cropping */}
+      <div ref={frameRef} className="relative aspect-[404/381] w-full overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.img
             key={active.image}
@@ -456,7 +457,7 @@ function SignatureCard({ product }: { product: (typeof SIGNATURE)[number] }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-contain"
           />
         </AnimatePresence>
         {/* legibility wash for the overlaid copy */}
