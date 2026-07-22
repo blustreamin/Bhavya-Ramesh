@@ -58,19 +58,22 @@ function Heart({ filled = false, className = "h-4 w-4" }: { filled?: boolean; cl
   );
 }
 
-/** Section heading + "View more" row. */
+/** Section heading + "View more" row, closed by a full-width rule. */
 function SectionHead({ title, href = "/shop" }: { title: string; href?: string }) {
   return (
-    <div className="flex items-end justify-between gap-6">
-      <h2 className="font-ui text-[18px] uppercase tracking-[0.02em] text-white sm:text-[24px]">{title}</h2>
-      <Link
-        href={href}
-        className="group inline-flex shrink-0 items-center gap-2.5 font-ui text-[14px] text-white transition-colors hover:text-gold sm:text-[16px]"
-      >
-        View more
-        <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1.5" />
-      </Link>
-    </div>
+    <>
+      <div className="flex items-end justify-between gap-6">
+        <h2 className="font-ui text-[18px] uppercase tracking-[0.02em] text-white sm:text-[24px]">{title}</h2>
+        <Link
+          href={href}
+          className="group inline-flex shrink-0 items-center gap-2.5 font-ui text-[14px] text-white transition-colors hover:text-gold sm:text-[16px]"
+        >
+          View more
+          <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1.5" />
+        </Link>
+      </div>
+      <div className="mt-5 h-px w-full bg-white/15" />
+    </>
   );
 }
 
@@ -402,16 +405,17 @@ function RailCard({ item }: { item: (typeof RAIL)[number] }) {
 
   return (
     <article className="group">
-      <div ref={frame} className="relative overflow-hidden rounded-[3px] bg-[#0a0a0a]">
+      {/* bordered frame; the piece is contained so nothing is cropped */}
+      <div ref={frame} className="relative overflow-hidden rounded-[3px] border border-white/12 bg-[#050505]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={item.image} alt={item.name} className="aspect-[402/382] w-full object-cover" />
+        <img src={item.image} alt={item.name} className="aspect-[402/382] w-full object-contain p-5 lg:p-7" />
         <button
           type="button"
           aria-label={saved ? `Remove ${item.name} from wishlist` : `Save ${item.name} to wishlist`}
           aria-pressed={saved}
           onClick={save}
-          className={`absolute right-4 top-4 flex h-7 w-7 items-center justify-center rounded-full border transition-colors duration-300 ${
-            saved ? "border-gold bg-gold/15 text-gold" : "border-white/40 bg-black/40 text-white hover:border-gold hover:text-gold"
+          className={`absolute right-5 top-5 flex h-7 w-7 items-center justify-center rounded-full border transition-colors duration-300 ${
+            saved ? "border-gold bg-gold/15 text-gold" : "border-white/40 text-white hover:border-gold hover:text-gold"
           }`}
         >
           <Heart filled={saved} className="h-[13px] w-[13px]" />
@@ -419,8 +423,8 @@ function RailCard({ item }: { item: (typeof RAIL)[number] }) {
       </div>
 
       <h3 className="mt-6 font-ui text-[18px] font-medium text-white sm:text-[20px]">{item.name}</h3>
-      <p className="mt-2 max-w-[420px] font-ui text-[13px] leading-[1.5] text-[#b8b8b8]">{item.desc}</p>
-      <p className="mt-3 font-ui text-[14px] font-medium text-gold">{item.price}</p>
+      <p className="mt-2.5 max-w-[420px] font-ui text-[13px] leading-[1.5] text-[#b8b8b8]">{item.desc}</p>
+      <p className="mt-4 font-ui text-[14px] font-medium text-gold">{item.price}</p>
     </article>
   );
 }
