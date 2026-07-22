@@ -44,6 +44,11 @@ function Reveal({ children, className = "", delay = 0 }: { children: ReactNode; 
   );
 }
 
+/** Section divider — spans the full viewport width, edge to edge. */
+function Rule() {
+  return <div aria-hidden className="h-px w-full bg-white/10" />;
+}
+
 /** Small letter-spaced section eyebrow. */
 function Eyebrow({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
@@ -300,7 +305,7 @@ const SIGNATURE = [
 
 function Collection() {
   return (
-    <section className={`${SHELL} border-t border-white/10 py-20 lg:py-28`}>
+    <section className={`${SHELL} py-20 lg:py-28`}>
       <Reveal>
         <Eyebrow>The Collection</Eyebrow>
         <h2 className="mt-5 max-w-[1100px] font-display text-[40px] font-medium leading-[1.1] text-white sm:text-[54px] lg:text-[62px]">
@@ -378,7 +383,7 @@ function Bestsellers() {
     "h-full w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.05]";
 
   return (
-    <section className={`${SHELL} border-t border-white/10 py-20 lg:py-28`}>
+    <section className={`${SHELL} py-20 lg:py-28`}>
       <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
         <Reveal>
           <Eyebrow>Bestsellers</Eyebrow>
@@ -459,7 +464,7 @@ const STATS = [
 
 function Studio() {
   return (
-    <section className={`${SHELL} border-t border-white/10 py-20 lg:py-28`}>
+    <section className={`${SHELL} py-20 lg:py-28`}>
       <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
         <Reveal>
           <h2 className="font-display text-[46px] font-medium leading-[1.05] text-white sm:text-[60px] lg:text-[68px]">
@@ -631,7 +636,7 @@ function AsWorn() {
 
 function House() {
   return (
-    <section className={`${SHELL} border-t border-white/10 py-20 lg:py-28`}>
+    <section className={`${SHELL} py-20 lg:py-28`}>
       <div className="grid items-center gap-14 lg:grid-cols-[1fr_0.36fr] lg:gap-20">
         <div>
           <Reveal>
@@ -695,12 +700,15 @@ export default function V2Page() {
         <Hero />
         <Ticker />
         <Featured />
+        <Rule />
         <Collection />
         <Bestsellers />
+        <Rule />
         <Studio />
         <SilverBand />
         <AsWorn />
         <House />
+        <Rule />
       </main>
       <Footer />
     </>
