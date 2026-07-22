@@ -85,7 +85,7 @@ const PRODUCT = {
   price: 15420,
   blurb:
     "Sculptural artifacts designed to be lived in. Forget the rules of gender, embrace the weight of identity.",
-  gallery: ["/shopv2/main.png", "/shopv2/thumb1.png", "/shopv2/thumb2.png", "/shopv2/thumb3.png", "/shopv2/thumb4.png"],
+  gallery: ["/shopv2/main.png", "/shopv2/thumb1.png", "/shopv2/thumb2.png", "/shopv2/thumb4.png"],
   finishes: [
     { label: "Silver", color: "#d9d9d9" },
     { label: "Gold", color: "#c0ab79" },
@@ -170,17 +170,20 @@ function Gallery() {
   const thumbs = PRODUCT.gallery;
 
   return (
-    <div className="flex gap-4 lg:gap-6">
-      {/* thumb rail */}
-      <div className="flex w-[74px] shrink-0 flex-col items-center gap-3 lg:w-[177px]">
+    // Figma: 177 thumb rail / 530 main, with a 68px gutter between them
+    <div className="grid grid-cols-[64px_1fr] gap-4 sm:grid-cols-[96px_1fr] lg:grid-cols-[177fr_530fr] lg:gap-[8.8%]">
+      {/* thumb rail — absolute at desktop so the main image alone sets the
+          row height, and the rail then fills exactly that */}
+      <div className="relative">
+      <div className="flex flex-col items-center gap-2 lg:absolute lg:inset-0 lg:gap-3">
         <button
           type="button"
           aria-label="Previous image"
           onClick={() => setActive((i) => Math.max(0, i - 1))}
           disabled={active === 0}
-          className="text-white/70 transition-colors hover:text-gold disabled:opacity-25"
+          className="py-2 text-white/80 transition-colors hover:text-gold disabled:opacity-25"
         >
-          <Chevron className="h-5 w-5 rotate-180" />
+          <Chevron className="h-6 w-6 rotate-180" />
         </button>
 
         {thumbs.map((src, i) => (
@@ -190,12 +193,12 @@ function Gallery() {
             aria-label={`View image ${i + 1}`}
             aria-current={active === i}
             onClick={() => setActive(i)}
-            className={`w-full overflow-hidden rounded-[3px] border transition-colors duration-300 ${
-              active === i ? "border-gold" : "border-transparent hover:border-white/30"
+            className={`min-h-0 w-full flex-1 overflow-hidden border transition-colors duration-300 ${
+              active === i ? "border-white/70" : "border-transparent hover:border-white/30"
             }`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={src} alt="" className="aspect-[177/167] w-full object-cover" />
+            <img src={src} alt="" className="block h-full w-full object-cover" />
           </button>
         ))}
 
@@ -204,14 +207,15 @@ function Gallery() {
           aria-label="Next image"
           onClick={() => setActive((i) => Math.min(thumbs.length - 1, i + 1))}
           disabled={active === thumbs.length - 1}
-          className="text-white/70 transition-colors hover:text-gold disabled:opacity-25"
+          className="py-2 text-white/80 transition-colors hover:text-gold disabled:opacity-25"
         >
-          <Chevron className="h-5 w-5" />
+          <Chevron className="h-6 w-6" />
         </button>
+      </div>
       </div>
 
       {/* main image */}
-      <div className="relative min-w-0 flex-1 overflow-hidden rounded-[3px] bg-[#0a0a0a]">
+      <div className="relative min-w-0 overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.img
             key={thumbs[active]}
@@ -221,7 +225,7 @@ function Gallery() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="aspect-[530/838] w-full object-cover"
+            className="aspect-[493/938] w-full object-contain"
           />
         </AnimatePresence>
       </div>
@@ -236,7 +240,7 @@ function Gallery() {
 function Info() {
   const [finish, setFinish] = useState(0);
   const [qty, setQty] = useState(1);
-  const [open, setOpen] = useState<number | null>(0);
+  const [open, setOpen] = useState<number[]>([0, 1, 2]);
   const addLocal = useCartStore((s) => s.addLocal);
   const openCart = useCartStore((s) => s.open);
   const anchor = useRef<HTMLDivElement>(null);
@@ -269,16 +273,22 @@ function Info() {
         Rs. {PRODUCT.price.toLocaleString("en-IN")}.00
       </p>
 
-      <p className="mt-4 font-ui text-[13px] text-[#c1b9b9]">
-        EMI starts at 449/month or pay later with Zest / Simpl.
+      <p className="mt-5 font-ui text-[13px] text-[#c1b9b9] sm:text-[14px]">
+        EMI starts at <span className="font-semibold text-white">449/month</span> or pay later with Zest / Simpl.
       </p>
 
-      <div className="mt-4 flex max-w-[422px] items-center justify-between gap-4 font-ui text-[13px]">
+      <div className="mt-5 h-px w-full bg-white/12" />
+
+      <div className="flex items-center justify-between gap-4 py-4 font-ui text-[13px] sm:text-[14px]">
         <span className="text-[#c1b9b9]">Get 10 % off your first order</span>
         <span className="font-bold tracking-[0.04em] text-gold">WELCOME10</span>
       </div>
 
-      <p className="mt-8 max-w-[301px] font-ui text-[13px] leading-[1.55] text-[#c1b9b9]">{PRODUCT.blurb}</p>
+      <div className="h-px w-full bg-white/12" />
+
+      <p className="mt-8 max-w-[330px] font-ui text-[13px] leading-[1.65] text-[#c1b9b9] sm:text-[14px]">
+        {PRODUCT.blurb}
+      </p>
 
       {/* finish */}
       <p className="mt-9 font-ui text-[12px] text-[#c1b9b9]">FINISH</p>
@@ -324,27 +334,29 @@ function Info() {
       </div>
 
       {/* stock line */}
-      <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 font-ui text-[13px] text-[#c1b9b9]">
-        <span className="flex items-center gap-2"><span className="h-1 w-1 rounded-full bg-[#c1b9b9]" />In stock</span>
-        <span className="flex items-center gap-2"><span className="h-1 w-1 rounded-full bg-[#c1b9b9]" />Only 3 left</span>
-        <span className="flex items-center gap-2"><span className="h-1 w-1 rounded-full bg-[#c1b9b9]" />Ships in 1-2 days</span>
+      <div className="mt-7 flex flex-wrap items-center gap-x-7 gap-y-2 font-ui text-[13px] text-[#c1b9b9] sm:text-[14px]">
+        <span className="flex items-center gap-2"><span className="h-[5px] w-[5px] rounded-full bg-[#4ea570]" />In stock</span>
+        <span className="flex items-center gap-2"><span className="h-[5px] w-[5px] rounded-full bg-brand" />Only 3 left</span>
+        <span>Ships in 1-2 days</span>
       </div>
 
-      {/* detail accordions */}
-      <dl className="mt-10 max-w-[420px]">
+      {/* detail accordions — open by default, × toggles them shut */}
+      <dl className="mt-10 border-t border-white/12">
         {DETAILS.map((d, i) => {
-          const isOpen = open === i;
+          const isOpen = open.includes(i);
           return (
             <div key={d.title} className="border-b border-white/12 py-5">
               <dt>
                 <button
                   type="button"
                   aria-expanded={isOpen}
-                  onClick={() => setOpen(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 text-left font-ui text-[14px] text-white transition-colors hover:text-gold"
+                  onClick={() => setOpen((o) => (isOpen ? o.filter((n) => n !== i) : [...o, i]))}
+                  className="flex w-full items-center justify-between gap-4 text-left font-ui text-[15px] text-white transition-colors hover:text-gold sm:text-[16px]"
                 >
                   {d.title}
-                  <Chevron className={`h-4 w-4 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+                  <span className={`shrink-0 text-[16px] leading-none text-[#c1b9b9] transition-transform duration-300 ${isOpen ? "" : "rotate-45"}`}>
+                    ×
+                  </span>
                 </button>
               </dt>
               <AnimatePresence initial={false}>
@@ -356,7 +368,7 @@ function Info() {
                     transition={{ duration: 0.35, ease: EASE }}
                     className="overflow-hidden"
                   >
-                    <p className="pt-3 font-ui text-[13px] leading-[1.6] text-[#b8b8b8]">{d.body}</p>
+                    <p className="pt-4 font-ui text-[13px] leading-[1.6] text-[#b8b8b8] sm:text-[14px]">{d.body}</p>
                   </motion.dd>
                 )}
               </AnimatePresence>
@@ -467,8 +479,9 @@ export default function ShopV2Page() {
       <Header />
       <main className="bg-[#020202] font-ui text-white">
         {/* gallery + info */}
-        <section className={`${SHELL} pb-16 pt-[128px] lg:pb-20 lg:pt-[150px]`}>
-          <div className="grid gap-12 lg:grid-cols-[1fr_0.63fr] lg:gap-16">
+        {/* full-bleed: 775 (rail+main) / 422 info, per the Figma margins */}
+        <section className="mx-auto w-full max-w-[1680px] px-6 pb-16 pt-[120px] sm:px-10 lg:px-[4.2%] lg:pb-20 lg:pt-[150px]">
+          <div className="grid gap-12 lg:grid-cols-[775fr_422fr] lg:gap-[6.6%]">
             <Gallery />
             <Info />
           </div>
