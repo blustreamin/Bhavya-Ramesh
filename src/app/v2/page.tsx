@@ -640,14 +640,14 @@ function Collection() {
           onScroll={update}
           className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth"
         >
-          {SIGNATURE.map((p, i) => (
+          {SIGNATURE.map((p) => (
             <div
               key={p.id}
               className="w-[78%] shrink-0 snap-start sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]"
             >
-              <Reveal delay={Math.min(i, 2) * 0.08}>
-                <SignatureCard product={p} />
-              </Reveal>
+              {/* no entrance offset here — the cards must not shift while the
+                  slider scrolls; the curtain wipe handles the reveal */}
+              <SignatureCard product={p} />
             </div>
           ))}
         </div>
