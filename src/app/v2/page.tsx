@@ -588,7 +588,7 @@ function SlideBtn({ dir, onClick, disabled }: { dir: "prev" | "next"; onClick: (
       aria-label={dir === "prev" ? "Previous products" : "Next products"}
       onClick={onClick}
       disabled={disabled}
-      className={`absolute top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/45 bg-black/50 text-white backdrop-blur-sm transition-all duration-300 hover:border-gold hover:text-gold disabled:pointer-events-none disabled:opacity-0 ${
+      className={`absolute top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/45 bg-black/50 text-white backdrop-blur-sm transition-all duration-300 hover:border-gold hover:text-gold disabled:pointer-events-none disabled:opacity-0 sm:flex ${
         dir === "prev" ? "-left-3 lg:-left-6" : "-right-3 lg:-right-6"
       }`}
     >
@@ -609,12 +609,28 @@ function Collection() {
   const scroller = useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
+  const [active, setActive] = useState(0);
+
+  /** One card + the 1rem gap — the slider's unit of travel. */
+  const step = () => {
+    const el = scroller.current;
+    const card = el?.firstElementChild as HTMLElement | undefined;
+    return card ? card.getBoundingClientRect().width + 16 : 0;
+  };
 
   const update = () => {
     const el = scroller.current;
     if (!el) return;
     setAtStart(el.scrollLeft <= 2);
     setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2);
+    const s = step();
+    if (s > 0) setActive(Math.round(el.scrollLeft / s));
+  };
+
+  const goToSlide = (i: number) => {
+    const el = scroller.current;
+    if (!el) return;
+    el.scrollTo({ left: i * step(), behavior: "smooth" });
   };
   useEffect(() => {
     update();
@@ -660,6 +676,22 @@ function Collection() {
 
         <SlideBtn dir="prev" onClick={() => by(-1)} disabled={atStart} />
         <SlideBtn dir="next" onClick={() => by(1)} disabled={atEnd} />
+      </div>
+
+      {/* phones use dots instead of the side arrows */}
+      <div className="mt-7 flex justify-center gap-2 sm:hidden">
+        {SIGNATURE.map((p, i) => (
+          <button
+            key={p.id}
+            type="button"
+            aria-label={`Go to product ${i + 1}`}
+            aria-current={active === i}
+            onClick={() => goToSlide(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              active === i ? "w-6 bg-gold" : "w-1.5 bg-white/30"
+            }`}
+          />
+        ))}
       </div>
 
       <Reveal className="mt-14 flex justify-center">
