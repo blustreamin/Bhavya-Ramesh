@@ -445,17 +445,29 @@ function RailCard({ item }: { item: (typeof RAIL)[number] }) {
   );
 }
 
-/** Circular slider control — desktop only. */
-function SlideBtn({ dir, onClick, disabled }: { dir: "prev" | "next"; onClick: () => void; disabled: boolean }) {
+/** Circular slider control — desktop only. `top` centres it on the artwork
+    rather than the whole card, which includes the name/price block. */
+function SlideBtn({
+  dir,
+  onClick,
+  disabled,
+  top,
+}: {
+  dir: "prev" | "next";
+  onClick: () => void;
+  disabled: boolean;
+  top: number;
+}) {
   return (
     <button
       type="button"
       aria-label={dir === "prev" ? "Previous products" : "Next products"}
       onClick={onClick}
       disabled={disabled}
-      className={`absolute top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/45 bg-black/50 text-white backdrop-blur-sm transition-all duration-300 hover:border-gold hover:text-gold disabled:pointer-events-none disabled:opacity-0 sm:flex ${
-        dir === "prev" ? "-left-3 lg:-left-6" : "-right-3 lg:-right-6"
-      }`}
+      style={top ? { top } : undefined}
+      className={`absolute z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/45 bg-black/50 text-white backdrop-blur-sm transition-all duration-300 hover:border-gold hover:text-gold disabled:pointer-events-none disabled:opacity-0 sm:flex ${
+        top ? "" : "top-1/2"
+      } ${dir === "prev" ? "-left-3 lg:-left-6" : "-right-3 lg:-right-6"}`}
     >
       <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
         <path
@@ -475,6 +487,8 @@ function Rail({ title }: { title: string }) {
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
   const [active, setActive] = useState(0);
+  /** Height of a card's artwork, so the arrows can centre on it. */
+  const [artH, setArtH] = useState(0);
 
   /** One card + the 1rem gap. */
   const step = () => {
@@ -490,6 +504,8 @@ function Rail({ title }: { title: string }) {
     setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2);
     const s = step();
     if (s > 0) setActive(Math.round(el.scrollLeft / s));
+    const art = el.querySelector("img");
+    if (art) setArtH(art.getBoundingClientRect().height);
   };
   useEffect(() => {
     update();
@@ -522,8 +538,8 @@ function Rail({ title }: { title: string }) {
           ))}
         </div>
 
-        <SlideBtn dir="prev" onClick={() => by(-1)} disabled={atStart} />
-        <SlideBtn dir="next" onClick={() => by(1)} disabled={atEnd} />
+        <SlideBtn dir="prev" onClick={() => by(-1)} disabled={atStart} top={artH / 2} />
+        <SlideBtn dir="next" onClick={() => by(1)} disabled={atEnd} top={artH / 2} />
       </div>
 
       {/* phones use dots instead of the side arrows */}
