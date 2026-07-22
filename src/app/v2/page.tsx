@@ -879,36 +879,38 @@ function Studio() {
 
 function House() {
   return (
-    <section className={`${SHELL} py-20 lg:py-28`}>
-      <div className="grid items-center gap-14 lg:grid-cols-[1fr_0.36fr] lg:gap-20">
-        <div>
+    <section className={`${SHELL} py-16 lg:py-20`}>
+      {/* Figma: 780 copy column, 343 image starting at 72% */}
+      <div className="grid gap-12 lg:grid-cols-[780fr_343fr] lg:gap-[9%]">
+        <div className="flex flex-col">
           <Reveal>
-            <Eyebrow>The House</Eyebrow>
+            <p className="font-ui text-[16px] uppercase tracking-[0.03em] text-white">The House</p>
           </Reveal>
+
           <Reveal delay={0.08}>
-            <p className="mt-8 max-w-[780px] font-display text-[26px] leading-[1.45] text-white sm:text-[32px]">
+            <p className="mt-10 font-display text-[22px] font-medium leading-[1.32] text-white sm:text-[28px]">
               A conscious silverware brand, fostering <span className="text-gold">love &amp; oneness</span> to create a
               fluid community that wholeheartedly expresses itself.
             </p>
-            <p className="mt-7 max-w-[780px] font-display text-[26px] leading-[1.45] text-white sm:text-[32px]">
+            <p className="mt-9 font-display text-[22px] font-medium leading-[1.32] text-white sm:text-[28px]">
               We believe in the power of being <span className="text-gold">sensitive and sublime.</span>
             </p>
           </Reveal>
 
-          <Reveal delay={0.14}>
+          <Reveal delay={0.14} className="mt-auto">
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="mt-14 flex max-w-[643px] items-center justify-between gap-6 border-b border-white/25 pb-4"
+              className="mt-16 flex max-w-[643px] items-center justify-between gap-6 border-b border-white/20 pb-3"
             >
               <input
                 type="email"
                 required
                 placeholder="Sign up for new collection notifications"
-                className="w-full bg-transparent font-ui text-[13px] text-white placeholder:text-white/40 focus:outline-none"
+                className="w-full bg-transparent font-ui text-[16px] text-white placeholder:text-[#767676] focus:outline-none"
               />
               <button
                 type="submit"
-                className="shrink-0 font-ui text-[11px] uppercase tracking-[0.2em] text-white transition-colors hover:text-gold"
+                className="shrink-0 font-ui text-[14px] uppercase tracking-[0.02em] text-gold transition-opacity hover:opacity-75"
               >
                 Notify Me
               </button>
@@ -917,13 +919,11 @@ function House() {
         </div>
 
         <Reveal delay={0.1}>
-          <div className="group overflow-hidden">
+          {/* contained, not cropped — the artwork's black surround blends
+              straight into the page */}
+          <div className="aspect-[343/400] w-full">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/v2/house.png"
-              alt="Serpent sculpture"
-              className="h-[320px] w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.04] lg:h-[400px]"
-            />
+            <img src="/v2/house.png" alt="Serpent sculpture" className="h-full w-full object-contain" />
           </div>
         </Reveal>
       </div>

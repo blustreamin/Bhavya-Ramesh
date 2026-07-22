@@ -28,7 +28,7 @@
 
   /* Desktop-10 (v2) palette + type — champagne gold on near-black */
   --color-gold: #c0ab79;
-  --color-night: #010100;
+  --color-night: #000000;
   --color-smoke: #8b8989;
   --font-display: var(--font-v2-display);
   --font-ui: var(--font-v2-ui);
