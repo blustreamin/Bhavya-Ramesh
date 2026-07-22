@@ -9,6 +9,7 @@ type Flight = {
   image: string;
   start: DOMRect;
   end: { x: number; y: number };
+  bump: string;
 };
 
 /**
@@ -23,23 +24,30 @@ export function FlyToCartLayer() {
 
   useEffect(() => {
     const onFly = (e: Event) => {
-      const detail = (e as CustomEvent).detail as { image?: string; rect?: DOMRect };
-      const target = document.getElementById("cart-fly-target");
+      const detail = (e as CustomEvent).detail as { image?: string; rect?: DOMRect; target?: string };
+      const targetId = detail?.target ?? "cart-fly-target";
+      const target = document.getElementById(targetId);
       if (!target || !detail?.image || !detail.rect) return;
       const t = target.getBoundingClientRect();
       const id = Date.now() + Math.random();
       setFlights((f) => [
         ...f,
-        { id, image: detail.image!, start: detail.rect!, end: { x: t.left + t.width / 2, y: t.top + t.height / 2 } },
+        {
+          id,
+          image: detail.image!,
+          start: detail.rect!,
+          end: { x: t.left + t.width / 2, y: t.top + t.height / 2 },
+          bump: targetId === "wishlist-fly-target" ? "wishlist-bump" : "cart-bump",
+        },
       ]);
     };
     window.addEventListener("fly-to-cart", onFly as EventListener);
     return () => window.removeEventListener("fly-to-cart", onFly as EventListener);
   }, []);
 
-  const remove = (id: number) => {
+  const remove = (id: number, bump: string) => {
     setFlights((f) => f.filter((x) => x.id !== id));
-    window.dispatchEvent(new CustomEvent("cart-bump"));
+    window.dispatchEvent(new CustomEvent(bump));
   };
 
   if (!mounted) return null;
@@ -67,7 +75,7 @@ export function FlyToCartLayer() {
                 opacity: [1, 1, 0.35],
               }}
               transition={{ duration: 0.85, ease: "easeInOut", times: [0, 0.45, 1] }}
-              onAnimationComplete={() => remove(f.id)}
+              onAnimationComplete={() => remove(f.id, f.bump)}
               style={{
                 position: "fixed",
                 top: f.start.top,

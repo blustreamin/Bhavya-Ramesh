@@ -33,6 +33,17 @@ export function BagIcon(props: IconProps) {
   );
 }
 
+export function HeartIcon({ filled = false, ...props }: IconProps & { filled?: boolean }) {
+  return (
+    <svg {...base} {...props}>
+      <path
+        d="M12 20.3 4.6 13a4.7 4.7 0 0 1 0-6.7 4.7 4.7 0 0 1 6.7 0l.7.7.7-.7a4.7 4.7 0 0 1 6.7 0 4.7 4.7 0 0 1 0 6.7Z"
+        fill={filled ? "currentColor" : "none"}
+      />
+    </svg>
+  );
+}
+
 export function UserIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>

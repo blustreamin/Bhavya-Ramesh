@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion"
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useCartStore } from "@/store/cart";
+import { useWishlistStore } from "@/store/wishlist";
 
 /* ------------------------------------------------------------------ *
  * Primitives
@@ -432,8 +433,32 @@ const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 function SignatureCard({ product }: { product: (typeof SIGNATURE)[number] }) {
   const [finish, setFinish] = useState(0);
   const addLocal = useCartStore((s) => s.addLocal);
+  const toggleWish = useWishlistStore((s) => s.toggle);
+  const saved = useWishlistStore((s) => s.items.some((i) => i.id === product.id));
   const frameRef = useRef<HTMLDivElement>(null);
   const active = product.finishes[finish];
+
+  /** Saves to the wishlist and flies the photo up to the header heart. */
+  const handleWishlist = () => {
+    const added = toggleWish({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: active.image,
+      finish: active.label.toLowerCase() === "gold" ? "gold" : "silver",
+    });
+    if (added && frameRef.current) {
+      window.dispatchEvent(
+        new CustomEvent("fly-to-cart", {
+          detail: {
+            image: active.image,
+            rect: frameRef.current.getBoundingClientRect(),
+            target: "wishlist-fly-target",
+          },
+        }),
+      );
+    }
+  };
 
   const handleAdd = () => {
     addLocal(
@@ -452,8 +477,8 @@ function SignatureCard({ product }: { product: (typeof SIGNATURE)[number] }) {
 
   return (
     <article className="group relative overflow-hidden rounded-[3px] border border-[#2a2a29] bg-[#080707]">
-      {/* keeps the Figma card ratio so the photo scales instead of cropping */}
-      <div ref={frameRef} className="relative aspect-[404/381] w-full overflow-hidden">
+      {/* portrait frame matched to the photography so it fills edge to edge */}
+      <div ref={frameRef} className="relative aspect-[3/4] w-full overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.img
             key={active.image}
@@ -463,7 +488,7 @@ function SignatureCard({ product }: { product: (typeof SIGNATURE)[number] }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="absolute inset-0 h-full w-full object-contain"
+            className="absolute inset-0 h-full w-full object-cover"
           />
         </AnimatePresence>
         {/* legibility wash for the overlaid copy */}
@@ -487,9 +512,11 @@ function SignatureCard({ product }: { product: (typeof SIGNATURE)[number] }) {
           <p className="mt-0.5 font-ui text-[14px] leading-[1.4] text-white">{inr(product.price)}</p>
           <button
             type="button"
+            onClick={handleWishlist}
+            aria-pressed={saved}
             className="mt-2 font-ui text-[12px] font-bold uppercase text-gold underline underline-offset-2 transition-opacity hover:opacity-75"
           >
-            Add to Wishlist
+            {saved ? "In Wishlist" : "Add to Wishlist"}
           </button>
         </div>
 

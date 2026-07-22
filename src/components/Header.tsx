@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
 import { Logo } from "./ui/Logo";
-import { SearchIcon, BagIcon, UserIcon, ChevronDown } from "./ui/Icons";
+import { SearchIcon, BagIcon, UserIcon, ChevronDown, HeartIcon } from "./ui/Icons";
 import { useCartStore } from "@/store/cart";
+import { useWishlistStore } from "@/store/wishlist";
 import { useSearchStore } from "@/store/search";
 import { AccountMenu } from "./AccountMenu";
 
@@ -89,6 +90,49 @@ function CloseIcon({ className }: { className?: string }) {
     <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
       <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
+  );
+}
+
+/** Heart icon + saved count; links to the wishlist page. */
+function WishlistButton({ id, className = "", onOpen }: { id?: string; className?: string; onOpen?: () => void }) {
+  const count = useWishlistStore((s) => s.items.length);
+  const [mounted, setMounted] = useState(false);
+  const controls = useAnimationControls();
+  useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    const bump = () =>
+      controls.start({ scale: [1, 1.35, 0.92, 1], transition: { duration: 0.45, ease: "easeOut" } });
+    window.addEventListener("wishlist-bump", bump);
+    return () => window.removeEventListener("wishlist-bump", bump);
+  }, [controls]);
+
+  return (
+    <Link
+      href="/wishlist"
+      id={id}
+      aria-label={`Wishlist${mounted && count ? `, ${count} item${count > 1 ? "s" : ""}` : ""}`}
+      onClick={onOpen}
+      className={`relative transition-colors hover:text-brand ${className}`}
+    >
+      <motion.span animate={controls} className="block">
+        <HeartIcon filled={mounted && count > 0} className="h-5 w-5" />
+      </motion.span>
+      <AnimatePresence>
+        {mounted && count > 0 && (
+          <motion.span
+            key={count}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            transition={{ type: "spring", stiffness: 500, damping: 18 }}
+            className="absolute -right-2 -top-2 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-brand px-1 text-[10px] font-bold leading-none text-white"
+          >
+            {count}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </Link>
   );
 }
 
@@ -228,6 +272,7 @@ export function Header() {
           <button type="button" aria-label="Search" onClick={openSearch} className="transition-colors hover:text-brand">
             <SearchIcon className="h-5 w-5" />
           </button>
+          <WishlistButton id="wishlist-fly-target" />
           <CartButton id="cart-fly-target" />
           <AccountMenu />
         </div>
@@ -325,6 +370,7 @@ export function Header() {
                 <button type="button" aria-label="Search" onClick={() => { closeMenu(); openSearch(); }} className="transition-colors hover:text-brand">
                   <SearchIcon className="h-5 w-5" />
                 </button>
+                <WishlistButton onOpen={closeMenu} />
                 <CartButton onOpen={closeMenu} />
               </div>
               <button type="button" aria-label="Close menu" onClick={closeMenu} className="text-white transition-colors hover:text-brand">
