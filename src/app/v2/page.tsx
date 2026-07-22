@@ -72,6 +72,10 @@ function TextLink({ href = "#", children, className = "" }: { href?: string; chi
 
 const SLIDE_MS = 7000;
 
+/* Outlined hero buttons — 46px tall, 10px radius, solid white hairline. */
+const HERO_BTN =
+  "group inline-flex h-[46px] items-center gap-3 rounded-[10px] border border-white bg-white/[0.02] px-5 font-ui text-[11px] font-bold uppercase tracking-[0.1em] text-white backdrop-blur-[2px] transition-colors duration-300 hover:border-gold hover:text-gold";
+
 const HERO_SLIDES: { poster: string; video?: string }[] = [
   { poster: "/v2/hero1.png", video: "/v2/hero1.mp4" },
   { poster: "/campaign/hero.png", video: "/v2/hero2.mp4" },
@@ -133,7 +137,7 @@ function Hero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: EASE, delay: 0.2 }}
-          className="font-display text-[52px] font-medium uppercase leading-[0.98] tracking-[0.01em] text-gold sm:text-[68px] lg:text-[76px]"
+          className="font-display text-[44px] font-medium uppercase leading-[1.32] tracking-[0.005em] text-gold sm:text-[58px] lg:text-[70px]"
         >
           Bhavya
           <br />
@@ -144,7 +148,7 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: EASE, delay: 0.38 }}
-          className="mt-7 max-w-[330px] font-ui text-[13px] leading-relaxed text-white/80"
+          className="mt-6 max-w-[321px] font-ui text-[14px] leading-[1.55] text-white"
         >
           A silverware house fostering love &amp; oneness — cast in 925, worn without apology.
         </motion.p>
@@ -155,19 +159,13 @@ function Hero() {
           transition={{ duration: 0.9, ease: EASE, delay: 0.52 }}
           className="mt-9 flex flex-wrap items-center gap-3"
         >
-          <Link
-            href="/shop"
-            className="group inline-flex items-center gap-2.5 border border-white/70 px-6 py-3 font-ui text-[11px] uppercase tracking-[0.18em] text-white transition-colors duration-300 hover:border-gold hover:text-gold"
-          >
+          <Link href="/shop" className={HERO_BTN}>
             Shop Now
-            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <ArrowUpRight className="h-[18px] w-[18px] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
-          <Link
-            href="/campaign"
-            className="group inline-flex items-center gap-2.5 border border-white/70 px-6 py-3 font-ui text-[11px] uppercase tracking-[0.18em] text-white transition-colors duration-300 hover:border-gold hover:text-gold"
-          >
+          <Link href="/campaign" className={HERO_BTN}>
             View Campaign
-            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <ArrowUpRight className="h-[18px] w-[18px] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
         </motion.div>
       </div>

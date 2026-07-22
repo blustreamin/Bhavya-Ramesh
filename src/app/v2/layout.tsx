@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Playfair_Display, Manrope } from "next/font/google";
 
 /* Desktop-10 type pairing.
-   Canela Deck → Cormorant Garamond (high-contrast display serif)
+   Canela Deck → Playfair Display (sturdy high-contrast display serif)
    Avenir Next → Manrope (geometric humanist sans) */
-const display = Cormorant_Garamond({
+const display = Playfair_Display({
   variable: "--font-v2-display",
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
