@@ -51,7 +51,7 @@ const LOOKS: Look[] = [
  * `alwaysOn` shows the hovered state permanently (maroon gradient, white
  * name, visible share icons) — used on mobile/touch where there is no hover.
  */
-function LookCard({ look, alwaysOn }: { look: Look; alwaysOn?: boolean }) {
+function LookCard({ look, alwaysOn, gold }: { look: Look; alwaysOn?: boolean; gold?: boolean }) {
   return (
     <article className="group relative aspect-[291/518] overflow-hidden rounded-[6px]">
       <Image
@@ -75,7 +75,7 @@ function LookCard({ look, alwaysOn }: { look: Look; alwaysOn?: boolean }) {
       />
       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5">
         <div>
-          <h3 className={`font-sans text-[18px] font-bold transition-colors duration-300 ${alwaysOn ? "text-white" : "text-brand group-hover:text-white"}`}>
+          <h3 className={`font-sans text-[18px] font-bold transition-colors duration-300 ${alwaysOn ? "text-white" : `${gold ? "text-gold" : "text-brand"} group-hover:text-white`}`}>
             {look.name}
           </h3>
           <p className="mt-1.5 text-[11px] leading-snug text-white/85">{look.quote}</p>
@@ -97,7 +97,14 @@ export function AsWorn({
   eyebrow = "As Worn",
   intro = true,
   id = "as-worn",
-}: { eyebrow?: string; intro?: boolean; id?: string } = {}) {
+  tone = "default",
+}: { eyebrow?: string; intro?: boolean; id?: string; tone?: "default" | "gold" } = {}) {
+  /* `gold` opts into the Desktop-10 palette (champagne heading + display
+     serif). Everything else — layout, carousel, hover — is unchanged. */
+  const gold = tone === "gold";
+  const headingClass = gold
+    ? "max-w-[760px] font-display text-[40px] font-medium leading-[1.12] text-gold sm:text-[56px] lg:text-[64px]"
+    : "max-w-[700px] font-serif text-[40px] leading-[1.05] text-white sm:text-[56px] lg:text-[65px]";
   const ref = useScrollReveal<HTMLDivElement>({ childSelector: "[data-reveal]" });
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -131,10 +138,7 @@ export function AsWorn({
               {eyebrow}
             </p>
             <div className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-              <h2
-                data-reveal
-                className="max-w-[700px] font-serif text-[40px] leading-[1.05] text-white sm:text-[56px] lg:text-[65px]"
-              >
+              <h2 data-reveal className={headingClass}>
                 Jewellery, lived in and made your own.
               </h2>
               <div data-reveal className="lg:max-w-[340px]">
@@ -143,7 +147,7 @@ export function AsWorn({
                   alive.
                 </p>
                 <p className="mt-4 text-right text-[14px] leading-relaxed text-white/90 lg:text-left">
-                  <span className="font-semibold text-brand">Tag @bhavyaramesh</span>{" "}
+                  <span className={`font-semibold ${gold ? "text-gold" : "text-brand"}`}>Tag @bhavyaramesh</span>{" "}
                   and show us how you wear it.
                 </p>
               </div>
@@ -162,7 +166,7 @@ export function AsWorn({
         <div className="mt-12 hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-4">
           {LOOKS.map((look) => (
             <div data-reveal key={look.name} className="h-full">
-              <LookCard look={look} />
+              <LookCard look={look} gold={gold} />
             </div>
           ))}
         </div>
@@ -176,7 +180,7 @@ export function AsWorn({
           >
             {LOOKS.map((look) => (
               <div key={look.name} className="w-[80%] shrink-0 snap-start">
-                <LookCard look={look} alwaysOn />
+                <LookCard look={look} alwaysOn gold={gold} />
               </div>
             ))}
           </div>

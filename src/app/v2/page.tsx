@@ -5,6 +5,9 @@ import Link from "next/link";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { ArchiveStory } from "@/components/ArchiveStory";
+import { MobileArchive } from "@/components/MobileArchive";
+import { AsWorn } from "@/components/AsWorn";
 import { useCartStore } from "@/store/cart";
 import { useWishlistStore } from "@/store/wishlist";
 
@@ -871,112 +874,6 @@ function Studio() {
 }
 
 /* ------------------------------------------------------------------ *
- * Silver band — product marquee
- * ------------------------------------------------------------------ */
-
-const PIECES = [
-  "/figma/0ac665a7b31c1af331d3a4b60fcc2f206b879fe6.png",
-  "/figma/2a355c7498cf8b92e7a6ac3c9ece1bd727aa71eb.png",
-  "/figma/1f474d211aff17d1dedca3194dfbb8c53fc87608.png",
-  "/figma/95beb547aaa54910ead91e1a68155105422f32ed.png",
-  "/figma/21a0dd581cc789481ac99ca16744ccf7c1ecb7c4.png",
-  "/figma/caddd41f91522c9bccca2f032c557f1827533177.png",
-  "/figma/2e78e9da92e032cfa2ddab3251a428c5f2779077.png",
-  "/figma/7984d4b313728d13da8d454c336b438c671fa723.png",
-];
-
-function SilverBand() {
-  const row = (
-    <div className="flex shrink-0 items-center">
-      {PIECES.map((src, i) => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          key={`${src}-${i}`}
-          src={src}
-          alt=""
-          aria-hidden
-          className="mx-10 h-[150px] w-auto object-contain opacity-90 lg:h-[200px]"
-        />
-      ))}
-    </div>
-  );
-  return (
-    <section className="overflow-hidden border-y border-white/10 bg-night py-16 lg:py-20">
-      <motion.div
-        className="flex w-max"
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{ duration: 55, ease: "linear", repeat: Infinity }}
-      >
-        {row}
-        {row}
-      </motion.div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ *
- * As Worn
- * ------------------------------------------------------------------ */
-
-const WORN = [
-  { name: "Aanya S", image: "/v2/worn1.png", quote: "Didn't think I was a jewellery person until this. Now it's the first thing I reach for before stepping out." },
-  { name: "Ritvik Kumar", image: "/v2/worn2.png", quote: "Wore this once and suddenly every outfit started making more sense. It just hits different." },
-  { name: "Meher Dhall", image: "/v2/worn3.png", quote: "Love how it feels rooted but still so unexpected. It's not traditional, but it still feels like home." },
-  { name: "Ishaan R", image: "/v2/worn4.png", quote: "People keep asking where it's from — and honestly, I like gatekeeping it a little." },
-];
-
-function AsWorn() {
-  return (
-    <section className={`${SHELL} py-20 lg:py-28`}>
-      <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
-        <Reveal>
-          <Eyebrow>As Worn</Eyebrow>
-          <h2 className="mt-5 max-w-[620px] font-display text-[40px] font-medium leading-[1.08] text-gold sm:text-[54px] lg:text-[60px]">
-            Jewellery, lived in and made your own.
-          </h2>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <div className="max-w-[400px]">
-            <p className="font-ui text-[13px] leading-[1.85] text-white/60">
-              From everyday moments to standout fits — this is how the pieces come alive.
-            </p>
-            <p className="mt-4 font-ui text-[13px] leading-[1.85] text-white/60">
-              <span className="text-gold">Tag @bhavyaramesh</span> and show us how you wear it.
-            </p>
-          </div>
-        </Reveal>
-      </div>
-
-      <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {WORN.map((w, i) => (
-          <Reveal key={w.name} delay={i * 0.07}>
-            <figure className="group relative overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={w.image}
-                alt={w.name}
-                className="h-[420px] w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.05] lg:h-[500px]"
-              />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
-              <figcaption className="absolute inset-x-0 bottom-0 p-5">
-                <p className="font-ui text-[13px] font-semibold tracking-[0.04em] text-gold">{w.name}</p>
-                <p className="mt-2 font-ui text-[11px] leading-[1.6] text-white/70">{w.quote}</p>
-              </figcaption>
-            </figure>
-          </Reveal>
-        ))}
-      </div>
-
-      <Reveal className="mt-12 flex justify-end">
-        <Link href="/campaign" className="font-ui text-[13px] text-white underline underline-offset-[6px] transition-colors hover:text-gold">
-          View More
-        </Link>
-      </Reveal>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ *
  * The House
  * ------------------------------------------------------------------ */
 
@@ -1051,8 +948,13 @@ export default function V2Page() {
         <Bestsellers />
         <Rule />
         <Studio />
-        <SilverBand />
-        <AsWorn />
+        {/* Archive story from the previous homepage — scroll-driven on
+            desktop, stacked on mobile */}
+        <div className="hidden lg:block">
+          <ArchiveStory />
+        </div>
+        <MobileArchive />
+        <AsWorn tone="gold" />
         <House />
         <Rule />
       </main>
