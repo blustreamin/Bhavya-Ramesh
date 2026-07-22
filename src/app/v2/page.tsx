@@ -476,16 +476,27 @@ function SignatureCard({ product }: { product: (typeof SIGNATURE)[number] }) {
   };
 
   return (
-    <motion.article
-      whileHover={{ y: -8 }}
-      transition={{ type: "spring", stiffness: 240, damping: 24 }}
-      className="group relative overflow-hidden rounded-[3px] border border-[#2a2a29] bg-[#080707] transition-colors duration-500 hover:border-gold/45"
-    >
-      {/* gold hairline sweeps across the top edge on hover */}
-      <span
+    <article className="group relative overflow-hidden rounded-[3px] border border-[#2a2a29] bg-[#080707]">
+      {/* a gold line traces the whole border on hover (pathLength keeps it
+          exact at any card size) */}
+      <svg
         aria-hidden
-        className="absolute inset-x-0 top-0 z-20 h-px origin-left scale-x-0 bg-gradient-to-r from-transparent via-gold to-transparent transition-transform duration-700 ease-out group-hover:scale-x-100"
-      />
+        className="pointer-events-none absolute inset-0 z-30 h-full w-full overflow-visible"
+        fill="none"
+        preserveAspectRatio="none"
+      >
+        <rect
+          x="0"
+          y="0"
+          width="100%"
+          height="100%"
+          rx="3"
+          pathLength={1}
+          stroke="#c0ab79"
+          strokeWidth="1.5"
+          className="[stroke-dasharray:1] [stroke-dashoffset:1] transition-[stroke-dashoffset] duration-[900ms] ease-out group-hover:[stroke-dashoffset:0]"
+        />
+      </svg>
 
       {/* portrait frame matched to the photography so it fills edge to edge */}
       <div ref={frameRef} className="relative aspect-[3/4] w-full overflow-hidden">
@@ -498,7 +509,7 @@ function SignatureCard({ product }: { product: (typeof SIGNATURE)[number] }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-[1.06]"
+            className="absolute inset-0 h-full w-full object-cover"
           />
         </AnimatePresence>
         {/* legibility wash — deepens on hover so the copy stays crisp */}
@@ -528,8 +539,8 @@ function SignatureCard({ product }: { product: (typeof SIGNATURE)[number] }) {
         +
       </motion.button>
 
-      {/* overlaid details — lift slightly on hover */}
-      <div className="absolute inset-x-0 bottom-0 z-20 flex items-end justify-between gap-4 p-[18px] transition-transform duration-500 ease-out group-hover:-translate-y-1">
+      {/* overlaid details */}
+      <div className="absolute inset-x-0 bottom-0 z-20 flex items-end justify-between gap-4 p-[18px]">
         <div>
           <h3 className="font-ui text-[16px] font-bold leading-[1.4] text-white">{product.name}</h3>
           <p className="mt-0.5 font-ui text-[14px] leading-[1.4] text-white">{inr(product.price)}</p>
@@ -559,7 +570,7 @@ function SignatureCard({ product }: { product: (typeof SIGNATURE)[number] }) {
           ))}
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 }
 
