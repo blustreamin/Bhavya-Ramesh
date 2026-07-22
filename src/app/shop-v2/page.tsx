@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "@/components/Header";
@@ -124,7 +124,7 @@ const DETAILS = [
   },
 ];
 
-const RAIL = [
+const RAIL_BASE = [
   {
     id: "agni-nail-ring",
     name: "Agni Nail Ring",
@@ -150,6 +150,9 @@ const RAIL = [
     image: "/shopv2/rail3.png",
   },
 ];
+
+/* Six slides per rail — the catalogue repeats until real data lands. */
+const RAIL = [...RAIL_BASE, ...RAIL_BASE.map((p) => ({ ...p, id: `${p.id}-b` }))];
 
 const REVIEWS = [
   {
@@ -442,17 +445,100 @@ function RailCard({ item }: { item: (typeof RAIL)[number] }) {
   );
 }
 
+/** Circular slider control — desktop only. */
+function SlideBtn({ dir, onClick, disabled }: { dir: "prev" | "next"; onClick: () => void; disabled: boolean }) {
+  return (
+    <button
+      type="button"
+      aria-label={dir === "prev" ? "Previous products" : "Next products"}
+      onClick={onClick}
+      disabled={disabled}
+      className={`absolute top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/45 bg-black/50 text-white backdrop-blur-sm transition-all duration-300 hover:border-gold hover:text-gold disabled:pointer-events-none disabled:opacity-0 sm:flex ${
+        dir === "prev" ? "-left-3 lg:-left-6" : "-right-3 lg:-right-6"
+      }`}
+    >
+      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
+        <path
+          d={dir === "prev" ? "M15 6l-6 6 6 6" : "M9 6l6 6-6 6"}
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </button>
+  );
+}
+
 function Rail({ title }: { title: string }) {
+  const scroller = useRef<HTMLDivElement>(null);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+  const [active, setActive] = useState(0);
+
+  /** One card + the 1rem gap. */
+  const step = () => {
+    const el = scroller.current;
+    const card = el?.firstElementChild as HTMLElement | undefined;
+    return card ? card.getBoundingClientRect().width + 16 : 0;
+  };
+
+  const update = () => {
+    const el = scroller.current;
+    if (!el) return;
+    setAtStart(el.scrollLeft <= 2);
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2);
+    const s = step();
+    if (s > 0) setActive(Math.round(el.scrollLeft / s));
+  };
+  useEffect(() => {
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const by = (dir: number) => scroller.current?.scrollBy({ left: dir * step(), behavior: "smooth" });
+  const goToSlide = (i: number) => scroller.current?.scrollTo({ left: i * step(), behavior: "smooth" });
+
   return (
     <section className={`${SHELL} py-16 lg:py-20`}>
       <Reveal>
         <SectionHead title={title} />
       </Reveal>
-      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+
+      <div className="relative mt-10">
+        <div
+          ref={scroller}
+          onScroll={update}
+          className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth"
+        >
+          {RAIL.map((item) => (
+            <div
+              key={`${title}-${item.id}`}
+              className="w-[78%] shrink-0 snap-start sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]"
+            >
+              <RailCard item={item} />
+            </div>
+          ))}
+        </div>
+
+        <SlideBtn dir="prev" onClick={() => by(-1)} disabled={atStart} />
+        <SlideBtn dir="next" onClick={() => by(1)} disabled={atEnd} />
+      </div>
+
+      {/* phones use dots instead of the side arrows */}
+      <div className="mt-7 flex justify-center gap-2 sm:hidden">
         {RAIL.map((item, i) => (
-          <Reveal key={`${title}-${item.id}`} delay={i * 0.08}>
-            <RailCard item={item} />
-          </Reveal>
+          <button
+            key={`${title}-dot-${item.id}`}
+            type="button"
+            aria-label={`Go to product ${i + 1}`}
+            aria-current={active === i}
+            onClick={() => goToSlide(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              active === i ? "w-6 bg-gold" : "w-1.5 bg-white/30"
+            }`}
+          />
         ))}
       </div>
     </section>
