@@ -88,10 +88,24 @@ const PRODUCT = {
   price: 15420,
   blurb:
     "Sculptural artifacts designed to be lived in. Forget the rules of gender, embrace the weight of identity.",
-  gallery: ["/shopv2/main.png", "/shopv2/thumb1.png", "/shopv2/thumb2.png", "/shopv2/thumb4.png"],
+  /* Each finish carries its own set of shots, so picking a swatch reskins
+     the whole gallery. */
   finishes: [
-    { label: "Silver", color: "#d9d9d9" },
-    { label: "Gold", color: "#c0ab79" },
+    {
+      label: "Silver",
+      color: "#d9d9d9",
+      gallery: ["/shopv2/main.png", "/shopv2/thumb1.png", "/shopv2/thumb2.png", "/shopv2/thumb4.png"],
+    },
+    {
+      label: "Gold",
+      color: "#c0ab79",
+      gallery: [
+        "/shopv2/main-gold.png",
+        "/shopv2/thumb1-gold.png",
+        "/shopv2/thumb2-gold.png",
+        "/shopv2/thumb4-gold.png",
+      ],
+    },
   ],
 };
 
@@ -168,9 +182,9 @@ const REVIEWS = [
  * Gallery — vertical thumb rail + main image
  * ------------------------------------------------------------------ */
 
-function Gallery() {
+function Gallery({ finish }: { finish: number }) {
   const [active, setActive] = useState(0);
-  const thumbs = PRODUCT.gallery;
+  const thumbs = PRODUCT.finishes[finish].gallery;
 
   return (
     // Figma: 177 thumb rail / 530 main, with a 68px gutter between them
@@ -240,8 +254,7 @@ function Gallery() {
  * Info panel
  * ------------------------------------------------------------------ */
 
-function Info() {
-  const [finish, setFinish] = useState(0);
+function Info({ finish, setFinish }: { finish: number; setFinish: (i: number) => void }) {
   const [qty, setQty] = useState(1);
   const [open, setOpen] = useState<number[]>([0, 1, 2]);
   const addLocal = useCartStore((s) => s.addLocal);
@@ -251,14 +264,14 @@ function Info() {
   const add = () => {
     for (let i = 0; i < qty; i++) {
       addLocal(
-        { id: PRODUCT.id, name: PRODUCT.name, price: PRODUCT.price, image: PRODUCT.gallery[0] },
+        { id: PRODUCT.id, name: PRODUCT.name, price: PRODUCT.price, image: PRODUCT.finishes[finish].gallery[0] },
         PRODUCT.finishes[finish].label.toLowerCase() === "gold" ? "gold" : "silver",
       );
     }
     if (anchor.current) {
       window.dispatchEvent(
         new CustomEvent("fly-to-cart", {
-          detail: { image: PRODUCT.gallery[0], rect: anchor.current.getBoundingClientRect() },
+          detail: { image: PRODUCT.finishes[finish].gallery[0], rect: anchor.current.getBoundingClientRect() },
         }),
       );
     }
@@ -484,6 +497,9 @@ function Reviews() {
  * ------------------------------------------------------------------ */
 
 export default function ShopV2Page() {
+  // shared so the swatches reskin the gallery
+  const [finish, setFinish] = useState(0);
+
   return (
     <>
       <Header />
@@ -492,8 +508,8 @@ export default function ShopV2Page() {
         {/* full-bleed: 775 (rail+main) / 422 info, per the Figma margins */}
         <section className="mx-auto w-full max-w-[1680px] px-6 pb-16 pt-[120px] sm:px-10 lg:px-[4.2%] lg:pb-20 lg:pt-[150px]">
           <div className="grid gap-12 lg:grid-cols-[775fr_422fr] lg:gap-[6.6%]">
-            <Gallery />
-            <Info />
+            <Gallery finish={finish} />
+            <Info finish={finish} setFinish={setFinish} />
           </div>
         </section>
 
