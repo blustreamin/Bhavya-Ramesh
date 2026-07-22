@@ -219,13 +219,17 @@ export function Header() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       onMouseLeave={() => setOpenMenu(null)}
-      className={`fixed inset-x-0 top-9 z-50 transition-colors duration-300 ${
-        scrolled || panelOpen
-          ? "border-b border-white/10 bg-black/40 backdrop-blur-xl backdrop-saturate-150"
-          : "bg-transparent"
-      }`}
+      className="fixed inset-x-0 top-9 z-50 bg-transparent"
     >
-      <nav className="flex h-16 w-full items-center justify-between gap-4 px-6 sm:h-20 sm:px-16">
+      {/* The frosted glass lives on the bar only — the flyout panels below it
+          stay fully transparent. */}
+      <nav
+        className={`flex h-16 w-full items-center justify-between gap-4 px-6 transition-colors duration-300 sm:h-20 sm:px-16 ${
+          scrolled || panelOpen
+            ? "border-b border-white/10 bg-black/40 backdrop-blur-xl backdrop-saturate-150"
+            : "bg-transparent"
+        }`}
+      >
         {/* Left: primary navigation (desktop) */}
         <ul className="hidden items-center gap-7 text-[13px] tracking-wide text-white/90 lg:flex">
           {NAV_ITEMS.map((item) => (
@@ -287,7 +291,7 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="hidden border-t border-white/10 lg:block"
+            className="hidden lg:block"
           >
             <div className="flex w-full flex-wrap gap-x-16 gap-y-8 px-6 py-10 sm:px-16">
               {JEWELLERY_MEGA.map((col) => (
@@ -315,7 +319,7 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="hidden border-t border-white/10 lg:block"
+            className="hidden lg:block"
           >
             <div className="w-full px-6 py-8 sm:px-16">
               <ul className="flex w-[260px] flex-col items-center gap-4 text-[14px] text-white/85">
