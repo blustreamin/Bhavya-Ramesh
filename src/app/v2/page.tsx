@@ -748,10 +748,12 @@ function Bestsellers() {
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
-          <div className="flex max-w-[325px] items-start gap-5 lg:mt-2">
-            <span className="h-16 w-px shrink-0 bg-white/25" />
-            <p className="font-ui text-[14px] leading-[1.5] text-white">
-              Every piece cast, cut and polished by hand.
+          <div className="flex items-start gap-6 lg:mt-2">
+            <span className="h-[65px] w-px shrink-0 bg-white/25" />
+            <p className="pt-2.5 font-ui text-[14px] leading-[1.55] text-white">
+              Every piece cast, cut
+              <br />
+              and polished by hand.
             </p>
           </div>
         </Reveal>
