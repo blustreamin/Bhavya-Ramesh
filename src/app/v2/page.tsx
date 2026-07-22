@@ -716,16 +716,20 @@ function BestTile({
   src,
   index,
   title,
+  href,
   className = "",
 }: {
   src: string;
   index: string;
   title: string;
+  href: string;
   className?: string;
 }) {
   return (
-    <div
-      className={`group relative overflow-hidden rounded-[3px] border border-[#2a2a29] bg-[#0a0a0a] ${className}`}
+    <Link
+      href={href}
+      aria-label={`${title} — view collection`}
+      className={`group relative block overflow-hidden rounded-[3px] border border-[#2a2a29] bg-[#0a0a0a] ${className}`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt={title} className="h-full w-full object-cover" />
@@ -769,7 +773,7 @@ function BestTile({
         transition={{ duration: 1, ease: EASE }}
         className="absolute inset-0 z-40 origin-top bg-night"
       />
-    </div>
+    </Link>
   );
 }
 
@@ -805,15 +809,34 @@ function Bestsellers() {
           src="/v2/best1.png"
           index="01 - FEATURED"
           title="Dinero Sun Glass"
+          href="/shop"
           className="h-[340px] lg:h-full lg:min-h-0"
         />
 
         <div className="grid gap-3 lg:min-h-0 lg:grid-rows-[minmax(0,1fr)_minmax(0,1fr)]">
-          <BestTile src="/v2/best2.png" index="02" title="Agni Nail Ring" className="h-[200px] lg:h-full lg:min-h-0" />
+          <BestTile
+            src="/v2/best2.png"
+            index="02"
+            title="Agni Nail Ring"
+            href="/products/agni-nail-ring"
+            className="h-[200px] lg:h-full lg:min-h-0"
+          />
 
           <div className="grid grid-cols-[409fr_206fr] gap-3 lg:min-h-0">
-            <BestTile src="/v2/best3.png" index="03" title="Chameli Earrings" className="h-[200px] lg:h-full lg:min-h-0" />
-            <BestTile src="/v2/best4.png" index="04" title="GilGa Ring" className="h-[200px] lg:h-full lg:min-h-0" />
+            <BestTile
+              src="/v2/best3.png"
+              index="03"
+              title="Chameli Earrings"
+              href="/shop"
+              className="h-[200px] lg:h-full lg:min-h-0"
+            />
+            <BestTile
+              src="/v2/best4.png"
+              index="04"
+              title="GilGa Ring"
+              href="/shop"
+              className="h-[200px] lg:h-full lg:min-h-0"
+            />
           </div>
         </div>
       </div>
