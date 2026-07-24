@@ -41,7 +41,7 @@ export function AccountMenu() {
             className="absolute right-0 top-full z-50 w-[268px] origin-top-right overflow-hidden rounded-2xl border border-white/12 bg-[#0c0b0f]/95 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] backdrop-blur-xl"
           >
             <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/70 to-transparent" />
-            <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(70% 50% at 80% 0%, rgba(228,99,140,0.12), transparent 60%)" }} />
+            <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(70% 50% at 80% 0%, rgba(192,171,121,0.12), transparent 60%)" }} />
 
             {loggedIn ? (
               <div className="relative p-5">
@@ -59,7 +59,7 @@ export function AccountMenu() {
                   </div>
                 </div>
 
-                <Link href="/account" className="mt-4 block rounded-full bg-gradient-to-r from-brand to-brand-soft py-2.5 text-center text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-shadow hover:shadow-[0_0_24px_-6px_rgba(228,99,140,0.6)]">
+                <Link href="/account" className="mt-4 block rounded-full bg-gradient-to-r from-brand to-brand-soft py-2.5 text-center text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-shadow hover:shadow-[0_0_24px_-6px_rgba(192,171,121,0.6)]">
                   My Account
                 </Link>
                 <div className="mt-3 flex items-center justify-center gap-3 text-[11px] uppercase tracking-widest text-white/45">
@@ -72,7 +72,7 @@ export function AccountMenu() {
               <div className="relative p-5">
                 <p className="font-serif text-[22px] leading-none text-white">Welcome</p>
                 <p className="mt-2 text-[12px] leading-relaxed text-white/50">Sign in to track orders, save addresses and curate your wishlist.</p>
-                <Link href="/account" className="mt-4 block rounded-full bg-gradient-to-r from-brand to-brand-soft py-2.5 text-center text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-shadow hover:shadow-[0_0_24px_-6px_rgba(228,99,140,0.6)]">
+                <Link href="/account" className="mt-4 block rounded-full bg-gradient-to-r from-brand to-brand-soft py-2.5 text-center text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-shadow hover:shadow-[0_0_24px_-6px_rgba(192,171,121,0.6)]">
                   Sign In
                 </Link>
                 <Link href="/account" className="mt-3 block text-center text-[11px] uppercase tracking-widest text-white/45 transition-colors hover:text-brand">

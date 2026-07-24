@@ -95,7 +95,7 @@ function WearCopy({ side, frame }: { side: "left" | "right"; frame: FrameCopy })
   const top = side === "right" ? 296 : 282;
   return (
     <div className="absolute flex flex-col" style={{ left, top }}>
-      <p className="whitespace-nowrap font-serif text-[#e4638c]" style={{ fontSize: "56px", lineHeight: "58px" }}>
+      <p className="whitespace-nowrap font-serif text-[#c0ab79]" style={{ fontSize: "56px", lineHeight: "58px" }}>
         {frame.l1}
         <br />
         {frame.l2}

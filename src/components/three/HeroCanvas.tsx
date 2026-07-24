@@ -34,7 +34,7 @@ export default function HeroCanvas() {
       {/* Lighting + reflections for the metallic finishes. */}
       <ambientLight intensity={0.35} />
       <directionalLight position={[5, 6, 5]} intensity={1.4} />
-      <directionalLight position={[-6, -2, 2]} intensity={0.5} color="#ec5198" />
+      <directionalLight position={[-6, -2, 2]} intensity={0.5} color="#cbb68a" />
 
       <Suspense fallback={null}>
         <Environment preset="city" />

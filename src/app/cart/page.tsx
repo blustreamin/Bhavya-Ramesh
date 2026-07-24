@@ -51,7 +51,7 @@ export default function CartPage() {
       <Header />
       <main className="relative min-h-screen overflow-hidden bg-black px-5 pb-28 pt-[130px] sm:px-8">
         {/* Ambient glows */}
-        <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(60% 40% at 85% 10%, rgba(120,122,145,0.14) 0%, transparent 60%), radial-gradient(50% 45% at 5% 90%, rgba(228,99,140,0.12) 0%, transparent 62%)" }} />
+        <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(60% 40% at 85% 10%, rgba(120,122,145,0.14) 0%, transparent 60%), radial-gradient(50% 45% at 5% 90%, rgba(192,171,121,0.12) 0%, transparent 62%)" }} />
 
         <div className="relative mx-auto max-w-[1280px]">
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -71,7 +71,7 @@ export default function CartPage() {
               </div>
               <p className="mt-6 font-serif text-[28px] text-white">Your bag is empty</p>
               <p className="mt-2 max-w-sm text-sm text-white/50">Discover sculptural pieces made to be lived in — and worn like nobody&apos;s watching.</p>
-              <Link href="/#new-arrivals" className="group mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand to-brand-soft px-8 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:shadow-[0_0_30px_-6px_rgba(228,99,140,0.6)]">
+              <Link href="/#new-arrivals" className="group mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand to-brand-soft px-8 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:shadow-[0_0_30px_-6px_rgba(192,171,121,0.6)]">
                 Start Shopping <Icon d={P.arrow} className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </motion.div>
@@ -91,7 +91,7 @@ export default function CartPage() {
                       className="group relative flex gap-4 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition-colors hover:border-white/20 sm:gap-5 sm:p-5"
                     >
                       <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-white/[0.08] to-transparent sm:h-32 sm:w-32">
-                        <div aria-hidden className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={{ background: "radial-gradient(70% 70% at 50% 30%, rgba(228,99,140,0.25) 0%, transparent 70%)" }} />
+                        <div aria-hidden className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={{ background: "radial-gradient(70% 70% at 50% 30%, rgba(192,171,121,0.25) 0%, transparent 70%)" }} />
                         {l.image?.url && (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={l.image.url} alt={l.title} className="relative h-full w-full object-contain p-3 transition-transform duration-500 group-hover:scale-105" />
@@ -150,7 +150,7 @@ export default function CartPage() {
                     <span className="font-serif text-[30px] text-white">{formatPrice(total)}</span>
                   </div>
 
-                  <Link href="/checkout" className="group mt-6 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand to-brand-soft py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:shadow-[0_0_34px_-6px_rgba(228,99,140,0.65)]">
+                  <Link href="/checkout" className="group mt-6 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand to-brand-soft py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:shadow-[0_0_34px_-6px_rgba(192,171,121,0.65)]">
                     Proceed to Checkout <Icon d={P.arrow} className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                   <Link href="/#new-arrivals" className="mt-4 block text-center text-[12px] uppercase tracking-widest text-white/45 transition-colors hover:text-brand">

@@ -2,7 +2,7 @@
 
 /*
  * Bhavya Ramesh — design tokens.
- * Dark, near-black canvas with a magenta/pink brand accent and an
+ * Dark, near-black canvas with a champagne gold brand accent and an
  * elegant serif display face paired with a clean geometric sans.
  */
 :root {
@@ -16,9 +16,9 @@
   --color-foreground: var(--foreground);
 
   /* Brand palette */
-  --color-brand: #e4638c; /* product names / headings pink (Figma #e4638c) */
-  --color-brand-soft: #ec5198; /* CTA / button pink */
-  --color-brand-hover: #e878a8; /* softer pink hover */
+  --color-brand: #c0ab79; /* product names / headings — champagne gold */
+  --color-brand-soft: #cbb68a; /* CTA / button gold */
+  --color-brand-hover: #d2c09a; /* softer gold hover */
   --color-maroon: #2a0f1c; /* deep maroon glow used behind hero/cards */
   --color-ink: #d0d0d0; /* muted grey body text (Figma #d0d0d0) */
 
@@ -59,8 +59,8 @@ body {
   background-image: radial-gradient(
       240px 240px at var(--mx) var(--my),
       rgba(255, 214, 230, 1) 0%,
-      rgba(236, 81, 152, 0.85) 28%,
-      rgba(236, 81, 152, 0) 62%
+      rgba(203,182,138, 0.85) 28%,
+      rgba(203,182,138, 0) 62%
     ),
     linear-gradient(#1b181f, #1b181f);
   background-repeat: no-repeat, no-repeat;

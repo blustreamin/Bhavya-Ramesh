@@ -100,14 +100,14 @@ export default function CheckoutPage() {
     <>
       <Header />
       <main className="relative min-h-screen overflow-hidden bg-black px-5 pb-28 pt-[130px] sm:px-8">
-        <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(55% 40% at 90% 8%, rgba(120,122,145,0.14) 0%, transparent 60%), radial-gradient(50% 45% at 8% 95%, rgba(228,99,140,0.12) 0%, transparent 62%)" }} />
+        <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(55% 40% at 90% 8%, rgba(120,122,145,0.14) 0%, transparent 60%), radial-gradient(50% 45% at 8% 95%, rgba(192,171,121,0.12) 0%, transparent 62%)" }} />
 
         <div className="relative mx-auto max-w-[1200px]">
           <AnimatePresence mode="wait">
             {placed ? (
               <motion.div key="done" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mx-auto flex max-w-xl flex-col items-center py-16 text-center">
                 <motion.div initial={{ scale: 0, rotate: -20 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: "spring", stiffness: 200, damping: 14 }} className="relative flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-brand to-brand-soft">
-                  <div aria-hidden className="absolute inset-0 rounded-full blur-xl" style={{ background: "rgba(228,99,140,0.5)" }} />
+                  <div aria-hidden className="absolute inset-0 rounded-full blur-xl" style={{ background: "rgba(192,171,121,0.5)" }} />
                   <svg viewBox="0 0 24 24" fill="none" className="relative h-11 w-11 text-white"><motion.path d="m5 13 4 4L19 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.5, delay: 0.2 }} /></svg>
                 </motion.div>
                 <p className="mt-8 text-[12px] uppercase tracking-[0.4em] text-brand">Order Confirmed</p>
@@ -122,7 +122,7 @@ export default function CheckoutPage() {
 
                 <div className="mt-8 flex flex-wrap justify-center gap-3">
                   <Link href="/account?tab=orders" className="rounded-full border border-white/25 px-7 py-3.5 text-[12px] font-bold uppercase tracking-widest text-white transition-colors hover:border-brand hover:text-brand">Track Order</Link>
-                  <Link href="/#new-arrivals" className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand to-brand-soft px-7 py-3.5 text-[12px] font-bold uppercase tracking-widest text-white transition-all hover:shadow-[0_0_30px_-6px_rgba(228,99,140,0.6)]">Continue Shopping <Icon d={P.arrow} className="h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
+                  <Link href="/#new-arrivals" className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand to-brand-soft px-7 py-3.5 text-[12px] font-bold uppercase tracking-widest text-white transition-all hover:shadow-[0_0_30px_-6px_rgba(192,171,121,0.6)]">Continue Shopping <Icon d={P.arrow} className="h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
                 </div>
               </motion.div>
             ) : !mounted ? (
@@ -228,7 +228,7 @@ export default function CheckoutPage() {
                         <span className="text-[13px] uppercase tracking-widest text-white/50">Total</span>
                         <span className="font-serif text-[28px] text-white">{formatPrice(total)}</span>
                       </div>
-                      <button type="submit" disabled={placing} className="group mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand to-brand-soft py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:shadow-[0_0_34px_-6px_rgba(228,99,140,0.65)] disabled:opacity-70">
+                      <button type="submit" disabled={placing} className="group mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand to-brand-soft py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:shadow-[0_0_34px_-6px_rgba(192,171,121,0.65)] disabled:opacity-70">
                         {placing ? "Placing Order…" : <>Place Order · {formatPrice(total)}</>}
                       </button>
                       <Link href="/cart" className="mt-4 block text-center text-[12px] uppercase tracking-widest text-white/45 transition-colors hover:text-brand">Back to Cart</Link>

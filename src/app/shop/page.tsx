@@ -36,7 +36,7 @@ export default function ShopPage() {
     <>
       <Header />
       <main className="relative min-h-screen overflow-hidden bg-black px-5 pb-24 pt-[120px] sm:px-8">
-        <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(80% 40% at 50% 0%, rgba(120,122,145,0.12) 0%, transparent 55%), radial-gradient(60% 40% at 100% 100%, rgba(228,99,140,0.08) 0%, transparent 60%)" }} />
+        <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(80% 40% at 50% 0%, rgba(120,122,145,0.12) 0%, transparent 55%), radial-gradient(60% 40% at 100% 100%, rgba(192,171,121,0.08) 0%, transparent 60%)" }} />
 
         <div className="relative mx-auto max-w-[1360px]">
           {/* Header */}

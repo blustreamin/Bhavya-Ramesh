@@ -48,7 +48,7 @@ export default function WishlistPage() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(60% 40% at 85% 10%, rgba(120,122,145,0.14) 0%, transparent 60%), radial-gradient(50% 45% at 5% 90%, rgba(228,99,140,0.12) 0%, transparent 62%)",
+              "radial-gradient(60% 40% at 85% 10%, rgba(120,122,145,0.14) 0%, transparent 60%), radial-gradient(50% 45% at 5% 90%, rgba(192,171,121,0.12) 0%, transparent 62%)",
           }}
         />
 
@@ -78,7 +78,7 @@ export default function WishlistPage() {
               </p>
               <Link
                 href="/shop"
-                className="group mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand to-brand-soft px-8 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:shadow-[0_0_30px_-6px_rgba(228,99,140,0.6)]"
+                className="group mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand to-brand-soft px-8 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:shadow-[0_0_30px_-6px_rgba(192,171,121,0.6)]"
               >
                 Explore the Collection
                 <Icon d={P.arrow} className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -126,7 +126,7 @@ export default function WishlistPage() {
                         <button
                           type="button"
                           onClick={() => moveToBag(item.id)}
-                          className="group/btn mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand to-brand-soft py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:shadow-[0_0_28px_-8px_rgba(228,99,140,0.7)]"
+                          className="group/btn mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand to-brand-soft py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:shadow-[0_0_28px_-8px_rgba(192,171,121,0.7)]"
                         >
                           <Icon d={P.bag} className="h-4 w-4" />
                           Move to Bag

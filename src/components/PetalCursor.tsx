@@ -112,7 +112,7 @@ export function PetalCursor() {
             alt=""
             draggable={false}
             className="block w-[24px] max-w-none select-none"
-            style={{ filter: "drop-shadow(0 1px 3px rgba(214,67,122,0.25))" }}
+            style={{ filter: "drop-shadow(0 1px 3px rgba(192,171,121,0.25))" }}
           />
         </div>
       ))}

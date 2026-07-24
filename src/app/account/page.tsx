@@ -61,7 +61,7 @@ export default function AccountPage() {
     <>
       <Header />
       <main className="relative min-h-screen overflow-hidden bg-black px-5 pb-28 pt-[120px] sm:px-8">
-        <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(60% 40% at 82% 6%, rgba(120,122,145,0.16) 0%, transparent 58%), radial-gradient(55% 45% at 5% 90%, rgba(228,99,140,0.12) 0%, transparent 62%)" }} />
+        <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(60% 40% at 82% 6%, rgba(120,122,145,0.16) 0%, transparent 58%), radial-gradient(55% 45% at 5% 90%, rgba(192,171,121,0.12) 0%, transparent 62%)" }} />
 
         <div className="relative mx-auto max-w-[1200px]">
           {!user ? (
@@ -69,7 +69,7 @@ export default function AccountPage() {
           ) : (
             <>
               {/* Hero banner */}
-              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="relative overflow-hidden rounded-3xl border border-white/10 p-8 sm:p-10" style={{ background: "linear-gradient(120deg, rgba(228,99,140,0.14), rgba(120,122,145,0.10) 45%, rgba(10,10,12,0) 80%)" }}>
+              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="relative overflow-hidden rounded-3xl border border-white/10 p-8 sm:p-10" style={{ background: "linear-gradient(120deg, rgba(192,171,121,0.14), rgba(120,122,145,0.10) 45%, rgba(10,10,12,0) 80%)" }}>
                 <p className="text-[12px] uppercase tracking-[0.35em] text-brand">Welcome back</p>
                 <h1 className="mt-3 font-serif text-[44px] leading-[0.95] text-white sm:text-[60px]">{user.name}.</h1>
                 <p className="mt-3 text-[13px] text-white/55">{user.email} · Member of the House</p>
@@ -234,7 +234,7 @@ function Wishlist() {
       {items.map((p) => (
         <Card key={p.id} className="group flex flex-col">
           <div className="relative flex h-40 items-center justify-center overflow-hidden rounded-xl">
-            <div aria-hidden className="pointer-events-none absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100" style={{ background: "radial-gradient(70% 70% at 50% 30%, rgba(228,99,140,0.22) 0%, transparent 70%)" }} />
+            <div aria-hidden className="pointer-events-none absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100" style={{ background: "radial-gradient(70% 70% at 50% 30%, rgba(192,171,121,0.22) 0%, transparent 70%)" }} />
             {p.image && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={p.image} alt={p.name} className="relative h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" />
@@ -267,13 +267,13 @@ function AuthForm() {
       <p className="mt-3 text-sm text-white/55">Sign in to track orders, save addresses and curate your wishlist.</p>
       <form onSubmit={submit} className="relative mt-8 overflow-hidden rounded-3xl border border-white/12 bg-white/[0.03] p-7 text-left backdrop-blur-sm">
         <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/70 to-transparent" />
-        <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(70% 40% at 80% 0%, rgba(228,99,140,0.1), transparent 60%)" }} />
+        <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(70% 40% at 80% 0%, rgba(192,171,121,0.1), transparent 60%)" }} />
         <div className="relative space-y-3">
           {mode === "register" && <input required value={f.name} onChange={set("name")} placeholder="Full name" className={cls} />}
           <input required type="email" value={f.email} onChange={set("email")} placeholder="Email" className={cls} />
           <input required type="password" value={f.password} onChange={set("password")} placeholder="Password" className={cls} />
         </div>
-        <button type="submit" className="relative mt-5 w-full rounded-full bg-gradient-to-r from-brand to-brand-soft py-3.5 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-shadow hover:shadow-[0_0_30px_-6px_rgba(228,99,140,0.6)]">
+        <button type="submit" className="relative mt-5 w-full rounded-full bg-gradient-to-r from-brand to-brand-soft py-3.5 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-shadow hover:shadow-[0_0_30px_-6px_rgba(192,171,121,0.6)]">
           {mode === "signin" ? "Sign In" : "Create Account"}
         </button>
         <p className="relative mt-5 text-center text-[13px] text-white/55">
