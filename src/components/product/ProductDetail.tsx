@@ -158,13 +158,13 @@ export function ProductDetail({ product }: { product: Product }) {
           {/* Coupon */}
           <div className="mt-5 flex items-center justify-between gap-3 rounded-xl border border-[#7a6a3a]/40 px-4 py-3.5"
             style={{ background: "linear-gradient(105deg, #4a3e26 0%, #2c2718 48%, #423923 100%)" }}>
-            <Icon path={ICONS.gift} className="h-6 w-6 shrink-0 text-[#e6c877]" />
+            <Icon path={ICONS.gift} className="h-6 w-6 shrink-0 text-[#c0ab79]" />
             <p className="flex-1 text-[13px] leading-tight text-white/90">
-              Get <span className="font-semibold text-[#e6c877]">10% OFF</span> on your first order
+              Get <span className="font-semibold text-[#c0ab79]">10% OFF</span> on your first order
               <br />
               Use code: <span className="font-semibold text-white">WELCOME10</span>
             </p>
-            <Icon path={ICONS.tag} className="h-6 w-6 shrink-0 text-[#e6c877]" />
+            <Icon path={ICONS.tag} className="h-6 w-6 shrink-0 text-[#c0ab79]" />
           </div>
 
           {/* Finish swatches */}
@@ -205,7 +205,7 @@ export function ProductDetail({ product }: { product: Product }) {
             whileTap={{ scale: 0.98 }}
             onClick={add}
             className="mt-3 w-full rounded-md py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-opacity hover:opacity-90"
-            style={{ background: "linear-gradient(180deg, #47252f 0%, #2c1820 100%)" }}
+            style={{ background: "linear-gradient(180deg, #4a4127 0%, #2c2617 100%)" }}
           >
             Add to Cart
           </motion.button>

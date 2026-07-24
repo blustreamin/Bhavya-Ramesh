@@ -34,7 +34,7 @@ export const newArrivals: Product[] = [
     rating: 4,
     swatches: [
       { label: "Silver", color: "#d9d9d9" },
-      { label: "Gold", color: "#d8b15a" },
+      { label: "Gold", color: "#c0ab79" },
     ],
     glow: "none",
     image: "/figma/2a355c7498cf8b92e7a6ac3c9ece1bd727aa71eb.png",
@@ -49,7 +49,7 @@ export const newArrivals: Product[] = [
     rating: 4,
     swatches: [
       { label: "Silver", color: "#d9d9d9" },
-      { label: "Gold", color: "#d8b15a" },
+      { label: "Gold", color: "#c0ab79" },
     ],
     glow: "none",
     image: "/figma/1f474d211aff17d1dedca3194dfbb8c53fc87608.png",
@@ -64,7 +64,7 @@ export const newArrivals: Product[] = [
     rating: 4,
     swatches: [
       { label: "Silver", color: "#d9d9d9" },
-      { label: "Gold", color: "#d8b15a" },
+      { label: "Gold", color: "#c0ab79" },
     ],
     glow: "none",
     image: "/figma/2a355c7498cf8b92e7a6ac3c9ece1bd727aa71eb.png",
@@ -83,7 +83,7 @@ export const featuredProducts: Product[] = [
     rating: 4,
     swatches: [
       { label: "Silver", color: "#d9d9d9" },
-      { label: "Gold", color: "#d8b15a" },
+      { label: "Gold", color: "#c0ab79" },
     ],
     glow: "none",
     image: "/figma/95beb547aaa54910ead91e1a68155105422f32ed.png",

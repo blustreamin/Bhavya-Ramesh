@@ -39,7 +39,7 @@ function Stars() {
   return (
     <div className="flex justify-center gap-1.5">
       {Array.from({ length: 5 }).map((_, i) => (
-        <svg key={i} viewBox="0 0 24 24" className="h-4 w-4 text-[#e8b44a]" fill="currentColor" aria-hidden>
+        <svg key={i} viewBox="0 0 24 24" className="h-4 w-4 text-[#c0ab79]" fill="currentColor" aria-hidden>
           <path d="M12 2.5l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.67l1.13-6.57L2.45 9.44l6.6-.96z" />
         </svg>
       ))}

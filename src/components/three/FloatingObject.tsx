@@ -32,7 +32,7 @@ export type FloatingObjectProps = {
 };
 
 const FINISHES: Record<string, string> = {
-  gold: "#d8b15a",
+  gold: "#c0ab79",
   silver: "#c7ccd1",
 };
 

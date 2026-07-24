@@ -288,7 +288,7 @@ function Info({ finish, setFinish }: { finish: number; setFinish: (i: number) =>
         {PRODUCT.name}
       </h1>
 
-      <p className="mt-4 font-ui text-[20px] font-medium text-[#dfc37f] sm:text-[24px]">
+      <p className="mt-4 font-ui text-[20px] font-medium text-[#c0ab79] sm:text-[24px]">
         Rs. {PRODUCT.price.toLocaleString("en-IN")}.00
       </p>
 
