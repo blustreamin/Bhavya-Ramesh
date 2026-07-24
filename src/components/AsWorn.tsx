@@ -103,7 +103,7 @@ export function AsWorn({
      serif). Everything else — layout, carousel, hover — is unchanged. */
   const gold = tone === "gold";
   const headingClass = gold
-    ? "max-w-[760px] font-display text-[40px] font-medium leading-[1.12] text-gold sm:text-[56px] lg:text-[64px]"
+    ? "max-w-[760px] font-display text-[30px] font-medium leading-[1.15] text-gold sm:text-[56px] lg:text-[64px]"
     : "max-w-[700px] font-serif text-[40px] leading-[1.05] text-white sm:text-[56px] lg:text-[65px]";
   const ref = useScrollReveal<HTMLDivElement>({ childSelector: "[data-reveal]" });
   const trackRef = useRef<HTMLDivElement>(null);

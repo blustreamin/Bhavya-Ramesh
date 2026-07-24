@@ -142,17 +142,18 @@ function Hero() {
         </motion.div>
       </AnimatePresence>
 
-      {/* legibility washes */}
-      <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 38%, rgba(0,0,0,0) 68%)" }} />
+      {/* legibility washes — side-lit on desktop, bottom-lit on phones */}
+      <div className="absolute inset-0 hidden sm:block" style={{ background: "linear-gradient(90deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 38%, rgba(0,0,0,0) 68%)" }} />
+      <div className="absolute inset-0 sm:hidden" style={{ background: "linear-gradient(0deg, rgba(0,0,0,0.92) 18%, rgba(0,0,0,0.55) 48%, rgba(0,0,0,0.1) 78%)" }} />
       <div className="absolute inset-0" style={{ background: "linear-gradient(0deg, rgba(1,1,0,0.9) 0%, rgba(0,0,0,0) 32%)" }} />
 
       {/* copy */}
-      <div className={`relative flex h-full flex-col justify-center ${SHELL_WIDE}`}>
+      <div className={`relative flex h-full flex-col justify-end pb-28 sm:justify-center sm:pb-24 ${SHELL_WIDE}`}>
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: EASE, delay: 0.2 }}
-          className="font-display text-[44px] font-medium uppercase leading-[1.32] tracking-[0.005em] text-gold sm:text-[58px] lg:text-[70px]"
+          className="font-display text-[40px] font-medium uppercase leading-[1.08] tracking-[0.005em] text-gold sm:text-[58px] sm:leading-[1.32] lg:text-[70px]"
         >
           Bhavya
           <br />
@@ -163,7 +164,7 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: EASE, delay: 0.38 }}
-          className="mt-6 max-w-[321px] font-ui text-[14px] leading-[1.55] text-white"
+          className="mt-5 max-w-[321px] font-ui text-[13px] leading-[1.6] text-white sm:mt-6 sm:text-[14px]"
         >
           A silverware house fostering love &amp; oneness — cast in 925, worn without apology.
         </motion.p>
@@ -330,7 +331,7 @@ function Featured() {
             whileInView="show"
             viewport={{ once: true, margin: "-100px" }}
             variants={{ show: { transition: { staggerChildren: 0.075, delayChildren: 0.25 } } }}
-            className="relative mt-6 overflow-hidden font-display text-[64px] font-medium uppercase leading-[0.97] tracking-[0.01em] text-gold sm:text-[80px] lg:text-[96px]"
+            className="relative mt-5 overflow-hidden font-display text-[46px] font-medium uppercase leading-[0.97] tracking-[0.01em] text-gold sm:mt-6 sm:text-[80px] lg:text-[96px]"
           >
             {"GILGA".split("").map((ch, idx) => (
               <motion.span
@@ -651,7 +652,7 @@ function Collection() {
     <section className={`${SHELL} py-20 sm:py-24`}>
       <Reveal>
         <p className="font-ui text-[16px] uppercase tracking-[0.03em] text-white">The Collection</p>
-        <h2 className="mt-5 max-w-[1146px] font-display text-[32px] font-medium leading-[1.25] text-gold sm:text-[40px]">
+        <h2 className="mt-4 max-w-[1146px] font-display text-[30px] font-medium leading-[1.25] text-gold sm:text-[40px]">
           Signature pieces, crafted to be timeless
         </h2>
       </Reveal>
@@ -783,7 +784,7 @@ function Bestsellers() {
       <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-start">
         <Reveal>
           <p className="font-ui text-[16px] text-white">Bestsellers</p>
-          <h2 className="mt-4 font-display text-[40px] font-medium leading-[1.17] text-gold sm:text-[52px] lg:text-[64px]">
+          <h2 className="mt-4 font-display text-[30px] font-medium leading-[1.17] text-gold sm:text-[52px] lg:text-[64px]">
             Ten worlds,
             <br />
             One vault.
@@ -916,7 +917,7 @@ function Studio() {
     <section className={`${SHELL} py-20 sm:py-24`}>
       <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-start">
         <Reveal>
-          <h2 className="font-display text-[40px] font-medium leading-[1.17] text-gold sm:text-[48px] lg:text-[56px]">
+          <h2 className="font-display text-[30px] font-medium leading-[1.17] text-gold sm:text-[48px] lg:text-[56px]">
             The Studio
           </h2>
         </Reveal>

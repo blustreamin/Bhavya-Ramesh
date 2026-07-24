@@ -191,17 +191,17 @@ function Gallery({ finish }: { finish: number }) {
 
   return (
     // Figma: 177 thumb rail / 530 main, with a 68px gutter between them
-    <div className="grid grid-cols-[64px_1fr] gap-4 sm:grid-cols-[96px_1fr] lg:grid-cols-[177fr_530fr] lg:gap-[8.8%]">
+    <div className="flex flex-col gap-4 sm:grid sm:grid-cols-[96px_1fr] lg:grid-cols-[177fr_530fr] lg:gap-[8.8%]">
       {/* thumb rail — absolute at desktop so the main image alone sets the
           row height, and the rail then fills exactly that */}
-      <div className="relative">
-      <div className="flex flex-col items-center gap-2 lg:absolute lg:inset-0 lg:gap-3">
+      <div className="order-2 sm:order-none sm:relative">
+      <div className="no-scrollbar flex items-center gap-2 overflow-x-auto sm:flex-col sm:overflow-visible lg:absolute lg:inset-0 lg:gap-3">
         <button
           type="button"
           aria-label="Previous image"
           onClick={() => setActive((i) => Math.max(0, i - 1))}
           disabled={active === 0}
-          className="py-2 text-white/80 transition-colors hover:text-gold disabled:opacity-25"
+          className="hidden py-2 text-white/80 transition-colors hover:text-gold disabled:opacity-25 sm:block"
         >
           <Chevron className="h-6 w-6 rotate-180" />
         </button>
@@ -213,7 +213,7 @@ function Gallery({ finish }: { finish: number }) {
             aria-label={`View image ${i + 1}`}
             aria-current={active === i}
             onClick={() => setActive(i)}
-            className={`min-h-0 w-full flex-1 overflow-hidden border transition-colors duration-300 ${
+            className={`min-h-0 w-[72px] shrink-0 overflow-hidden border transition-colors duration-300 sm:w-full sm:flex-1 ${
               active === i ? "border-white/70" : "border-transparent hover:border-white/30"
             }`}
           >
@@ -227,7 +227,7 @@ function Gallery({ finish }: { finish: number }) {
           aria-label="Next image"
           onClick={() => setActive((i) => Math.min(thumbs.length - 1, i + 1))}
           disabled={active === thumbs.length - 1}
-          className="py-2 text-white/80 transition-colors hover:text-gold disabled:opacity-25"
+          className="hidden py-2 text-white/80 transition-colors hover:text-gold disabled:opacity-25 sm:block"
         >
           <Chevron className="h-6 w-6" />
         </button>
@@ -235,7 +235,7 @@ function Gallery({ finish }: { finish: number }) {
       </div>
 
       {/* main image */}
-      <div className="relative min-w-0 overflow-hidden">
+      <div className="relative order-1 min-w-0 overflow-hidden sm:order-none">
         <AnimatePresence mode="wait">
           <motion.img
             key={thumbs[active]}
@@ -245,7 +245,7 @@ function Gallery({ finish }: { finish: number }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="aspect-[493/938] w-full object-contain"
+            className="aspect-[3/4] w-full object-contain sm:aspect-[493/938]"
           />
         </AnimatePresence>
       </div>
