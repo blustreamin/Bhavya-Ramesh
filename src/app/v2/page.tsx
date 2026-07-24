@@ -873,7 +873,6 @@ const STUDIO_SLIDES = [
   {
     image: "/v2/studio.png",
     alt: "Bhavya Ramesh in the studio",
-    stats: true,
     paras: [
       "Bhavya Ramesh trained as an engineer, not a designer — and it shows in the work. Structure, form, and function came first; the silver came after, chosen because it was honest, valuable, and built to outlast trends. What began as a one-person label sketching pieces on the road, inspired by the ornament traditions of Rajasthan and northern Karnataka, has grown into a full studio without losing that original instinct: nothing mediocre leaves the workshop.",
       "The brand is built around self-expression and a fluid, gender-unifying community — jewelry as identity rather than decoration. Every collection is still hand-finished, still rooted in the artisan traditions the label started with, and still made to be worn until it earns its own patina.",
@@ -957,18 +956,16 @@ function Studio() {
                   </p>
                 ))}
 
-                {slide.stats && (
-                  <dl className="mt-auto grid grid-cols-2 gap-y-9 pt-14 sm:grid-cols-4">
+                <dl className="mt-auto grid grid-cols-2 gap-y-9 pt-14 sm:grid-cols-4">
                     {STATS.map((s, i) => (
                       <div key={s.label} className={i > 0 ? "sm:border-l sm:border-white/15 sm:pl-6" : ""}>
                         <dt className="font-display text-[32px] font-medium leading-none text-gold lg:text-[36px]">
                           {s.value}
                         </dt>
                         <dd className="mt-3 max-w-[140px] font-ui text-[13px] leading-[1.4] text-smoke">{s.label}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                )}
+                    </div>
+                  ))}
+                </dl>
               </div>
             </div>
           </div>
