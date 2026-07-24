@@ -311,7 +311,7 @@ function Featured() {
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.9, ease: EASE }}
-              className="h-px w-12 origin-left bg-gold"
+              className="hidden h-px w-12 origin-left bg-gold sm:block"
             />
             <motion.p
               initial={{ opacity: 0, x: -10 }}
@@ -347,8 +347,10 @@ function Featured() {
             ))}
             <motion.span
               aria-hidden
+              // the band is w-1/3, so it must travel 300%+ of its own width to
+              // clear the heading rather than parking inside it
               initial={{ x: "-130%" }}
-              whileInView={{ x: "150%" }}
+              whileInView={{ x: "330%" }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1.4, delay: 1.05, ease: "easeInOut" }}
               className="pointer-events-none absolute inset-y-0 w-1/3 -skew-x-12"

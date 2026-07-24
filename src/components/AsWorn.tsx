@@ -146,7 +146,7 @@ export function AsWorn({
                   From everyday moments to standout fits—this is how the pieces come
                   alive.
                 </p>
-                <p className="mt-4 text-right text-[14px] leading-relaxed text-white/90 lg:text-left">
+                <p className="mt-4 text-[14px] leading-relaxed text-white/90">
                   <span className={`font-semibold ${gold ? "text-gold" : "text-brand"}`}>Tag @bhavyaramesh</span>{" "}
                   and show us how you wear it.
                 </p>

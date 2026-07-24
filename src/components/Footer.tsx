@@ -20,7 +20,7 @@ const SOCIALS = [
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-black px-5 pt-20 pb-[calc(15vw-70px)] sm:px-8">
+    <footer className="relative overflow-hidden bg-black px-5 pt-20 pb-[calc(9vw+40px)] sm:px-8">
       {/* Oversized "Bhavya Ramesh" wordmark behind the content — dark by
           default, a focus spotlight follows the cursor on hover. */}
       <ShineOn />
@@ -79,7 +79,7 @@ export function Footer() {
                 key={label}
                 href={href}
                 aria-label={label}
-                className="transition-transform hover:scale-110"
+                className="transition-transform hover:scale-110 focus-visible:outline-none"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={src} alt={label} className="h-8 w-8 object-contain" />
