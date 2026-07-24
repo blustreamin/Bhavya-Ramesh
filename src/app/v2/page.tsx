@@ -263,7 +263,7 @@ function Featured() {
   const glow = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
 
   return (
-    <section ref={ref} className={`${SHELL} overflow-hidden py-24 lg:py-36`}>
+    <section ref={ref} className={`${SHELL} overflow-hidden py-20 sm:py-24`}>
       {/* 53 / 32 columns with a 15% gutter — the Figma proportions */}
       <div className="grid items-center gap-14 lg:grid-cols-[53fr_32fr] lg:gap-[15%]">
         {/* artwork — curtain reveal, parallax drift, slow zoom on hover */}
@@ -648,7 +648,7 @@ function Collection() {
   };
 
   return (
-    <section className={`${SHELL} py-20 lg:py-28`}>
+    <section className={`${SHELL} py-20 sm:py-24`}>
       <Reveal>
         <p className="font-ui text-[16px] uppercase tracking-[0.03em] text-white">The Collection</p>
         <h2 className="mt-5 max-w-[1146px] font-display text-[32px] font-medium leading-[1.25] text-gold sm:text-[40px]">
@@ -779,7 +779,7 @@ function BestTile({
 
 function Bestsellers() {
   return (
-    <section className={`${SHELL} py-16 lg:py-20`}>
+    <section className={`${SHELL} py-20 sm:py-24`}>
       <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-start">
         <Reveal>
           <p className="font-ui text-[16px] text-white">Bestsellers</p>
@@ -913,7 +913,7 @@ function Studio() {
   const goTo = (i: number) => scroller.current?.scrollTo({ left: i * step(), behavior: "smooth" });
 
   return (
-    <section className={`${SHELL} py-16 lg:py-20`}>
+    <section className={`${SHELL} py-20 sm:py-24`}>
       <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-start">
         <Reveal>
           <h2 className="font-display text-[40px] font-medium leading-[1.17] text-gold sm:text-[48px] lg:text-[56px]">
@@ -997,7 +997,7 @@ function Studio() {
 
 function House() {
   return (
-    <section className={`${SHELL} py-16 lg:py-20`}>
+    <section className={`${SHELL} py-20 sm:py-24`}>
       {/* Figma: 780 copy column, 343 image starting at 72%. Two columns from
           tablet up; stacked with a centred serpent on phones. */}
       <div className="grid gap-10 md:grid-cols-[780fr_343fr] md:gap-[6%] lg:gap-[9%]">

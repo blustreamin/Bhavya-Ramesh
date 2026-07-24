@@ -130,7 +130,7 @@ export function AsWorn({
   };
 
   return (
-    <section id={id} className={intro ? "relative bg-black px-5 py-20 sm:px-8 sm:py-24" : "relative px-5 py-16 sm:px-12"}>
+    <section id={id} className={intro ? "relative bg-black px-5 py-20 sm:px-8 sm:py-24" : "relative px-5 py-20 sm:px-12 sm:py-24"}>
       <div ref={ref} className={`mx-auto ${intro ? "max-w-[1400px]" : "max-w-[1360px]"}`}>
         {intro ? (
           <>

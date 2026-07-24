@@ -517,7 +517,7 @@ function Rail({ title }: { title: string }) {
   const goToSlide = (i: number) => scroller.current?.scrollTo({ left: i * step(), behavior: "smooth" });
 
   return (
-    <section className={`${SHELL} py-16 lg:py-20`}>
+    <section className={`${SHELL} py-20 sm:py-24`}>
       <Reveal>
         <SectionHead title={title} />
       </Reveal>
@@ -585,7 +585,7 @@ function Reviews() {
   };
 
   return (
-    <section className={`${SHELL} py-16 lg:py-20`}>
+    <section className={`${SHELL} py-20 sm:py-24`}>
       <Reveal>
         <SectionHead title="What People Say" />
       </Reveal>
@@ -647,7 +647,7 @@ export default function ShopV2Page() {
       <main className="bg-[#020202] font-ui text-white">
         {/* gallery + info */}
         {/* full-bleed: 775 (rail+main) / 422 info, per the Figma margins */}
-        <section className="mx-auto w-full max-w-[1680px] px-6 pb-16 pt-[120px] sm:px-10 lg:px-[4.2%] lg:pb-20 lg:pt-[150px]">
+        <section className="mx-auto w-full max-w-[1680px] px-6 pb-20 pt-[120px] sm:px-10 sm:pb-24 lg:px-[4.2%] lg:pt-[150px]">
           <div className="grid gap-12 lg:grid-cols-[775fr_422fr] lg:gap-[6.6%]">
             <Gallery finish={finish} />
             <Info finish={finish} setFinish={setFinish} />
