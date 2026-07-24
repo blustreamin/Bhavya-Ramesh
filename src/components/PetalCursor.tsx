@@ -3,9 +3,9 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Pink lotus petals that drop from the cursor as it moves, drifting down and
- * fading out — a soft, on-brand replacement for the snake cursor. Pointer
- * events are disabled; skipped on touch devices and for reduced motion.
+ * Lotus petals that drop from the pointer, drifting down and fading out.
+ * On a mouse they trail the cursor; on touch they burst from each tap.
+ * Pointer events are disabled; skipped entirely for reduced motion.
  */
 
 const COUNT = 36; // pool of reusable petal elements
@@ -26,9 +26,7 @@ export function PetalCursor() {
   const refs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const coarse = window.matchMedia("(pointer: coarse)").matches;
-    if (reduce || coarse) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const petals: Petal[] = Array.from({ length: COUNT }, () => ({
       active: false, x: 0, y: 0, vx: 0, vy: 0, rot: 0, vrot: 0, life: 0, size: 1,
@@ -37,13 +35,14 @@ export function PetalCursor() {
     let cursor = 0;
     let lastSpawn = 0;
 
-    const spawn = () => {
+    /** `spread` widens the scatter for the tap burst. */
+    const spawn = (spread = 1) => {
       const p = petals[cursor % COUNT];
       cursor++;
       p.active = true;
-      p.x = mouse.x + (Math.random() - 0.5) * 14;
-      p.y = mouse.y + (Math.random() - 0.5) * 6;
-      p.vx = (Math.random() - 0.5) * 1.1;
+      p.x = mouse.x + (Math.random() - 0.5) * 14 * spread;
+      p.y = mouse.y + (Math.random() - 0.5) * 6 * spread;
+      p.vx = (Math.random() - 0.5) * 1.1 * spread;
       p.vy = 0.5 + Math.random() * 1.3;
       p.rot = Math.random() * 360;
       p.vrot = (Math.random() - 0.5) * 7;
@@ -61,6 +60,16 @@ export function PetalCursor() {
       }
     };
     window.addEventListener("mousemove", onMove, { passive: true });
+
+    // Touch: no hover to trail, so each tap releases a small burst.
+    const onTap = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") return;
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      const burst = 6;
+      for (let n = 0; n < burst; n++) spawn(2.4);
+    };
+    window.addEventListener("pointerdown", onTap, { passive: true });
 
     let raf = 0;
     const loop = () => {
@@ -93,11 +102,12 @@ export function PetalCursor() {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("pointerdown", onTap);
     };
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[60] hidden overflow-hidden lg:block" aria-hidden>
+    <div className="pointer-events-none fixed inset-0 z-[60] overflow-hidden" aria-hidden>
       {Array.from({ length: COUNT }).map((_, i) => (
         <div
           key={i}
