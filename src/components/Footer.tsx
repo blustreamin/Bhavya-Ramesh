@@ -21,18 +21,8 @@ const SOCIALS = [
 export function Footer() {
   return (
     <footer className="relative overflow-hidden bg-black px-5 pt-20 pb-[calc(15vw-70px)] sm:px-8">
-      {/* Maroon glow rising on the left, behind the SHINE ON wordmark. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-0 h-2/3 w-2/3"
-        style={{
-          background:
-            "radial-gradient(60% 70% at 25% 70%, rgba(96,80,46,0.4) 0%, rgba(5,5,5,0) 70%)",
-        }}
-      />
-
-      {/* Oversized "SHINE ON" wordmark behind the content — dark by default, a
-          focus spotlight follows the cursor on hover. */}
+      {/* Oversized "Bhavya Ramesh" wordmark behind the content — dark by
+          default, a focus spotlight follows the cursor on hover. */}
       <ShineOn />
 
       {/* Footer content (on top) */}
