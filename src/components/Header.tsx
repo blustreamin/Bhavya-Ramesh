@@ -231,7 +231,7 @@ export function Header() {
         }`}
       >
         {/* Left: primary navigation (desktop) */}
-        <ul className="hidden items-center gap-7 text-[13px] tracking-wide text-white/90 lg:flex">
+        <ul className="hidden items-center gap-7 font-ui text-[12px] tracking-wide text-white lg:flex">
           {NAV_ITEMS.map((item) => (
             <li key={item.label} onMouseEnter={() => setOpenMenu(item.menu ? item.label : null)}>
               <Link
@@ -296,8 +296,8 @@ export function Header() {
             <div className="flex w-full flex-wrap gap-x-16 gap-y-8 px-6 py-10 sm:px-16">
               {JEWELLERY_MEGA.map((col) => (
                 <div key={col.title}>
-                  <h3 className="text-[15px] font-semibold text-white">{col.title}</h3>
-                  <ul className="mt-5 space-y-3.5 text-[14px] text-white/70">
+                  <h3 className="font-ui text-[15px] font-semibold text-white">{col.title}</h3>
+                  <ul className="mt-5 space-y-3.5 font-ui text-[14px] text-white/70">
                     {col.items.map((it) => (
                       <li key={it}>
                         <Link href="/shop" className="transition-colors hover:text-brand" onClick={() => setOpenMenu(null)}>
@@ -322,7 +322,7 @@ export function Header() {
             className="hidden lg:block"
           >
             <div className="w-full px-6 py-8 sm:px-16">
-              <ul className="flex w-[260px] flex-col items-center gap-4 text-[14px] text-white/85">
+              <ul className="flex w-[260px] flex-col items-center gap-4 font-ui text-[14px] text-white/85">
                 {ARCHIVE_DROPDOWN.map((it) => (
                   <li key={it}>
                     <Link href={slug(it)} className="transition-colors hover:text-brand" onClick={() => setOpenMenu(null)}>
