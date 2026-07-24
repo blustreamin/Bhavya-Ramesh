@@ -46,7 +46,7 @@ export function ProductCard({ product }: ProductCardProps) {
         className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover/card:opacity-100"
         style={{
           background:
-            "radial-gradient(110% 85% at 50% 18%, #b56a82 0%, #7d4257 30%, #3a1825 58%, #120209 82%)",
+            "radial-gradient(110% 85% at 50% 18%, #b5a06a 0%, #7d6b42 30%, #3a3018 58%, #120e02 82%)",
         }}
       />
 
@@ -57,7 +57,7 @@ export function ProductCard({ product }: ProductCardProps) {
           aria-hidden
           style={{
             background:
-              "radial-gradient(120% 90% at 70% 30%, rgba(120,20,55,0.5) 0%, rgba(10,10,10,0) 60%)",
+              "radial-gradient(120% 90% at 70% 30%, rgba(96,80,46,0.5) 0%, rgba(10,10,10,0) 60%)",
           }}
         />
       )}

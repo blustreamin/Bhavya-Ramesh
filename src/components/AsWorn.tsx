@@ -71,7 +71,7 @@ function LookCard({ look, alwaysOn, gold }: { look: Look; alwaysOn?: boolean; go
       <div
         aria-hidden
         className={`absolute inset-0 transition-opacity duration-500 ${alwaysOn ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
-        style={{ background: "linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(120,20,55,0.55) 78%, rgba(10,2,6,0.95) 100%)" }}
+        style={{ background: "linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(96,80,46,0.55) 78%, rgba(10,2,6,0.95) 100%)" }}
       />
       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5">
         <div>

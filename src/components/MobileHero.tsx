@@ -137,7 +137,7 @@ export function MobileHero() {
           style={{ opacity: glow }}
           className="pointer-events-none absolute inset-0"
         >
-          <div className="absolute inset-0" style={{ background: "radial-gradient(60% 50% at 50% 48%, rgba(150,28,72,0.4) 0%, rgba(5,5,5,0) 70%)" }} />
+          <div className="absolute inset-0" style={{ background: "radial-gradient(60% 50% at 50% 48%, rgba(122,102,58,0.4) 0%, rgba(5,5,5,0) 70%)" }} />
         </motion.div>
 
         {/* Wordmark — drifts up and fades on scroll */}

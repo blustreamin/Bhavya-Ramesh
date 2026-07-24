@@ -205,10 +205,10 @@ export function HeroStory() {
         <div className="relative shrink-0 origin-center" style={{ width: STAGE_W, height: STAGE_H, transform: `scale(${stageScale})` }}>
           {/* Glows — soft, minimal */}
           <motion.div style={{ opacity: glowBottom }} className="pointer-events-none absolute inset-0" aria-hidden>
-            <div className="absolute inset-0" style={{ background: "radial-gradient(60% 90% at 50% 100%, rgba(120,20,55,0.32) 0%, rgba(5,5,5,0) 72%)" }} />
+            <div className="absolute inset-0" style={{ background: "radial-gradient(60% 90% at 50% 100%, rgba(96,80,46,0.32) 0%, rgba(5,5,5,0) 72%)" }} />
           </motion.div>
           <motion.div style={{ opacity: glowCenter }} className="pointer-events-none absolute inset-0" aria-hidden>
-            <div className="absolute inset-0" style={{ background: "radial-gradient(68% 78% at 58% 56%, rgba(150,28,72,0.4) 0%, rgba(5,5,5,0) 68%)" }} />
+            <div className="absolute inset-0" style={{ background: "radial-gradient(68% 78% at 58% 56%, rgba(122,102,58,0.4) 0%, rgba(5,5,5,0) 68%)" }} />
           </motion.div>
 
           {/* Scene 1 — jewellery */}

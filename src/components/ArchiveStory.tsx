@@ -105,7 +105,7 @@ export function ArchiveStory() {
           />
           <div
             className="absolute inset-0"
-            style={{ background: "radial-gradient(60% 80% at 50% 60%, rgba(120,20,55,0.3) 0%, rgba(5,5,5,0) 70%)" }}
+            style={{ background: "radial-gradient(60% 80% at 50% 60%, rgba(96,80,46,0.3) 0%, rgba(5,5,5,0) 70%)" }}
           />
         </motion.div>
 
