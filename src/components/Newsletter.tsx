@@ -21,7 +21,7 @@ export function Newsletter() {
 
   return (
     <div className="max-w-md">
-      <h2 className="font-serif text-5xl font-light leading-[1.05] text-white sm:text-6xl">
+      <h2 className="font-display text-5xl font-medium leading-[1.05] text-white sm:text-6xl">
         Subscribe to
         <br />
         Newsletter

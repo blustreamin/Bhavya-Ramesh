@@ -3,7 +3,7 @@
 import { useRef } from "react";
 
 /**
- * The oversized "SHINE ON" footer watermark. A dark static wordmark; on hover a
+ * The oversized "Bhavya Ramesh" footer watermark. A dark static wordmark; on hover a
  * focus "spotlight" follows the cursor and lights up the letters under it
  * (handled in CSS via the --mx/--my custom properties — see globals.css).
  */
@@ -23,9 +23,9 @@ export function ShineOn() {
       ref={ref}
       aria-hidden
       onMouseMove={onMove}
-      className="shine-on absolute inset-x-0 bottom-[-1.2vw] z-0 cursor-default select-none whitespace-nowrap text-center font-serif font-semibold leading-none text-[20vw]"
+      className="shine-on absolute inset-x-0 bottom-[-0.8vw] z-0 cursor-default select-none whitespace-nowrap text-center font-display font-semibold uppercase leading-none text-[11.4vw]"
     >
-      SHINE ON
+      Bhavya Ramesh
     </span>
   );
 }

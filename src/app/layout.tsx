@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mulish, Italiana, Poppins } from "next/font/google";
+import { Mulish, Italiana, Poppins, Playfair_Display, Manrope } from "next/font/google";
 import "./globals.css";
 import { PetalCursor } from "@/components/PetalCursor";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
@@ -19,6 +19,23 @@ const mulish = Mulish({
 const italiana = Italiana({
   variable: "--font-serif",
   weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+/* Desktop-10 pairing, declared here so every route (including the shared
+   header/footer) can use it: Canela Deck → Playfair Display, Avenir Next →
+   Manrope. */
+const v2Display = Playfair_Display({
+  variable: "--font-v2-display",
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const v2Ui = Manrope({
+  variable: "--font-v2-ui",
   subsets: ["latin"],
   display: "swap",
 });
@@ -62,7 +79,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${mulish.variable} ${italiana.variable} ${poppins.variable} h-full antialiased`}
+      className={`${mulish.variable} ${italiana.variable} ${poppins.variable} ${v2Display.variable} ${v2Ui.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <AnnouncementBar />
