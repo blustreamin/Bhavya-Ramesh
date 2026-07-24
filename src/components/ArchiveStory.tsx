@@ -99,7 +99,7 @@ export function ArchiveStory({ tone = "default" }: { tone?: "default" | "gold" }
         {/* Subtle grid + maroon glow (fade out for the cards scene) */}
         <motion.div style={{ opacity: bgFade }} className="pointer-events-none absolute inset-0" aria-hidden>
           <div
-            className="absolute inset-0 opacity-[0.06]"
+            className="absolute inset-0 opacity-[0.025]"
             style={{
               backgroundImage:
                 "linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)",

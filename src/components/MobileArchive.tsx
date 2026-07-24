@@ -106,7 +106,7 @@ export function MobileArchive({ tone = "default" }: { tone?: "default" | "gold" 
           className="pointer-events-none absolute inset-0"
         >
           <div
-            className="absolute inset-0 opacity-[0.12]"
+            className="absolute inset-0 opacity-[0.05]"
             style={{
               backgroundImage:
                 "linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)",
