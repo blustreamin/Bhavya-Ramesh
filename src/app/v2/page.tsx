@@ -1007,9 +1007,9 @@ export default function V2Page() {
         {/* Archive story from the previous homepage — scroll-driven on
             desktop, stacked on mobile */}
         <div className="hidden lg:block">
-          <ArchiveStory />
+          <ArchiveStory tone="gold" />
         </div>
-        <MobileArchive />
+        <MobileArchive tone="gold" />
         <AsWorn tone="gold" />
         <House />
         <Rule />

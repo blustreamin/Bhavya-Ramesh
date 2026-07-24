@@ -58,7 +58,10 @@ const ARCHIVE = [
   { name: "Naraka", image: "8f2d288d3b09ffbf69b2e079a79da6da9032b888.png", desc: "Turns out even the underworld appreciates good design when it sees extraordinary craftsmanship." },
 ];
 
-export function ArchiveStory() {
+export function ArchiveStory({ tone = "default" }: { tone?: "default" | "gold" } = {}) {
+  /* `gold` opts into the Desktop-10 type pairing so the section matches the
+     v2 page; the original homepage keeps Italiana. */
+  const nameFont = tone === "gold" ? "font-display font-medium" : "font-serif";
   const wrapRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const [stageScale, setStageScale] = useState(1);
@@ -170,7 +173,7 @@ export function ArchiveStory() {
                   <div className="group relative aspect-[292/165] w-full overflow-hidden rounded-[6px]">
                     <Image src={ASSET(c.image)} alt={c.name} fill sizes="(min-width:1024px) 320px, 50vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
                   </div>
-                  <h3 className="mt-4 font-serif text-[22px] text-brand">{c.name}</h3>
+                  <h3 className={`mt-4 ${nameFont} text-[22px] text-brand`}>{c.name}</h3>
                   <p className="mt-2 text-[12px] leading-relaxed text-white/80">{c.desc}</p>
                   <Link href="#archive" className="mt-4 inline-block text-[12px] text-white/90 underline underline-offset-4 transition-colors hover:text-brand">
                     View More

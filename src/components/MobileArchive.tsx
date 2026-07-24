@@ -54,7 +54,8 @@ const ARCHIVE = [
   { name: "Naraka", image: "8f2d288d3b09ffbf69b2e079a79da6da9032b888.png", desc: "A moment of crisis turned into a lifetime. In Yamaloka I now reside, in Naraka I have arrived." },
 ];
 
-export function MobileArchive() {
+export function MobileArchive({ tone = "default" }: { tone?: "default" | "gold" } = {}) {
+  const nameFont = tone === "gold" ? "font-display font-medium" : "font-serif";
   const wrapRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -160,7 +161,7 @@ export function MobileArchive() {
                 <div className="relative aspect-[292/200] w-full overflow-hidden rounded-[6px]">
                   <Image src={ASSET(c.image)} alt={c.name} fill sizes="100vw" className="object-cover" />
                 </div>
-                <h3 className="mt-4 font-serif text-[24px] text-brand">{c.name}</h3>
+                <h3 className={`mt-4 ${nameFont} text-[24px] text-brand`}>{c.name}</h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-white/80">{c.desc}</p>
                 <Link href="#archive" className="mt-4 inline-block text-[13px] text-white/90 underline underline-offset-4 transition-colors hover:text-brand">
                   View More
