@@ -865,64 +865,127 @@ const STATS = [
   { value: "925", label: "Sterling Silver, Always" },
 ];
 
+/* Three studio slides — the first carries the founding stats. */
+const STUDIO_SLIDES = [
+  {
+    image: "/v2/studio.png",
+    alt: "Bhavya Ramesh in the studio",
+    stats: true,
+    paras: [
+      "Bhavya Ramesh trained as an engineer, not a designer — and it shows in the work. Structure, form, and function came first; the silver came after, chosen because it was honest, valuable, and built to outlast trends. What began as a one-person label sketching pieces on the road, inspired by the ornament traditions of Rajasthan and northern Karnataka, has grown into a full studio without losing that original instinct: nothing mediocre leaves the workshop.",
+      "The brand is built around self-expression and a fluid, gender-unifying community — jewelry as identity rather than decoration. Every collection is still hand-finished, still rooted in the artisan traditions the label started with, and still made to be worn until it earns its own patina.",
+    ],
+  },
+  {
+    image: "/v2/studio-2.png",
+    alt: "Hand-finishing a piece in the Jaipur atelier",
+    paras: [
+      "Operating from our warehouse in Jaipur, we proudly employ a team of 40 skilled artisans and 10 dedicated production specialists, each bringing precision and craftsmanship to every piece we create. Every stage — from shaping raw silver to the final polish — is completed by hand using techniques passed down through generations.",
+      "Alongside our atelier, a team of 30 professionals in Mumbai manages design, operations, logistics, and customer experience, ensuring every collection meets uncompromising standards.",
+      "Our workshop is where craftsmanship, patience, and purpose come together. Every piece is carefully finished by hand, preserving the authenticity and quality that define our brand while creating jewelry designed to last for years.",
+    ],
+  },
+  {
+    image: "/v2/studio-3.png",
+    alt: "The Jaipur workshop floor",
+    paras: [
+      "Rooted in the values of Indian craftsmanship, we believe exceptional design begins with the people who create it. Our artisans transform sterling silver into contemporary pieces while preserving generations of craftsmanship.",
+      "Bhavya Ramesh is a contemporary jewelry label specializing in sterling silver jewelry and body accessories. Every collection reflects a balance of heritage, innovation, and uncompromising quality.",
+      "Beyond our products, we celebrate authenticity, self-expression, and responsible craftsmanship. By supporting skilled artisans and thoughtful production, we create jewelry that carries meaning through both its design and the hands behind every piece.",
+    ],
+  },
+];
+
 function Studio() {
+  const scroller = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  const step = () => {
+    const el = scroller.current;
+    const slide = el?.firstElementChild as HTMLElement | undefined;
+    return slide ? slide.getBoundingClientRect().width : 0;
+  };
+  const update = () => {
+    const el = scroller.current;
+    const s = step();
+    if (el && s > 0) setActive(Math.round(el.scrollLeft / s));
+  };
+  const goTo = (i: number) => scroller.current?.scrollTo({ left: i * step(), behavior: "smooth" });
+
   return (
-    <section className={`${SHELL} py-16 lg:py-24`}>
+    <section className={`${SHELL} py-16 lg:py-20`}>
       <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-start">
         <Reveal>
-          <h2 className="font-display text-[44px] font-medium leading-[1.17] text-gold sm:text-[56px] lg:text-[64px]">
+          <h2 className="font-display text-[40px] font-medium leading-[1.17] text-gold sm:text-[48px] lg:text-[56px]">
             The Studio
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="max-w-[329px] font-ui text-[16px] leading-[1.4] text-smoke lg:mt-5">
+          <p className="max-w-[300px] font-ui text-[14px] leading-[1.5] text-smoke lg:mt-4">
             Founded 2018 — design out of Mumbai, made by hand in Jaipur.
           </p>
         </Reveal>
       </div>
 
-      <div className="mt-8 h-px w-full bg-white/15" />
+      <div className="mt-6 h-px w-full bg-white/15" />
 
-      {/* Figma: 509 image / 652 copy with an 83px gutter */}
-      <div className="mt-14 grid gap-12 lg:grid-cols-[509fr_652fr] lg:gap-[6.7%]">
-        <Reveal>
-          <div className="aspect-[509/764] w-full overflow-hidden">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/v2/studio.png" alt="Bhavya Ramesh studio" className="h-full w-full object-cover" />
+      {/* slides */}
+      <div
+        ref={scroller}
+        onScroll={update}
+        className="no-scrollbar mt-12 flex snap-x snap-mandatory overflow-x-auto scroll-smooth"
+      >
+        {STUDIO_SLIDES.map((slide) => (
+          <div key={slide.image} className="w-full shrink-0 snap-start">
+            <div className="grid gap-10 lg:grid-cols-[400fr_640fr] lg:gap-[6%]">
+              {/* square-ish portrait, matching the Figma proportion */}
+              <div className="aspect-square w-full max-w-[400px] overflow-hidden bg-[#0a0a0a]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={slide.image} alt={slide.alt} className="h-full w-full object-cover" />
+              </div>
+
+              <div className="flex flex-col">
+                {slide.paras.map((p, i) => (
+                  <p
+                    key={i}
+                    className={`max-w-[640px] font-ui text-[14px] leading-[1.65] text-white/75 ${i > 0 ? "mt-5" : ""}`}
+                  >
+                    {p}
+                  </p>
+                ))}
+
+                {slide.stats && (
+                  <dl className="mt-auto grid grid-cols-2 gap-y-9 pt-14 sm:grid-cols-4">
+                    {STATS.map((s, i) => (
+                      <div key={s.label} className={i > 0 ? "sm:border-l sm:border-white/15 sm:pl-6" : ""}>
+                        <dt className="font-display text-[32px] font-medium leading-none text-gold lg:text-[36px]">
+                          {s.value}
+                        </dt>
+                        <dd className="mt-3 max-w-[140px] font-ui text-[13px] leading-[1.4] text-smoke">{s.label}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+              </div>
+            </div>
           </div>
-        </Reveal>
+        ))}
+      </div>
 
-        <div className="flex flex-col">
-          <Reveal delay={0.1}>
-            <p className="font-ui text-[18px] font-extralight leading-[1.45] text-white/65 lg:text-[24px]">
-              Bhavya Ramesh trained as an engineer, not a designer — and it shows in the work.{" "}
-              <span className="font-medium text-white">Structure, form, and function</span> came first; the silver came
-              after, chosen because it was honest, valuable, and built to outlast trends. What began as a one-person
-              label sketching pieces on the road, inspired by the ornament traditions of Rajasthan and northern
-              Karnataka, has grown into a full studio without losing that original instinct: nothing mediocre leaves the
-              workshop.
-            </p>
-            <p className="mt-8 font-ui text-[18px] font-extralight leading-[1.45] text-white/65 lg:text-[24px]">
-              The brand is built around{" "}
-              <span className="font-medium text-white">self-expression and a fluid, gender-unifying community</span> —
-              jewelry as identity rather than decoration. Every collection is still hand-finished, still rooted in the
-              artisan traditions the label started with, and still made to be worn until it earns its own patina.
-            </p>
-          </Reveal>
-
-          <Reveal delay={0.16} className="mt-auto">
-            <dl className="mt-16 grid grid-cols-2 gap-y-10 sm:grid-cols-4">
-              {STATS.map((s, i) => (
-                <div key={s.label} className={i > 0 ? "sm:border-l sm:border-white/15 sm:pl-7" : ""}>
-                  <dt className="font-display text-[36px] font-medium leading-none text-gold lg:text-[40px]">
-                    {s.value}
-                  </dt>
-                  <dd className="mt-4 max-w-[145px] font-ui text-[14px] leading-[1.4] text-smoke">{s.label}</dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
-        </div>
+      {/* pagination */}
+      <div className="mt-10 flex justify-center gap-2">
+        {STUDIO_SLIDES.map((s, i) => (
+          <button
+            key={s.image}
+            type="button"
+            aria-label={`Go to studio slide ${i + 1}`}
+            aria-current={active === i}
+            onClick={() => goTo(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              active === i ? "w-6 bg-gold" : "w-1.5 bg-white/30"
+            }`}
+          />
+        ))}
       </div>
     </section>
   );
